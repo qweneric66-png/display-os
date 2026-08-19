@@ -5262,7 +5262,10 @@ function getProjectImageStorageKey() {
 }
 
 function cleanImages(images) {
-  return (Array.isArray(images) ? images : []).filter((image) => typeof image?.src === "string" && image.src.startsWith("data:image/"));
+  return (Array.isArray(images) ? images : []).filter((image) => {
+    const source = String(image?.src || "");
+    return source.startsWith("data:image/") || (window.__DISPLAY_OS_STATIC_MODE__ && /^(?:\.\/)?assets\//.test(source));
+  });
 }
 
 function resetImageStore(nextStore = {}) {

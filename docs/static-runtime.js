@@ -43,7 +43,6 @@
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
-    await Promise.all(payload.records.map(hydrateRecordImages));
     return payload;
   });
 
