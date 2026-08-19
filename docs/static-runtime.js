@@ -2,10 +2,48 @@
   "use strict";
 
   const originalFetch = window.fetch.bind(window);
+  const assetDataUrlCache = new Map();
+
+  const loadAssetAsDataUrl = async (source) => {
+    const value = String(source || "");
+    if (!value.startsWith("./assets/")) return value;
+    if (assetDataUrlCache.has(value)) return assetDataUrlCache.get(value);
+    const request = originalFetch(new URL(value, window.location.href).href, { cache: "force-cache" })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Asset request failed: ${response.status}`);
+        return response.blob();
+      })
+      .then((blob) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || value));
+        reader.onerror = () => reject(reader.error || new Error("Asset conversion failed"));
+        reader.readAsDataURL(blob);
+      }))
+      .catch(() => value);
+    assetDataUrlCache.set(value, request);
+    return request;
+  };
+
+  const hydrateRecordImages = async (record) => {
+    if (!record?.images || typeof record.images !== "object") return record;
+    const input = Array.isArray(record.images.input)
+      ? await Promise.all(record.images.input.map(async (image) => ({ ...image, src: await loadAssetAsDataUrl(image?.src) })))
+      : [];
+    const panels = {};
+    for (const [scope, images] of Object.entries(record.images.panels || {})) {
+      panels[scope] = Array.isArray(images)
+        ? await Promise.all(images.map(async (image) => ({ ...image, src: await loadAssetAsDataUrl(image?.src) })))
+        : [];
+    }
+    record.images = { ...record.images, input, panels };
+    return record;
+  };
+
   const snapshotPromise = originalFetch("./data/analysis-snapshot.json", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
+    await Promise.all(payload.records.map(hydrateRecordImages));
     return payload;
   });
 

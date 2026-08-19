@@ -118,6 +118,21 @@ textarea {
   color: #9b5c13;
 }
 
+body[data-static-mode="true"] #updateCurrentProject,
+body[data-static-mode="true"] #syncGithub,
+body[data-static-mode="true"] #newProject,
+body[data-static-mode="true"] #saveProject,
+body[data-static-mode="true"] #readProject,
+body[data-static-mode="true"] #generateButton,
+body[data-static-mode="true"] #generateShowcase,
+body[data-static-mode="true"] #generatePricing,
+body[data-static-mode="true"] #editTab,
+body[data-static-mode="true"] #saveTab {
+  cursor: not-allowed;
+  opacity: 0.58;
+  pointer-events: none;
+}
+
 .ghost-button,
 .primary-button {
   min-height: 42px;
