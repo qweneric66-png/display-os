@@ -23,6 +23,7 @@
     return withoutPath.replace(/\b[a-zA-Z0-9_./\\-]+\.(?:py|js|html|md|json)\b/g, "业务模块");
   };
 
+  let snapshots = [];
   let snapshot = null;
   let activePage = "analysis";
   let editing = false;
@@ -208,26 +209,46 @@
     }
   }
 
-  function renderShowcase(view) {
+  function renderShowcase(views) {
     const rail = $("#projectRail");
     if (!rail) return;
-    const capabilities = view.modules.slice(0, 5).map((item) => `<span class="work-card-capability">${escapeHtml(item)}</span>`).join("");
-    const cover = view.cover.startsWith("data:image/")
-      ? `<img class="work-card-cover" src="${escapeHtml(view.cover)}" alt="${escapeHtml(view.title)} 项目封面" />`
-      : `<div class="work-card-cover empty">项目展示</div>`;
-    rail.innerHTML = `
-      <article class="showcase-project-unit" data-project-unit data-project-identity="public-snapshot">
-        <article class="project-card generated-work featured-showcase" data-work-id="public-snapshot">
-          ${cover}
-          <div class="work-card-info">
-            <span class="tag">${escapeHtml(view.tag)}</span>
-            <h3>${escapeHtml(view.title)}</h3>
-            <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
-            <div class="work-card-capabilities" aria-label="核心能力">${capabilities}</div>
-            <a class="detail-link work-card-detail-link" href="#analysis">查看项目分析 ↗</a>
-          </div>
-        </article>
-      </article>`;
+    rail.innerHTML = array(views).map((view, index) => {
+      const capabilities = view.modules.slice(0, 5).map((item) => `<span class="work-card-capability">${escapeHtml(item)}</span>`).join("");
+      const cover = view.cover.startsWith("data:image/")
+        ? `<img class="work-card-cover" src="${escapeHtml(view.cover)}" alt="${escapeHtml(view.title)} 项目封面" />`
+        : `<div class="work-card-cover empty">项目展示</div>`;
+      return `
+        <article class="showcase-project-unit" data-project-unit data-project-index="${index}">
+          <article class="project-card generated-work featured-showcase" data-work-id="public-snapshot-${index}">
+            ${cover}
+            <div class="work-card-info">
+              <span class="tag">${escapeHtml(view.tag)}</span>
+              <h3>${escapeHtml(view.title)}</h3>
+              <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
+              <div class="work-card-capabilities" aria-label="核心能力">${capabilities}</div>
+              <a class="detail-link work-card-detail-link" data-project-index="${index}" href="#analysis">查看项目分析 ↗</a>
+            </div>
+          </article>
+        </article>`;
+    }).join("");
+  }
+
+  function renderCurrent(view) {
+    renderInput(view);
+    renderProfile(view);
+    renderDetail(view);
+    renderDiagrams(view);
+    renderLanding(view);
+    renderPromo(view);
+  }
+
+  function selectProject(index) {
+    const next = snapshots[Number(index)];
+    if (!next) return;
+    snapshot = next;
+    renderCurrent(snapshot);
+    activatePage("analysis");
+    setStatus(`已切换到 ${snapshot.title}`, "ok");
   }
 
   function activateTab(tabId = "profile") {
@@ -299,8 +320,8 @@
     });
   }
 
-  function bindStaticActions(view) {
-    $("#loadDemo")?.addEventListener("click", () => setStatus(`已载入 ${view.title} 的公开项目快照`, "ok"));
+  function bindStaticActions() {
+    $("#loadDemo")?.addEventListener("click", () => setStatus(`已载入 ${snapshot?.title || "公开项目"} 的公开项目快照`, "ok"));
     $("#analysisForm")?.addEventListener("submit", (event) => {
       event.preventDefault();
       setStatus("当前链接是静态公开快照，不能调用本机服务生成新分析", "neutral");
@@ -312,7 +333,10 @@
       const menu = $("#projectHistoryMenu");
       if (!menu) return;
       menu.hidden = !menu.hidden;
-      menu.innerHTML = `<button type="button" class="history-item">${escapeHtml(view.title)}<small>公开快照</small></button>`;
+      menu.innerHTML = snapshots.map((item, index) => `
+        <button type="button" class="history-item" data-project-index="${index}">
+          ${escapeHtml(item.title)}<small>公开快照</small>
+        </button>`).join("");
     });
     $("#openDemandAnalysis")?.addEventListener("click", () => {
       $("#demandModal")?.removeAttribute("hidden");
@@ -337,17 +361,22 @@
     });
   }
 
-  function render(view) {
-    renderInput(view);
-    renderProfile(view);
-    renderDetail(view);
-    renderDiagrams(view);
-    renderLanding(view);
-    renderPromo(view);
-    renderShowcase(view);
+  function bindProjectSelection() {
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest?.("[data-project-index]");
+      if (!target) return;
+      event.preventDefault();
+      selectProject(target.dataset.projectIndex);
+    });
+  }
+
+  function render(view, views) {
+    renderCurrent(view);
+    renderShowcase(views);
     bindPager();
     bindTabs();
-    bindStaticActions(view);
+    bindStaticActions();
+    bindProjectSelection();
     activateTab("profile");
     setText("#apiStatus", "公开项目快照已载入", "公开项目快照已载入");
   }
@@ -356,8 +385,12 @@
     try {
       const response = await fetch("./data/showcase.json", { cache: "no-store" });
       if (!response.ok) throw new Error("公开项目快照加载失败");
-      snapshot = publicSnapshotView(await response.json());
-      render(snapshot);
+      const payload = await response.json();
+      const rawProjects = Array.isArray(payload.projects) ? payload.projects : [payload];
+      snapshots = rawProjects.map(publicSnapshotView).filter((item) => item.title);
+      if (!snapshots.length) throw new Error("公开项目快照为空");
+      snapshot = snapshots[0];
+      render(snapshot, snapshots);
     } catch (error) {
       console.error(error);
       setStatus("公开项目快照暂时无法加载，请刷新页面", "error");
