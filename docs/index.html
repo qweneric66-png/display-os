@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Display OS 项目公开展示页" />
+    <title>Display OS｜项目公开展示</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="返回页面顶部">
+        <span class="brand-mark">D</span>
+        <span>Display OS</span>
+      </a>
+      <nav class="top-nav" aria-label="页面导航">
+        <a class="is-active" href="#analysis">项目分析</a>
+        <a href="#showcase">落地展示</a>
+      </nav>
+      <span class="snapshot-badge" id="snapshotBadge">公开展示快照</span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">项目公开展示</p>
+          <h1 id="pageTitle">正在加载项目…</h1>
+          <p class="hero-lede" id="heroLede">正在读取展示内容。</p>
+          <div class="tag-list" id="heroTags" aria-label="项目关键词"></div>
+          <div class="hero-state">
+            <span class="state-dot"></span>
+            <span id="heroState">已发布展示快照</span>
+          </div>
+        </div>
+        <figure class="hero-cover">
+          <img id="coverImage" alt="项目封面" />
+          <figcaption>项目封面与核心流程概览</figcaption>
+        </figure>
+      </section>
+
+      <section class="decision-strip" aria-label="项目关键信息">
+        <article class="decision-card decision-card--attention">
+          <span class="decision-label">当前边界</span>
+          <strong id="boundaryTitle">正在确认</strong>
+          <p id="boundaryText">加载项目验证边界。</p>
+        </article>
+        <article class="decision-card">
+          <span class="decision-label">面向对象</span>
+          <strong id="audienceTitle">项目使用者</strong>
+          <p id="audienceText">加载使用场景。</p>
+        </article>
+        <article class="decision-card">
+          <span class="decision-label">下一步</span>
+          <strong>查看项目证据</strong>
+          <p>向下浏览方案、工作流和验证结果。</p>
+        </article>
+      </section>
+
+      <section class="content-section" id="analysis" aria-labelledby="analysisTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">一眼看懂</p>
+            <h2 id="analysisTitle">项目分析</h2>
+          </div>
+          <span class="section-note">只读公开版本</span>
+        </div>
+
+        <div class="summary-panel">
+          <h3 id="analysisSummaryTitle">项目定位</h3>
+          <p id="analysisSummaryText"></p>
+          <ul id="analysisBullets" class="bullet-list"></ul>
+        </div>
+
+        <div class="two-column-grid">
+          <article class="content-card">
+            <div class="card-heading"><span class="step-index">01</span><h3>解决什么问题</h3></div>
+            <ul id="problemsList" class="clean-list"></ul>
+          </article>
+          <article class="content-card">
+            <div class="card-heading"><span class="step-index">02</span><h3>服务什么场景</h3></div>
+            <p id="scenarioText"></p>
+            <div class="mini-label">目标使用者</div>
+            <ul id="targetUsersList" class="clean-list"></ul>
+          </article>
+        </div>
+
+        <article class="content-card solution-card">
+          <div class="card-heading"><span class="step-index">03</span><h3>核心方案</h3></div>
+          <p id="solutionOverview"></p>
+          <div class="solution-columns">
+            <div><div class="mini-label">处理输入</div><ul id="inputsList" class="clean-list"></ul></div>
+            <div><div class="mini-label">系统判断</div><ul id="judgmentList" class="clean-list"></ul></div>
+            <div><div class="mini-label">最终交付</div><ul id="outputsList" class="clean-list"></ul></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="content-section" id="showcase" aria-labelledby="showcaseTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">业务闭环</p>
+            <h2 id="showcaseTitle">落地展示</h2>
+          </div>
+          <span class="section-note">从输入到交付</span>
+        </div>
+
+        <article class="content-card workflow-card">
+          <div class="card-heading"><span class="step-index">04</span><h3>核心流程</h3></div>
+          <ol id="workflowList" class="workflow-list"></ol>
+        </article>
+
+        <div class="two-column-grid">
+          <article class="content-card">
+            <div class="card-heading"><span class="step-index">05</span><h3>关键能力</h3></div>
+            <div id="capabilitiesList" class="capability-list"></div>
+          </article>
+          <article class="content-card">
+            <div class="card-heading"><span class="step-index">06</span><h3>结果与价值</h3></div>
+            <div id="resultsList" class="result-list"></div>
+            <ul id="valueList" class="clean-list compact-list"></ul>
+          </article>
+        </div>
+
+        <article class="boundary-panel">
+          <div>
+            <span class="decision-label">验证边界</span>
+            <h3>已完成内容与待验证风险</h3>
+          </div>
+          <div class="boundary-columns">
+            <div><span class="mini-label">已验证</span><ul id="verifiedList" class="clean-list"></ul></div>
+            <div><span class="mini-label">仍需确认</span><ul id="pendingList" class="clean-list"></ul></div>
+          </div>
+          <details class="evidence-details">
+            <summary>查看证据说明</summary>
+            <div id="evidenceList" class="evidence-list"></div>
+          </details>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Display OS · 项目公开展示</span>
+      <span id="snapshotTime">展示内容来自最近一次发布快照</span>
+    </footer>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
