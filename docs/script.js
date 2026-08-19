@@ -556,7 +556,7 @@ const loadDemo = document.querySelector("#loadDemo");
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".tab-panel");
 const pageMain = document.querySelector("#pageMain");
-const pageSectionIds = ["home", "analysis", "showcase"];
+const pageSectionIds = ["home", "capabilities", "analysis", "showcase"];
 const pageSections = pageSectionIds
   .map((id) => document.querySelector(`#${id}`))
   .filter(Boolean);
@@ -564,6 +564,7 @@ const pageNavLinks = document.querySelectorAll('.nav a[href^="#"]');
 const pagePagerIndicator = document.querySelector("#pagePagerIndicator");
 const pageSectionLabels = {
   home: "首页",
+  capabilities: "个人能力",
   analysis: "项目拆解",
   showcase: "落地展示"
 };

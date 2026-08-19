@@ -118,21 +118,6 @@ textarea {
   color: #9b5c13;
 }
 
-body[data-static-mode="true"] #updateCurrentProject,
-body[data-static-mode="true"] #syncGithub,
-body[data-static-mode="true"] #newProject,
-body[data-static-mode="true"] #saveProject,
-body[data-static-mode="true"] #readProject,
-body[data-static-mode="true"] #generateButton,
-body[data-static-mode="true"] #generateShowcase,
-body[data-static-mode="true"] #generatePricing,
-body[data-static-mode="true"] #editTab,
-body[data-static-mode="true"] #saveTab {
-  cursor: not-allowed;
-  opacity: 0.58;
-  pointer-events: none;
-}
-
 .ghost-button,
 .primary-button {
   min-height: 42px;
@@ -299,6 +284,7 @@ h1 {
 }
 
 .workspace,
+.capabilities,
 .showcase,
 .market {
   padding: clamp(48px, 8vw, 96px) clamp(18px, 4vw, 52px);
@@ -306,6 +292,142 @@ h1 {
 
 .workspace {
   scroll-margin-top: 92px;
+}
+
+.capabilities {
+  scroll-margin-top: 92px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 120, 64, 0.13), transparent 28%),
+    linear-gradient(145deg, #f7f2e9 0%, #fffdf8 54%, #eef3ef 100%);
+}
+
+.capability-shell {
+  display: grid;
+  gap: 26px;
+  width: min(1440px, 100%);
+  margin: 0 auto;
+}
+
+.capability-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.72fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+}
+
+.capability-heading h2 {
+  max-width: 760px;
+  margin-bottom: 0;
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1.08;
+}
+
+.capability-lead {
+  margin-bottom: 4px;
+  color: #4d4a43;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.75;
+}
+
+.capability-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.75fr);
+  gap: 22px;
+  min-height: 0;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.capability-card,
+.self-review {
+  border: 1px solid rgba(35, 34, 31, 0.12);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 36px rgba(52, 48, 40, 0.07);
+}
+
+.capability-card {
+  position: relative;
+  min-height: 180px;
+  padding: 22px;
+  overflow: hidden;
+}
+
+.capability-card.is-primary {
+  background: #202723;
+  color: #fffdf8;
+}
+
+.capability-index {
+  display: block;
+  margin-bottom: 18px;
+  color: #d85e2d;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.capability-card h3,
+.self-review h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.capability-card p,
+.self-review > p {
+  margin-bottom: 12px;
+  color: #555149;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.capability-card.is-primary p,
+.capability-card.is-primary small {
+  color: rgba(255, 253, 248, 0.76);
+}
+
+.capability-card small {
+  display: block;
+  color: #777067;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.self-review {
+  padding: clamp(24px, 3vw, 34px);
+  background: rgba(255, 253, 248, 0.92);
+}
+
+.capability-evidence {
+  margin-top: 18px;
+  border-top: 1px solid rgba(35, 34, 31, 0.12);
+  padding-top: 16px;
+}
+
+.capability-evidence summary {
+  cursor: pointer;
+  color: #a9431f;
+  font-weight: 850;
+}
+
+.capability-evidence div {
+  padding-top: 14px;
+}
+
+.capability-evidence h4 {
+  margin: 10px 0 6px;
+}
+
+.capability-evidence p {
+  margin: 0 0 10px;
+  color: #5d584f;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .section-heading {
@@ -4691,10 +4813,56 @@ body.page-pager-enabled main#pageMain > section:not(#home) {
 }
 
 body.page-pager-enabled #analysis .section-heading,
+body.page-pager-enabled #capabilities .capability-heading,
 body.page-pager-enabled #showcase .section-heading,
 body.page-pager-enabled #market .section-heading {
   flex: 0 0 auto;
   margin-bottom: 0;
+}
+
+body.page-pager-enabled #capabilities {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+body.page-pager-enabled #capabilities .capability-shell {
+  min-height: 100%;
+}
+
+@media (max-width: 1120px) {
+  .capability-heading,
+  .capability-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .capability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  body.page-pager-enabled main#pageMain > section#capabilities {
+    padding-top: 284px;
+  }
+
+  .capability-heading {
+    gap: 16px;
+  }
+
+  .capability-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capability-card {
+    min-height: 0;
+  }
+
+  .capability-lead,
+  .self-review > p {
+    font-size: 14px;
+  }
 }
 
 body.page-pager-enabled #analysis .analysis-grid {
