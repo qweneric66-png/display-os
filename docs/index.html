@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Display OS | 项目展示与 Idea 售卖系统</title>
     <link rel="stylesheet" href="./styles.css?v=20260814-multi-project-showcase-grid-3" />
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   </head>
   <body class="compact-kpi-mode">
     <header class="topbar">
@@ -18,7 +17,14 @@
         <a href="#showcase">落地展示</a>
         <a href="#market" hidden aria-hidden="true" tabindex="-1">Idea 售价</a>
       </nav>
-      <button class="ghost-button" id="loadDemo" type="button">载入精选项目</button>
+      <div class="topbar-actions" aria-label="项目发布操作">
+        <div class="topbar-publish-actions">
+          <button class="ghost-button compact" id="updateCurrentProject" type="button" title="重新读取并分析当前项目">更新</button>
+          <button class="primary-button compact" id="syncGithub" type="button" title="把已保存的公开项目同步到 GitHub Pages">同步 GitHub</button>
+        </div>
+        <span class="topbar-publish-status" id="publishSyncStatus" data-tone="neutral" role="status" aria-live="polite">待同步</span>
+        <button class="ghost-button" id="loadDemo" type="button">载入精选项目</button>
+      </div>
     </header>
 
     <main id="pageMain">
@@ -465,6 +471,7 @@
       <span>Display OS</span>
     </footer>
 
-    <script src="./script.js?v=20260814-hide-pricing-ui-1"></script>
+    <script src="./static-runtime.js?v=20260819-analysis-mirror"></script>
+    <script src="./script.js?v=20260819-analysis-mirror"></script>
   </body>
 </html>

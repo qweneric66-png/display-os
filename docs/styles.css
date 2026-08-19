@@ -86,6 +86,38 @@ textarea {
   font-size: 14px;
 }
 
+.topbar-actions,
+.topbar-publish-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-actions {
+  margin-left: auto;
+}
+
+.topbar-publish-status {
+  min-width: 58px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.topbar-publish-status[data-tone="ok"] {
+  color: #16734b;
+}
+
+.topbar-publish-status[data-tone="error"] {
+  color: #b33227;
+}
+
+.topbar-publish-status[data-tone="running"] {
+  color: #9b5c13;
+}
+
 .ghost-button,
 .primary-button {
   min-height: 42px;
@@ -3704,6 +3736,12 @@ details p {
     flex-direction: column;
   }
 
+  .topbar-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
   .workspace {
     scroll-margin-top: 168px;
   }
@@ -3725,6 +3763,27 @@ details p {
 }
 
 @media (max-width: 620px) {
+  .topbar-actions,
+  .topbar-publish-actions {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .topbar-publish-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .topbar-publish-status {
+    min-height: 20px;
+    text-align: left;
+  }
+
   .control-row,
   .hero-actions,
   .footer,
