@@ -3631,7 +3631,8 @@ async function getRecoveredProjectDrafts() {
           title: resolveProjectTitle(hydratedRecord),
           updatedAt: hydratedRecord.updatedAt || record.updatedAt || "",
           sourceType: "record",
-          recordKey: hydratedRecord.key || record.key
+          recordKey: hydratedRecord.key || record.key,
+          stableId: hydratedRecord.showcase?.id || hydratedRecord.key || record.key
         });
       }
     }
@@ -3649,7 +3650,8 @@ async function getRecoveredProjectDrafts() {
           title: project.title || "未命名项目",
           updatedAt: project.updatedAt || "",
           sourceType: "server",
-          projectId: project.id
+          projectId: project.id,
+          stableId: project.id
         });
       });
   } catch {
@@ -3662,9 +3664,14 @@ function mergeProjectHistory(localDrafts, recoveredDrafts) {
   const seen = new Set();
   const merged = [];
   for (const draft of [...recoveredDrafts, ...localDrafts]) {
+    const stableId = String(draft?.stableId || draft?.projectId || draft?.recordKey || "")
+      .trim()
+      .toLowerCase();
     const normalizedPath = normalizeProjectPath(draft.path);
-    const identity = normalizedPath
-      ? `path:${normalizedPath}`
+    const identity = stableId
+      ? `stable:${stableId}`
+      : normalizedPath
+        ? `path:${normalizedPath}`
       : `source:${draft.sourceType || "local"}:${String(draft.pathKey || "").toLowerCase()}`;
     if (!identity || seen.has(identity)) continue;
     seen.add(identity);
@@ -3685,13 +3692,18 @@ async function renderProjectHistoryOptions() {
   const recoveredDrafts = await getRecoveredProjectDrafts();
   const drafts = mergeProjectHistory(localDrafts, recoveredDrafts);
   const currentKey = normalizeProjectPath(projectPathInput.value);
+  const currentTitle = String(titleInput?.value || "").trim().toLowerCase();
+  const currentPathMatches = drafts.filter((draft) => normalizeProjectPath(draft.path) === currentKey).length;
   if (!drafts.length) {
     projectHistoryMenu.innerHTML = `<div class="project-history-empty">暂无历史项目</div>`;
     return;
   }
   projectHistoryMenu.innerHTML = drafts
     .map((draft) => {
-      const active = draft.pathKey === currentKey || normalizeProjectPath(draft.path) === currentKey ? " is-active" : "";
+      const draftTitle = String(draft.title || "").trim().toLowerCase();
+      const titleMatches = Boolean(currentTitle && draftTitle && draftTitle === currentTitle);
+      const pathMatches = Boolean(currentKey && currentPathMatches <= 1 && normalizeProjectPath(draft.path) === currentKey);
+      const active = titleMatches || pathMatches ? " is-active" : "";
       const sourceLabel = draft.sourceType === "server"
         ? "已恢复档案"
         : draft.sourceType === "record"
