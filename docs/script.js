@@ -4180,7 +4180,8 @@ function getRequestedShowcaseIdentity(projectIdentity = "", onlyCurrent = true) 
 }
 
 function getWorkIdentity(work) {
-  return normalizeProjectPath(work?.projectPath || work?.id || "");
+  const stableId = String(work?.id || work?.showcase?.id || work?.projectKey || "").trim();
+  return stableId ? stableId.toLowerCase() : normalizeProjectPath(work?.projectPath || "");
 }
 
 async function clearIndexedDbWorkRecordsExcept(keepId) {
