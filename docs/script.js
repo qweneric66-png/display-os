@@ -929,6 +929,13 @@ function setupPagePager() {
   });
 }
 
+function restorePageFromUrlHash() {
+  if (!isPagePagerEnabled()) return;
+  const hashId = window.location.hash.slice(1);
+  if (!pageSectionIds.includes(hashId)) return;
+  activatePage(hashId, { updateHash: false, immediate: true });
+}
+
 const imageDbName = "display-os-image-store";
 const imageDbStore = "projectImages";
 let imageDbPromise;
@@ -7250,6 +7257,8 @@ setInterval(() => {
   countdown.textContent = `${h}:${m}:${s}`;
 }, 1000);
 
-initializeProjectState().catch(() => setStatus("项目记录恢复失败，请选择历史项目", "error"));
+initializeProjectState()
+  .catch(() => setStatus("项目记录恢复失败，请选择历史项目", "error"))
+  .finally(() => restorePageFromUrlHash());
 renderInputReadiness();
 renderPricingPage();

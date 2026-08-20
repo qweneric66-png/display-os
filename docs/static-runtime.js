@@ -39,7 +39,7 @@
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=20260820-static-analysis-stability-1", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
@@ -72,7 +72,7 @@
   const toShowcaseProject = (record) => ({
     ...(record.showcase || {}),
     id: record.key,
-    title: record.title,
+    title: record.title || record.showcase?.title || "项目",
     projectPath: record.projectPath,
     source: record.source,
     analysis: record.analysis,
@@ -80,6 +80,10 @@
     pricing: record.pricing,
     activeTab: record.activeTab,
     updatedAt: record.updatedAt,
+    published: record.showcase?.published !== false,
+    visibility: record.showcase?.visibility || "visible",
+    status: record.showcase?.status || "generated",
+    displayOrder: Number.isFinite(Number(record.showcase?.displayOrder)) ? Number(record.showcase.displayOrder) : 999,
     restoredFromServer: true
   });
 
