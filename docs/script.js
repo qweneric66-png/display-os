@@ -587,6 +587,13 @@ const saveProjectButton = document.querySelector("#saveProject");
 const updateCurrentProjectButton = document.querySelector("#updateCurrentProject");
 const syncGithubButton = document.querySelector("#syncGithub");
 const publishSyncStatus = document.querySelector("#publishSyncStatus");
+const openMethodologyButton = document.querySelector("#openMethodology");
+const openMethodologyFromCapabilitiesButton = document.querySelector("#openMethodologyFromCapabilities");
+const closeMethodologyButton = document.querySelector("#closeMethodology");
+const methodologyPage = document.querySelector("#methodologyPage");
+const methodologyContent = document.querySelector("#methodologyContent");
+const methodologyIndexButtons = document.querySelectorAll("[data-methodology-target]");
+const methodologyCards = document.querySelectorAll("[data-methodology-card]");
 const inputPanelState = document.querySelector("#inputPanelState");
 const fileStatus = document.querySelector("#fileStatus");
 const preflightSummary = document.querySelector("#preflightSummary");
@@ -639,6 +646,37 @@ let isAnalyzing = false;
 let isUpdatingCurrentProject = false;
 let isSyncingGithub = false;
 let projectRecordSaveQueue = Promise.resolve();
+let methodologyReturnFocus = null;
+
+function setMethodologyView(targetId = "all") {
+  const showAll = targetId === "all";
+  methodologyCards.forEach((card) => {
+    card.hidden = !showAll && card.id !== targetId;
+  });
+  methodologyIndexButtons.forEach((button) => {
+    const isActive = button.dataset.methodologyTarget === targetId;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+  methodologyPage?.querySelector("[data-methodology-overview]")?.toggleAttribute("hidden", !showAll);
+  methodologyContent?.scrollTo({ top: 0, behavior: isReducedMotionPreferred() ? "auto" : "smooth" });
+}
+
+function openMethodologyPage() {
+  if (!methodologyPage) return;
+  methodologyReturnFocus = document.activeElement;
+  methodologyPage.hidden = false;
+  document.body.classList.add("methodology-open");
+  setMethodologyView("all");
+  closeMethodologyButton?.focus();
+}
+
+function closeMethodologyPage() {
+  if (!methodologyPage) return;
+  methodologyPage.hidden = true;
+  document.body.classList.remove("methodology-open");
+  if (methodologyReturnFocus instanceof HTMLElement) methodologyReturnFocus.focus();
+}
 
 function isPagePagerViewport() {
   // 落地展示页是固定视口工作台，桌面与窄屏都保持项目单元的页面级切换。
@@ -1094,6 +1132,37 @@ function buildManualAudit(source = "") {
 }
 
 function buildLocalProfile(title, source, projectPath = "") {
+  return applyPortfolioProfileDefaults(buildLocalProfileBase(title, source, projectPath));
+}
+
+function applyPortfolioProfileDefaults(profile = {}) {
+  const differentiators = (Array.isArray(profile.differentiators) && profile.differentiators.length
+    ? profile.differentiators
+    : profile.technicalModules || []).slice(0, 3);
+  const evidenceStatus = Array.isArray(profile.evidenceStatus) && profile.evidenceStatus.length
+    ? profile.evidenceStatus
+    : (profile.evidenceFiles || []).slice(0, 3).map((item) => `证据线索：${item}`);
+  const boundaries = Array.isArray(profile.boundaries) && profile.boundaries.length
+    ? profile.boundaries
+    : ["运行结果、量化指标和长期稳定性需以当前版本现场验收为准。"];
+  return {
+    ...profile,
+    userPainPoints: Array.isArray(profile.userPainPoints) && profile.userPainPoints.length
+      ? profile.userPainPoints
+      : [profile.coreProblem || "具体用户后果待验证"],
+    oldVsNew: Array.isArray(profile.oldVsNew) && profile.oldVsNew.length
+      ? profile.oldVsNew
+      : ["旧方式依赖分散资料和人工判断 → 新方式按可追踪任务链组织 → 具体变化仍需结合项目证据核对"],
+    differentiators,
+    evidenceStatus,
+    maturity: profile.maturity || "已梳理当前实现；运行效果与量化指标待验证或持续采样。",
+    boundaries,
+    technicalModules: differentiators,
+    engineeringDecisions: [...evidenceStatus, ...boundaries]
+  };
+}
+
+function buildLocalProfileBase(title, source, projectPath = "") {
   const sentences = extractSentences(source);
   const name = title.trim() || matchLineValue(source, "项目名称") || "未命名项目";
   if (isRedditProjectIdentity(name, source, projectPath)) {
@@ -3100,11 +3169,19 @@ function renderFlowNode(node, index, branch = false) {
 function renderProfile(profile) {
   document.querySelector("#profileTitle").textContent = profile.projectName || "项目画像";
   document.querySelector("#profilePositioning").textContent = profile.positioning || "待分析";
-  document.querySelector("#profileProblem").textContent = profile.coreProblem || "待分析";
+  const painPoints = Array.isArray(profile.userPainPoints) && profile.userPainPoints.length
+    ? profile.userPainPoints
+    : [profile.coreProblem || "待分析"];
+  document.querySelector("#profileProblem").textContent = painPoints.join(" ");
   renderList("#profileUsers", profile.targetUsers);
   renderList("#profileWorkflow", profile.workflow);
-  renderList("#profileModules", profile.technicalModules);
-  renderList("#profileDecisions", profile.engineeringDecisions);
+  renderList("#profileModules", profile.differentiators || profile.technicalModules);
+  const trustItems = [
+    ...(Array.isArray(profile.evidenceStatus) ? profile.evidenceStatus : []),
+    ...(profile.maturity ? [`成熟度：${profile.maturity}`] : []),
+    ...(Array.isArray(profile.boundaries) ? profile.boundaries.map((item) => `边界：${item}`) : [])
+  ];
+  renderList("#profileDecisions", trustItems.length ? trustItems : profile.engineeringDecisions);
 }
 
 function renderAudit(audit) {
@@ -3810,14 +3887,26 @@ async function restoreRemoteProjectRecord(recordKey) {
 }
 
 async function restoreLatestProjectRecord() {
-  const response = await fetch("/api/project-records/latest", { cache: "no-store" });
-  if (!response.ok) return false;
-  const data = await response.json();
-  if (!data.record) return false;
-  const normalized = normalizePddRecordForDisplay(data.record);
-  const applied = await applyProjectRecord(normalized, "当前项目已就绪");
-  if (applied && normalized !== data.record) await saveProjectRecord({ silent: true }).catch(() => {});
-  return applied;
+  let lastError = null;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch("/api/project-records/latest?view=analysis", { cache: "no-store" });
+      if (!response.ok) throw new Error(`项目档案服务返回 ${response.status}`);
+      const data = await response.json();
+      if (!data.record) throw new Error("服务端没有可恢复的项目档案");
+      const normalized = normalizePddRecordForDisplay(data.record);
+      const applied = await applyProjectRecord(normalized, "当前项目已就绪");
+      if (!applied) throw new Error("项目档案内容为空，无法恢复");
+      if (normalized !== data.record) await saveProjectRecord({ silent: true }).catch(() => {});
+      return true;
+    } catch (error) {
+      lastError = error;
+      if (attempt < 3) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 800));
+      }
+    }
+  }
+  throw lastError || new Error("项目档案恢复失败");
 }
 
 async function restoreSavedProjectAsset(asset, audit, projectPath, authoritativeTitle = "") {
@@ -4625,6 +4714,7 @@ function serializeShowcaseSnapshot(work) {
   return {
     ...snapshot,
     published: true,
+    publicationStatus: snapshot.publicationStatus === "outdated" ? "outdated" : "published",
     status: "generated",
     visibility: snapshot.visibility === "hidden" ? "hidden" : "visible",
     publishedAt: snapshot.publishedAt || new Date().toISOString()
@@ -4861,6 +4951,7 @@ function buildWorkRecordFromProject(project, result, images = { input: [], panel
     featuredShowcase: Boolean(project.featuredShowcase),
     hideCardActions: Boolean(project.hideCardActions),
     published: Boolean(project.published || project.showcase?.published),
+    publicationStatus: project.publicationStatus || project.showcase?.publicationStatus || (project.published || project.showcase?.published ? "published" : "draft"),
     publishedAt: project.publishedAt || project.showcase?.publishedAt || "",
     restoredFromServer: Boolean(project.source)
   };
@@ -4878,6 +4969,33 @@ function buildWorkRecord() {
 }
 
 const projectReviewCardCopy = [
+  {
+    match: /跨境商品统一调度平台|跨境商品运营|商品发布|平台上线/i,
+    title: "跨境商品统一调度平台",
+    tag: "商品调度",
+    oneLine: "汇总多平台商品资料，按渠道规则生成发布内容，并跟踪到平台确认结果。",
+    intro: "商品按渠道生成发布内容，失败可定位到商品与步骤，修正后只重跑失败项。",
+    keywords: ["渠道映射", "发布确认", "异常定位", "失败重跑"],
+    deliverables: ["渠道发布表", "商品处理状态", "异常商品清单", "平台确认结果"]
+  },
+  {
+    match: /Reddit 视觉RAG平台|Reddit RAG Training|Reddit.*知识块|RAG.*审核/i,
+    title: "Reddit 视觉RAG平台",
+    tag: "证据审核",
+    oneLine: "采集 Reddit 帖子与评论，整理为带来源、审核状态和引用边界的知识块。",
+    intro: "证据不足的内容先补证，争议内容交给人工审核，确认后才能进入可引用知识库。",
+    keywords: ["来源保留", "人工审核", "知识块", "失败回归"],
+    deliverables: ["审核知识块", "来源记录", "待补证清单", "失败样本"]
+  },
+  {
+    match: /LEX建模|SolidWorks 工程自动化|材料属性.*参考图|建模任务/i,
+    title: "LEX建模｜AI + SolidWorks 工程自动化平台",
+    tag: "工程建模",
+    oneLine: "把材料参数和参考图转成可审核的建模任务，驱动 SolidWorks 生成并验收模型。",
+    intro: "参数冲突先阻断，模型需通过重建、位置、截图和文件保存检查。",
+    keywords: ["参数审核", "建模执行", "冲突阻断", "结果验收"],
+    deliverables: ["建模任务", "SolidWorks 模型", "验收截图", "失败记录"]
+  },
   {
     match: /亚马逊评论采集平台|Amazon 评论|评论采集|星级评论|Review/i,
     title: "亚马逊评论采集平台",
@@ -4902,16 +5020,15 @@ const projectReviewCardCopy = [
     match: /PDD 店铺商品数据自动采集平台|PDD 店铺|拼多多|SKU|OCR 价格/i,
     title: "PDD 店铺商品采集平台",
     tag: "商品采集",
-    oneLine: "把一次性店铺采集脚本，整理成带状态、截图证据和表格交付的采集工作台。",
+    oneLine: "采集 PDD 店铺与商品信息，整理 SKU、价格和图片，输出可复查的 Excel 商品表。",
     intro:
-      "面向电商运营和商品资料整理人员，解决 PDD 登录确认、商品列表、详情 SKU、价格图片和表格交付混在脚本里的问题。系统把登录暂停、列表定位、详情采集、OCR 价格识别、人工校验和 Excel 导出拆成可观察步骤，并保留任务日志与截图证据，最后形成可复查的商品数据表。",
-    keywords: ["商品采集", "SKU 解析", "OCR", "Excel 导出", "人工校验"],
+      "登录失效、价格冲突或商品识别异常时暂停并保留截图，确认后从中断位置继续。",
+    keywords: ["商品采集", "SKU 解析", "价格复核", "Excel 导出"],
     deliverables: ["商品 Excel 表", "SKU 采集记录", "OCR 截图证据", "任务日志", "异常恢复记录"]
   }
 ];
 
 function normalizeWorkCardCopy(work) {
-  if (work.restoredFromServer) return work;
   const text = [
     work.title,
     work.summary,
@@ -4943,10 +5060,11 @@ function normalizeWorkCardCopy(work) {
 function buildShowcaseCardViewModel(work) {
   const normalized = normalizeWorkCardCopy(work || {});
   const visibility = normalized.visibility === "hidden" ? "hidden" : "visible";
+  const isPlaceholderCapability = (value) => /^(?:核心)?(?:优势|亮点|能力|特点)\s*[A-Z一二三四五六七八九十\d]*$/i.test(String(value || "").trim());
   const capabilities = Array.from(new Set([
     ...(Array.isArray(normalized.keywords) ? normalized.keywords : []),
     ...String(normalized.value || "").split(/[\/·|]/)
-  ].map((item) => String(item || "").trim()).filter(Boolean))).slice(0, 5);
+  ].map((item) => String(item || "").trim()).filter((item) => item && !isPlaceholderCapability(item)))).slice(0, 4);
   return {
     id: String(normalized.id || ""),
     title: String(normalized.title || "未命名项目").trim(),
@@ -5288,10 +5406,7 @@ function getProjectImageStorageKey() {
 }
 
 function cleanImages(images) {
-  return (Array.isArray(images) ? images : []).filter((image) => {
-    const source = String(image?.src || "");
-    return source.startsWith("data:image/") || (window.__DISPLAY_OS_STATIC_MODE__ && /^(?:\.\/)?assets\//.test(source));
-  });
+  return (Array.isArray(images) ? images : []).filter((image) => typeof image?.src === "string" && image.src.startsWith("data:image/"));
 }
 
 function resetImageStore(nextStore = {}) {
@@ -6182,7 +6297,7 @@ function buildProjectEvidenceSignature(audit) {
   const counts = audit?.counts || {};
   const selectedFiles = Array.isArray(audit?.selectedFiles)
     ? audit.selectedFiles
-        .map((file) => `${file.relative || ""}|${Number(file.size || 0)}|${Number(file.readChars || 0)}`)
+        .map((file) => `${file.relative || ""}|${String(file.contentHash || "")}|${Number(file.size || 0)}|${Number(file.readChars || 0)}`)
         .sort()
     : [];
   return JSON.stringify({
@@ -6290,13 +6405,28 @@ async function readCurrentProjectFromSource({ mode = "read" } = {}) {
       renderInputReadiness();
       const result = await requestCodexAnalysis();
       await renderAnalysis(result);
+      let showcaseOutdated = false;
+      if (currentPublishedShowcase?.published && currentShowcaseOwnerPath === projectPathKey) {
+        currentPublishedShowcase = {
+          ...currentPublishedShowcase,
+          publicationStatus: "outdated",
+          outdatedAt: new Date().toISOString()
+        };
+        showcaseOutdated = true;
+      }
       await saveProjectDraft();
       await saveProjectRecordWithRetry({ silent: true, attempts: 2 });
       await renderGeneratedWorks({ onlyCurrent: false }).catch(() => {});
-      setStatus("当前项目已更新，项目分析页面已刷新", "ok");
+      setStatus(
+        showcaseOutdated
+          ? "项目分析已更新，公开展示仍是旧版本，请重新生成展示后再同步"
+          : "当前项目已更新，项目分析页面已刷新",
+        showcaseOutdated ? "warning" : "ok"
+      );
       return {
         mode,
         changed: true,
+        showcaseOutdated,
         fileCount: Number(data.fileCount || 0),
         restoredAsset
       };
@@ -6353,7 +6483,10 @@ async function updateCurrentProjectFromSource() {
   updateTopbarPublishActions();
   try {
     const result = await readCurrentProjectFromSource({ mode: "update" });
-    setPublishSyncStatus(result?.changed === false ? "无变化" : "已更新", "ok");
+    setPublishSyncStatus(
+      result?.showcaseOutdated ? "待生成展示" : result?.changed === false ? "无变化" : "已更新",
+      result?.showcaseOutdated ? "running" : "ok"
+    );
   } catch {
     setPublishSyncStatus("更新失败", "error");
     setStatus("当前项目更新失败，请检查项目目录和服务状态后重试", "error");
@@ -6378,17 +6511,36 @@ async function syncSavedProjectsToGithub() {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok || !data.published) {
-      throw new Error(data.error || "GitHub 同步失败");
+      const errorMessage = response.status === 404
+        ? "当前本机服务未提供 GitHub 发布功能，请重启 Display OS 服务"
+        : data.code === "STATIC_PUBLISH_SCRIPT_MISSING"
+          ? "同步脚本不存在，请检查发布配置"
+        : data.code === "STATIC_PUBLISH_TIMEOUT"
+            ? "发布等待超时，请检查 GitHub 登录和网络"
+            : data.code === "STATIC_SHOWCASE_OUTDATED"
+              ? "项目分析已更新，请先重新生成公开展示"
+              : data.code === "STATIC_NO_PUBLISHED_PROJECTS"
+                ? "没有可同步的公开项目，请先生成展示"
+            : data.code === "STATIC_PUBLISH_FAILED"
+              ? "发布脚本执行失败，请检查 GitHub 登录和网络"
+              : data.error || "GitHub 同步失败";
+      throw new Error(errorMessage);
     }
     const projectCount = Number(data.projectCount || 0);
-    const statusText = data.changed
-      ? `已同步 ${projectCount} 个项目`
-      : "GitHub 页面已是最新";
-    setPublishSyncStatus("已同步", "ok");
-    setStatus(`${statusText}，公开页面正在更新`, "ok");
-  } catch {
+    if (!data.remoteVerified) {
+      throw new Error("代码已推送但远端提交核对失败，请检查 GitHub 状态");
+    }
+    const statusText = data.changed ? `已同步 ${projectCount} 个项目` : "GitHub 页面已是最新";
+    if (data.publicVerified) {
+      setPublishSyncStatus("已同步并生效", "ok");
+      setStatus(`${statusText}，公开页面已确认生效`, "ok");
+    } else {
+      setPublishSyncStatus("已推送，待生效", "running");
+      setStatus(`${statusText}，GitHub Pages 仍在更新，请稍后刷新公开页面`, "warning");
+    }
+  } catch (error) {
     setPublishSyncStatus("同步失败", "error");
-    setStatus("GitHub 同步失败，请检查登录状态和网络后重试", "error");
+    setStatus(`GitHub 同步失败：${error?.message || "请检查登录状态和网络后重试"}`, "error");
   } finally {
     isSyncingGithub = false;
     updateTopbarPublishActions();
@@ -6932,6 +7084,7 @@ async function publishShowcaseSnapshot({ isRegenerate = false } = {}) {
     await loadProjectImages();
     const work = buildWorkRecord();
     work.published = true;
+    work.publicationStatus = "published";
     work.status = "generated";
     work.visibility = "visible";
     work.portfolio = {
@@ -7073,6 +7226,7 @@ generateShowcaseButton.addEventListener("click", async () => {
     await loadProjectImages();
     const work = buildWorkRecord();
     work.published = true;
+    work.publicationStatus = "published";
     work.status = "generated";
     work.visibility = "visible";
     work.portfolio = {
@@ -7216,13 +7370,25 @@ tabs.forEach((tab) => {
 
 setupPagePager();
 
+openMethodologyButton?.addEventListener("click", openMethodologyPage);
+openMethodologyFromCapabilitiesButton?.addEventListener("click", openMethodologyPage);
+closeMethodologyButton?.addEventListener("click", closeMethodologyPage);
+methodologyIndexButtons.forEach((button) => {
+  button.addEventListener("click", () => setMethodologyView(button.dataset.methodologyTarget || "all"));
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !methodologyPage?.hidden) closeMethodologyPage();
+});
+
 async function initializeProjectState() {
   let restored = false;
+  let restoreError = null;
   setPublishSyncStatus("正在恢复", "running");
   setStatus("正在恢复最近项目，请稍候", "neutral");
   try {
     restored = await restoreLatestProjectRecord();
-  } catch {
+  } catch (error) {
+    restoreError = error;
     // Fall back to the browser draft when the service-side record is unavailable.
   }
   if (!restored) {
@@ -7238,13 +7404,19 @@ async function initializeProjectState() {
   } catch {
     projectHistoryMenu && (projectHistoryMenu.innerHTML = `<div class="project-history-empty">暂无可恢复项目</div>`);
   }
-  await renderGeneratedWorks({ onlyCurrent: false }).catch(() => {});
+  const generatedWorksPromise = renderGeneratedWorks({ onlyCurrent: false }).catch(() => {});
   if (!restored) {
-    setPublishSyncStatus("待选择项目", "neutral");
-    setStatus(projectPathInput.value.trim() ? "项目路径已保留，请点击“读取项目”" : "等待选择项目", "neutral");
+    if (restoreError && !projectPathInput.value.trim()) {
+      setPublishSyncStatus("恢复失败", "error");
+      setStatus(`无法恢复最近项目：${restoreError.message}。请确认 Display OS 服务已启动后刷新`, "error");
+    } else {
+      setPublishSyncStatus("待选择项目", "neutral");
+      setStatus(projectPathInput.value.trim() ? "项目路径已保留，请点击“读取项目”" : "等待选择项目", "neutral");
+    }
   } else {
     setPublishSyncStatus("待同步", "neutral");
   }
+  await generatedWorksPromise;
 }
 
 let seconds = 6 * 60 * 60;

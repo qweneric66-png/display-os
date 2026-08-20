@@ -1,7 +1,7 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-20T06:01:47.056Z",
+  "generatedAt": "2026-08-20T06:33:52.186Z",
   "activeKey": "project-1",
   "records": [
     {
@@ -2078,6 +2078,7 @@
         "hideCardActions": false,
         "projectPath": "公开项目快照",
         "source": "公开项目快照",
+        "publicationStatus": "published",
         "displayOrder": 999
       },
       "pricing": null,
@@ -4080,6 +4081,7 @@
         "hideCardActions": false,
         "projectPath": "公开项目快照",
         "source": "公开项目快照",
+        "publicationStatus": "published",
         "displayOrder": 999
       },
       "pricing": null,
@@ -5234,6 +5236,7 @@
         "hideCardActions": false,
         "projectPath": "公开项目快照",
         "source": "公开项目快照",
+        "publicationStatus": "published",
         "displayOrder": 2
       },
       "pricing": {
@@ -6376,6 +6379,7 @@
         "hideCardActions": false,
         "projectPath": "公开项目快照",
         "source": "公开项目快照",
+        "publicationStatus": "published",
         "displayOrder": 1
       },
       "pricing": {

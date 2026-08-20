@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-20T06:33:52.186Z",
+  "projectCount": 4,
+  "projectIds": [
+    "project-1",
+    "project-2",
+    "project-3",
+    "project-4"
+  ],
+  "projectTitles": [
+    "跨境商品统一调度平台",
+    "LEX建模｜AI + SolidWorks 工程自动化平台",
+    "Reddit 视觉RAG平台",
+    "PDD 店铺商品采集平台"
+  ]
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Display OS | 项目展示与 Idea 售卖系统</title>
-    <link rel="stylesheet" href="./styles.css?v=20260819-personal-capabilities" />
+    <link rel="stylesheet" href="./styles.css?v=0a636d306d3c" />
   </head>
   <body class="compact-kpi-mode">
     <header class="topbar">
@@ -17,6 +17,7 @@
         <a href="#analysis">项目拆解</a>
         <a href="#showcase">落地展示</a>
         <a href="#market" hidden aria-hidden="true" tabindex="-1">Idea 售价</a>
+        <button class="nav-methodology-button" id="openMethodology" type="button">工程方法论</button>
       </nav>
       <div class="topbar-actions" aria-label="项目发布操作">
         <div class="topbar-publish-actions">
@@ -50,66 +51,73 @@
         <div class="capability-shell">
           <header class="capability-heading">
             <div>
-              <p class="eyebrow">跨项目能力画像</p>
-              <h2>把复杂业务整理成可信、可恢复、可交付的 AI 工程系统</h2>
+              <p class="eyebrow">核心能力定位</p>
+              <h2>让复杂业务有状态、有证据、可恢复</h2>
             </div>
-            <p class="capability-lead">从跨境商品运营、视觉 RAG、网页采集到 SolidWorks 工程自动化，我持续解决同一类问题：流程分散、状态不可见、异常难定位、AI 结果缺少验证。我的价值不只在于实现功能，更在于把业务规则、技术架构、人工判断和交付证据连接成闭环。</p>
+            <div class="capability-intro">
+              <p class="capability-principle">先定义什么算完成，再决定哪些步骤交给 AI。</p>
+              <p class="capability-lead">跨境商品、内容检索与工程自动化，验证的是同一套方法：结果可查，风险可控，失败可修。</p>
+            </div>
           </header>
 
           <div class="capability-layout">
             <div class="capability-grid" aria-label="个人核心能力">
               <article class="capability-card is-primary">
                 <span class="capability-index">01</span>
-                <h3>复杂业务流程抽象</h3>
-                <p>从目标用户、业务对象、关键状态和交付标准出发，把模糊需求拆成可执行工作流。</p>
-                <small>证据：商品采集到平台交付、工程图分析到 CAD 执行</small>
+                <h3>定义真实完成</h3>
+                <p>先拆清对象、状态和验收条件，不把“程序结束”当成业务完成。</p>
+                <small>平台回查 · 文件验收 · 人工确认</small>
               </article>
               <article class="capability-card">
                 <span class="capability-index">02</span>
-                <h3>技术架构与系统集成</h3>
-                <p>围绕任务接口、状态持久化、规则门禁、工具执行和前端 ViewModel 组织分层架构。</p>
-                <small>证据：本地任务服务、浏览器自动化、RAG、OCR、SolidWorks 执行端</small>
+                <h3>组织复杂流程</h3>
+                <p>把采集、处理、复核、执行和回查连成可追踪的任务。</p>
+                <small>商品任务链 · 本地服务 · 状态历史</small>
               </article>
               <article class="capability-card">
                 <span class="capability-index">03</span>
-                <h3>人机协作边界设计</h3>
-                <p>让 AI 负责识别、整理和生成候选，把高风险或不确定节点交给人工确认。</p>
-                <small>证据：类目确认、价格复核、训练审核、工程候选复核</small>
+                <h3>划清人机边界</h3>
+                <p>AI 给候选，规则做约束，高风险和不确定节点由人确认。</p>
+                <small>发布确认 · 低置信度审核 · 参数冲突</small>
               </article>
               <article class="capability-card">
                 <span class="capability-index">04</span>
-                <h3>异常治理与任务恢复</h3>
-                <p>按阶段和影响对象定位失败，设计暂停、续跑、重试、人工修复与证据回查。</p>
-                <small>证据：断点续跑、失败样本、异常账本、任务历史</small>
+                <h3>局部修复失败</h3>
+                <p>保留成功结果，只重试、重查或修复出错的部分。</p>
+                <small>断点续跑 · 失败队列 · 异常回查</small>
               </article>
               <article class="capability-card">
                 <span class="capability-index">05</span>
-                <h3>多源数据与证据链</h3>
-                <p>统一网页、截图、OCR、图片、表格、工程参数和平台反馈，形成可复核结果。</p>
-                <small>证据：DOM 与截图交叉验证、结构化知识块、Excel 与 CAD 交付</small>
+                <h3>用证据约束结果</h3>
+                <p>让网页、截图、表格、回执和真实文件相互核对。</p>
+                <small>交叉验证 · 来源追踪 · 交付物复查</small>
               </article>
               <article class="capability-card">
                 <span class="capability-index">06</span>
-                <h3>评测与验证体系</h3>
-                <p>区分代码存在、测试通过、现场运行和业务终态，用反例与边界约束成果表达。</p>
-                <small>证据：规则测试、失败样本复盘、平台终态回查、待验证项管理</small>
+                <h3>把经验变成规则</h3>
+                <p>把一次排错沉淀成 Skill、测试、归档和下一次的默认流程。</p>
+                <small>UI 规则库 · 交付门禁 · 项目档案</small>
               </article>
             </div>
 
             <aside class="self-review" aria-labelledby="selfReviewTitle">
-              <p class="eyebrow">自我评价</p>
-              <h3 id="selfReviewTitle">业务理解、架构落地与证据意识并重</h3>
-              <p>我擅长快速理解陌生领域，将分散的人工操作和一次性脚本重构为可观察、可复核、可恢复的业务系统。面对 AI 输出，我不会把模型答案直接当作业务事实，而是通过规则校验、多源证据、人工确认和真实终态回查控制风险。</p>
-              <p>我能够借助 AI 完成研究、实现和测试辅助，同时坚持由自己判断问题价值、方案取舍和验收边界。对于尚未经过量化或现场验证的能力，我会明确标注，而不是用技术概念代替结果。</p>
-              <details class="capability-evidence">
-                <summary>查看技术架构与评测方法</summary>
+              <p class="eyebrow">证据边界</p>
+              <h3 id="selfReviewTitle">能力有依据，结论有边界</h3>
+              <dl class="capability-boundaries">
                 <div>
-                  <h4>技术架构</h4>
-                  <p>以业务工作台承载决策信息，以任务接口和状态持久化管理执行生命周期，以规则门禁约束确定性风险，再连接浏览器自动化、RAG、OCR、表格处理与 SolidWorks 等专业工具。</p>
-                  <h4>评测方法</h4>
-                  <p>分别验证输入完整性、流程状态、结构化结果、异常恢复和最终业务结果；保留失败样本，让反例能够否决“已经完成”的乐观判断。</p>
+                  <dt>已形成</dt>
+                  <dd>流程设计、终态判断、人机边界、异常恢复。</dd>
                 </div>
-              </details>
+                <div>
+                  <dt>正在验证</dt>
+                  <dd>长期运行、统一指标、外部使用结果。</dd>
+                </div>
+                <div>
+                  <dt>不做包装</dt>
+                  <dd>不把模型接入写成算法能力，不把系统实现写成商业成功。</dd>
+                </div>
+              </dl>
+              <button class="capability-link" id="openMethodologyFromCapabilities" type="button">查看工程方法与项目证据</button>
             </aside>
           </div>
         </div>
@@ -229,21 +237,21 @@
               <h3 id="profileTitle">项目画像</h3>
               <div class="profile-details">
                 <p id="profilePositioning">待分析</p>
-                <h4>核心问题</h4>
+                <h4>用户原来遇到的问题</h4>
                 <p id="profileProblem">待分析</p>
-                <h4>目标用户</h4>
+                <h4>谁在这条任务链上使用</h4>
                 <ul id="profileUsers">
                   <li>待分析</li>
                 </ul>
-                <h4>核心流程</h4>
+                <h4>用户任务主线</h4>
                 <ol id="profileWorkflow">
                   <li>待分析</li>
                 </ol>
-                <h4>技术模块</h4>
+                <h4>核心差异</h4>
                 <ul id="profileModules">
                   <li>待分析</li>
                 </ul>
-                <h4>工程判断</h4>
+                <h4>证据、成熟度与边界</h4>
                 <ul id="profileDecisions">
                   <li>待分析</li>
                 </ul>
@@ -538,11 +546,80 @@
       </article>
     </div>
 
+    <section class="methodology-page" id="methodologyPage" aria-labelledby="methodologyTitle" hidden>
+      <header class="methodology-topbar">
+        <div><span class="methodology-eyebrow">ENGINEERING PLAYBOOK</span><h2 id="methodologyTitle">工程方法论</h2></div>
+        <button class="ghost-button methodology-close" id="closeMethodology" type="button">返回工作台</button>
+      </header>
+      <div class="methodology-shell">
+        <aside class="methodology-index" aria-label="工程方法论目录">
+          <div class="methodology-index-heading"><span>8 个能力证据</span><strong>从发现问题走向可复用交付</strong></div>
+          <button class="methodology-index-button is-active" type="button" data-methodology-target="all"><span>00</span><strong>方法总览</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-1"><span>01</span><strong>业务终态</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-2"><span>02</span><strong>决策边界</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-3"><span>03</span><strong>状态与证据</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-4"><span>04</span><strong>失败样本</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-5"><span>05</span><strong>分层评测</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-6"><span>06</span><strong>归档版本</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-7"><span>07</span><strong>Skill 沉淀</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-8"><span>08</span><strong>双机协作</strong></button>
+        </aside>
+        <div class="methodology-content" id="methodologyContent" tabindex="-1">
+          <section class="methodology-hero-card" data-methodology-overview>
+            <div class="methodology-hero-copy"><span class="methodology-kicker">MY ENGINEERING JUDGMENT</span><h3>我不是先堆功能，而是先把“什么算完成”定义清楚</h3><p>每个项目都沿着同一条可验证链路推进：先说清问题与影响，再做工程取舍，最后用可见结果判断方案是否成立。这样展示的不只是我做了什么，更是我为什么这样做。</p></div>
+            <div class="methodology-loop" aria-label="发现问题、工程判断、方案落地、结果验证、方法沉淀、场景复用"><span>发现问题</span><i>→</i><span>工程判断</span><i>→</i><span>方案落地</span><i>→</i><span>结果验证</span><i>→</i><span>方法沉淀</span><i>→</i><span>场景复用</span></div>
+            <div class="methodology-hero-proof"><strong>核心能力</strong><span>把模糊需求拆成可验收结果</span><span>把失败现场变成系统规则</span><span>把一次性交付变成可复用方法</span></div>
+          </section>
+          <div class="methodology-grid">
+            <article class="methodology-card" id="method-1" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">业务起点</span></div><h3>先定义业务终态，再设计技术流程</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>如果把代码跑通、接口返回或文件生成当作完成，项目仍可能无法回答“用户能不能真正使用”。</p></div><div><span>我的判断</span><p>完成标准必须落在业务结果上：用户看得懂、能判断、能继续操作，而不是只证明技术动作执行过。</p></div><div><span>落地动作</span><p>先写终态验收句，再拆输入、处理、输出和异常；项目分析、展示和交付都围绕这句话组织。</p></div><div><span>结果证据</span><p>当前多个项目已能独立展示名称、封面、能力说明和边界；真实业务终态仍按项目继续补充验证。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>先定义“什么算成功”，再决定要做哪些功能。</p><p><strong>可复用场景</strong>网页采集、RAG、商品发布、工程建模。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-2" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">决策边界</span></div><h3>把 AI 放在适合它的判断位置</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>AI 很容易把相似项目写成同一套能力；如果候选内容未经判断就发布，展示会比真实证据走得更快。</p></div><div><span>我的判断</span><p>AI 负责理解、提取和生成候选，规则负责确定性校验，人工守住高风险边界，最终结果必须回查。</p></div><div><span>落地动作</span><p>让 Codex 根据当前项目生成专属说明，再由项目身份、证据状态和页面验收约束最终展示内容。</p></div><div><span>结果证据</span><p>PDD、Reddit、LEX 和跨境调度项目已呈现不同的标题、说明和能力组合；未验证内容不会被包装成确定结论。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>不问“能不能让 AI 全做”，而问“哪一步适合让 AI 提供候选”。</p><p><strong>可复用场景</strong>项目分析、详情生成、宣传表达、岗位匹配。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-3" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">可恢复流程</span></div><h3>用状态和证据管理长流程</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>生成、保存、切换和重启后内容不一致时，“页面上有结果”并不等于“结果可恢复、可继续”。</p></div><div><span>我的判断</span><p>项目资产必须按项目身份隔离保存；浏览器当前状态只能作为视图，不能成为唯一事实来源。</p></div><div><span>落地动作</span><p>把名称、封面、分析、流程、展示等内容作为同一项目资产保存，切换时按当前项目恢复，缺失才进入待生成。</p></div><div><span>结果证据</span><p>已用多个项目验证切换与重启后的展示隔离，旧项目的流程、售价和宣传内容不会继续覆盖当前项目。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>长流程必须同时设计状态、证据、暂停、恢复和重新验证。</p><p><strong>可复用场景</strong>批量采集、AI 审核、内容生成、文件交付。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-4" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">失败回流</span></div><h3>用失败样本推动系统升级</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>同名重复、旧流程图残留、售价消失和新项目覆盖旧项目，表面是按钮问题，实际暴露了身份和状态边界。</p></div><div><span>我的判断</span><p>不能只修当前页面；要判断偏差发生在项目键、保存来源、回退逻辑还是渲染层，并保留原失败现场。</p></div><div><span>落地动作</span><p>用失败项目复测切换、生成、保存、刷新和恢复，把修复转成项目隔离、结果优先和缺失兜底规则。</p></div><div><span>结果证据</span><p>已覆盖多项目连续生成与展示回归，失败样本不再只停留在一次修复，而是进入后续验收条件。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>每个 bug 都追问：它会不会在下一个项目、下一次恢复时再次出现。</p><p><strong>可复用场景</strong>多项目系统、任务队列、导入导出、浏览器自动化。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-5" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">分层验证</span></div><h3>建立分层评测体系，而不是只看一张截图</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>页面能打开、卡片能显示，只能证明界面有输出，不能证明数据正确、流程可恢复或业务结果可用。</p></div><div><span>我的判断</span><p>不同风险要用不同证据验证，不能用一个“成功”标签替代结构、交互、恢复和真实业务回查。</p></div><div><span>落地动作</span><p>按结构检查、服务检查、浏览器交互、项目恢复和真实环境回查分层验收，并把未验证项单独标出。</p></div><div><span>结果证据</span><p>当前 UI 已完成桌面与窄屏交付检查；真实项目质量、运行稳定性和业务指标仍保持证据边界。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>验证不是最后补的测试，而是从业务风险反推证据等级。</p><p><strong>可复用场景</strong>AI 输出、数据平台、工程产物、运营工作台。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-6" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">可追溯交付</span></div><h3>用归档和版本化保持工程可追溯</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>需求、方案和修复如果只存在于聊天记录里，下一次遇到同类问题就只能重新猜，改动也很难安全回退。</p></div><div><span>我的判断</span><p>重要变更必须能回答为什么改、改了什么、如何验证以及出了问题如何恢复；归档是工程边界，不是事后装饰。</p></div><div><span>落地动作</span><p>为变更保留前置备份、版本目录、修改文件、根因、验证结果、风险和下一步，让交付事实可以被复查。</p></div><div><span>结果证据</span><p>当前迭代已经形成前置备份、变更归档和成长文档联动，页面升级与工程判断可以对应回版本事实。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>把“我记得怎么做”升级为“团队可以按证据复现”。</p><p><strong>可复用场景</strong>Bug 修复、架构升级、UI 改版、交付复盘。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-7" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">经验复用</span></div><h3>将重复经验沉淀为 Skill 和交付规则</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>同类问题在项目分析、详情治理、UI 交付和工程建模中反复出现，单次提示词或临时脚本无法稳定复用判断。</p></div><div><span>我的判断</span><p>真正可复用的不是一句漂亮话，而是问题边界、处理步骤、证据要求和验收标准。</p></div><div><span>落地动作</span><p>把项目复盘、详情治理、前端关键信息、归档、岗位匹配和 SolidWorks 分析等经验整理成可执行规则。</p></div><div><span>结果证据</span><p>需求分析入口已经能够挂载本地 Skill，工程方法从个人经验变成可以被调用、检查和持续修订的资产。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>不是让 AI 记住更多，而是把个人判断转成稳定的工作流。</p><p><strong>可复用场景</strong>跨项目分析、协作交付、质量检查、个人能力成长。</p></footer>
+            </article>
+            <article class="methodology-card" id="method-8" data-methodology-card>
+              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">协作边界</span></div><h3>用双机协作划分共享资产与本机状态</h3></header>
+              <div class="methodology-story"><div><span>发现的问题</span><p>本机路径、账号、缓存和运行状态不能直接搬到另一台电脑；只同步文件却不重新验证，也会制造“看起来能用”的假象。</p></div><div><span>我的判断</span><p>协作要共享可复用资产，隔离机器差异；同步完成不等于交付完成，恢复后仍要检查入口、依赖和真实环境。</p></div><div><span>落地动作</span><p>区分源代码、配置模板、Skill、文档、测试与凭证、路径、缓存、日志；分享页面时保留可展示内容，运行能力单独确认。</p></div><div><span>结果证据</span><p>当前项目已区分本地服务和分享展示边界；跨设备运行仍以目标环境复核为准，不把本机状态包装成通用能力。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>同步可复用资产，隔离机器状态，恢复后重新验证。</p><p><strong>可复用场景</strong>GitHub 分享、双机开发、现场交付、团队协作。</p></footer>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer class="footer">
       <span>Display OS</span>
     </footer>
-
-    <script src="./static-runtime.js?v=20260820-static-analysis-stability-1"></script>
-    <script src="./script.js?v=20260820-static-analysis-stability-1"></script>
+    <script src="./static-runtime.js?v=0a636d306d3c"></script>
+    <script src="./script.js?v=0a636d306d3c"></script>
   </body>
 </html>

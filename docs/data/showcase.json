@@ -716,6 +716,7 @@
       "hideCardActions": false,
       "projectPath": "公开项目快照",
       "source": "公开项目快照",
+      "publicationStatus": "published",
       "displayOrder": 999
     },
     {
@@ -1410,6 +1411,7 @@
       "hideCardActions": false,
       "projectPath": "公开项目快照",
       "source": "公开项目快照",
+      "publicationStatus": "published",
       "displayOrder": 999
     },
     {
@@ -2097,6 +2099,7 @@
       "hideCardActions": false,
       "projectPath": "公开项目快照",
       "source": "公开项目快照",
+      "publicationStatus": "published",
       "displayOrder": 2
     },
     {
@@ -2721,6 +2724,7 @@
       "hideCardActions": false,
       "projectPath": "公开项目快照",
       "source": "公开项目快照",
+      "publicationStatus": "published",
       "displayOrder": 1
     }
   ]
