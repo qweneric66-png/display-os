@@ -1,7 +1,7 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-20T06:33:52.186Z",
+  "generatedAt": "2026-08-20T06:47:29.154Z",
   "activeKey": "project-1",
   "records": [
     {
@@ -3384,7 +3384,7 @@
           {
             "id": "1786695540502-e3b93137e45e48",
             "name": "project-cover.png",
-            "src": "./assets/projects/02-lex-ai-solidworks/cover.png"
+            "src": "./assets/projects/02-lex-ai-solidworks/cover.jpg"
           }
         ],
         "panels": {}
@@ -3403,7 +3403,7 @@
           "失败重跑",
           "结果导出"
         ],
-        "cover": "./assets/projects/02-lex-ai-solidworks/cover.png",
+        "cover": "./assets/projects/02-lex-ai-solidworks/cover.jpg",
         "detail": {
           "title": "LEX 建模｜AI + SolidWorks 工程自动化平台｜项目详情",
           "description": "把材料、参考图判断、工程师确认与 SolidWorks 执行连接成可追踪任务链，明确区分 AI 候选、工程确认和 CAD 产物验收。",
@@ -3732,7 +3732,7 @@
               "结果导出"
             ],
             "summary": "LEX建模是一个面向机械设计人员的 AI + SolidWorks 工程自动化平台。它从材料属性和参考图输入开始，经 Codex Bridge 生成结构化工程分析，再通过来源区域、尺寸、结构关系、冲突和待确认问题进入人工复核，随后提交 SolidWorks 零件或装配任务，并保存执行状态、验证摘要和历史记录。项目的核心不是把 AI 输出直接当成 CAD 结果，而是建立从分析候选到人工确认、远程执行和文件验收的证据链。",
-            "cover": "./assets/projects/02-lex-ai-solidworks/cover.png"
+            "cover": "./assets/projects/02-lex-ai-solidworks/cover.jpg"
           },
           "background": {
             "targetUsers": [
