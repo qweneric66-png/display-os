@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Display OS | 项目展示与 Idea 售卖系统</title>
-    <link rel="stylesheet" href="./styles.css?v=21a6fee650b2" />
+    <link rel="stylesheet" href="./styles.css?v=0d145bab512c" />
   </head>
   <body class="compact-kpi-mode">
     <header class="topbar">
@@ -573,44 +573,52 @@
           </section>
           <div class="methodology-grid">
             <article class="methodology-card" id="method-1" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">业务起点</span></div><h3>先定义业务终态，再设计技术流程</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>如果把代码跑通、接口返回或文件生成当作完成，项目仍可能无法回答“用户能不能真正使用”。</p></div><div><span>我的判断</span><p>完成标准必须落在业务结果上：用户看得懂、能判断、能继续操作，而不是只证明技术动作执行过。</p></div><div><span>落地动作</span><p>先写终态验收句，再拆输入、处理、输出和异常；项目分析、展示和交付都围绕这句话组织。</p></div><div><span>结果证据</span><p>当前多个项目已能独立展示名称、封面、能力说明和边界；真实业务终态仍按项目继续补充验证。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>先定义“什么算成功”，再决定要做哪些功能。</p><p><strong>可复用场景</strong>网页采集、RAG、商品发布、工程建模。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">业务起点</span></div><h3>先定义业务终态</h3></header>
+              <p class="methodology-summary">不把脚本结束当成交付完成，先明确用户最终能确认什么。</p>
+              <div class="methodology-story"><div><span>问题</span><p>代码跑通、接口返回或文件生成，只能证明技术动作完成。</p></div><div><span>判断与行动</span><p>先写业务终态验收句，再反推输入、处理、异常和人工确认。</p></div><div><span>验证</span><p>商品发布回查平台状态；工程交付同时检查重建、位置、截图和保存。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>网页采集、商品发布、工程建模</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-1">查看方法</button>
             </article>
             <article class="methodology-card" id="method-2" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">事实基础</span></div><h3>把不可靠输入转化为可核验事实</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>网页、截图、OCR、表格和模型输出可能互相冲突；单一来源看似完整，也可能把推断伪装成事实。</p></div><div><span>我的判断</span><p>必须保留来源，区分事实、推断、候选和假设，并把冲突与缺失显式留给后续判断。</p></div><div><span>落地动作</span><p>为业务对象建立稳定身份和关系；SolidWorks 尺寸进一步区分明确、推导、视觉估计、临时假设与待确认项。</p></div><div><span>结果证据</span><p>商品、SKU、项目资产和工程参数已按对象身份组织；证据不足的内容保留边界，不直接升级为确定结论。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>先确认“什么是事实”，再让 AI 或规则基于事实工作。</p><p><strong>可复用场景</strong>网页采集、OCR、商品资料、RAG、CAD 参数确认。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">事实基础</span></div><h3>把输入变成可核验事实</h3></header>
+              <p class="methodology-summary">保留来源并区分事实、推断和待确认项，不让猜测进入交付。</p>
+              <div class="methodology-story"><div><span>问题</span><p>网页、截图、OCR、表格和模型输出可能互相冲突。</p></div><div><span>判断与行动</span><p>为业务对象建立稳定身份，记录来源、冲突、缺失和证据状态。</p></div><div><span>验证</span><p>商品、SKU、项目资产和工程参数按对象组织，证据不足时保留边界。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>OCR、商品资料、RAG、CAD 参数</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-2">查看方法</button>
             </article>
             <article class="methodology-card" id="method-3" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">责任边界</span></div><h3>把 AI 放在适合它的判断位置</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>AI 很容易把相似项目写成同一套能力；候选内容未经判断就执行，会让结论比真实证据走得更快。</p></div><div><span>我的判断</span><p>平台提供事实，AI 理解和生成候选，规则检查资格，人工确认风险，专业工具执行，验收层回查终态。</p></div><div><span>落地动作</span><p>用项目身份、证据状态和页面门禁约束候选；低置信度、参数冲突和发布动作保留人工确认。</p></div><div><span>结果证据</span><p>PDD、Reddit、LEX 和跨境调度项目已呈现不同能力组合；未验证内容不会被包装成确定结论。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>不问“AI 能不能全做”，而问“谁有资格做这一步判断”。</p><p><strong>可复用场景</strong>项目分析、内容生成、商品发布、工程参数确认。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">责任边界</span></div><h3>让 AI 只做适合的判断</h3></header>
+              <p class="methodology-summary">AI 生成候选，规则检查资格，人工确认风险，工具负责执行。</p>
+              <div class="methodology-story"><div><span>问题</span><p>候选内容未经判断就执行，会让结论超出真实证据。</p></div><div><span>判断与行动</span><p>用项目身份和证据状态约束候选，低置信度与高风险动作保留人工确认。</p></div><div><span>验证</span><p>四个项目呈现不同能力组合，未验证内容不包装成确定结论。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>项目分析、内容生成、商品发布、参数确认</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-3">查看方法</button>
             </article>
             <article class="methodology-card" id="method-4" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">可恢复流程</span></div><h3>让长任务有状态、可暂停、可恢复</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>生成、保存、切换和重启后内容不一致时，“页面上有结果”不等于任务可继续，更不等于业务完成。</p></div><div><span>我的判断</span><p>任务必须按业务对象隔离状态；成功结果要保留，异常要定位到对象和阶段，浏览器状态不能成为唯一事实来源。</p></div><div><span>落地动作</span><p>设计创建、运行、暂停、恢复、失败和回查状态，使用检查点、幂等和人工门禁支持局部重试。</p></div><div><span>结果证据</span><p>已用多个项目验证切换与重启后的资产隔离；旧项目结果不会覆盖当前项目，缺失内容才进入待生成。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>长流程同时设计状态、检查点、异常接管和重新验证。</p><p><strong>可复用场景</strong>批量采集、AI 审核、内容生成、文件交付。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">可恢复流程</span></div><h3>让长任务可以恢复</h3></header>
+              <p class="methodology-summary">按业务对象保存状态，异常定位到步骤，修复后只重跑失败部分。</p>
+              <div class="methodology-story"><div><span>问题</span><p>页面出现结果，不代表任务在切换或重启后还能继续。</p></div><div><span>判断与行动</span><p>设计暂停、恢复、失败和回查状态，用检查点与幂等支持局部重试。</p></div><div><span>验证</span><p>项目切换与重启后资产保持隔离，成功结果不会被旧状态覆盖。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>批量采集、AI 审核、内容生成、文件交付</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-4">查看方法</button>
             </article>
             <article class="methodology-card" id="method-5" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">失败与评测</span></div><h3>用反例和分层证据证明结果</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>页面能打开、测试通过或样本很多，只能证明局部成立；一个真实反例仍可能否决阶段成功。</p></div><div><span>我的判断</span><p>代码实现、测试通过、现场运行和业务终态必须分开表达，结论强度不能超过最强有效证据。</p></div><div><span>落地动作</span><p>依次执行离线只读、在线影子、灰度门禁、业务回查和失败样本复测，并把未验证项单独标出。</p></div><div><span>结果证据</span><p>当前 UI 已完成桌面与窄屏检查；真实项目质量、长期稳定性和业务指标仍按证据边界表达。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>失败样本会改变规则、评测集和验收条件，而不是只被修掉。</p><p><strong>可复用场景</strong>AI 输出、数据平台、工程产物、运营工作台。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">失败与评测</span></div><h3>用反例证明结果</h3></header>
+              <p class="methodology-summary">区分实现、测试、现场运行与业务终态，让结论不超过证据。</p>
+              <div class="methodology-story"><div><span>问题</span><p>页面能打开或测试通过，只能证明局部成立，真实反例仍可否决成功。</p></div><div><span>判断与行动</span><p>分层记录证据，复测失败样本，把未验证项单独标出。</p></div><div><span>验证</span><p>UI 已通过桌面和窄屏检查；长期稳定性与业务指标仍按边界表达。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>AI 输出、数据平台、工程产物、运营工作台</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-5">查看方法</button>
             </article>
             <article class="methodology-card" id="method-6" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">经验复用</span></div><h3>把失败经验沉淀为规则和资产</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>同类偏差会在项目分析、UI 交付、RAG 和工程建模中重复出现，单次修复无法阻止下一次漂移。</p></div><div><span>我的判断</span><p>真正可复用的是问题边界、处理步骤、失败样本、证据要求和验收标准，而不是一句漂亮提示词。</p></div><div><span>落地动作</span><p>把反例转成回归测试，把稳定判断整理为 Skill、UI 规则、交付门禁和项目成长档案。</p></div><div><span>结果证据</span><p>多个本地 Skill 和跨项目 UI 门禁已经可被调用、检查和持续修订；新经验仍需通过真实项目验证后再升级。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>真实问题 → 根因 → 验证 → 规则 → 回归 → 跨项目复用。</p><p><strong>可复用场景</strong>项目分析、质量治理、协作交付、个人能力成长。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">经验复用</span></div><h3>把失败变成规则资产</h3></header>
+              <p class="methodology-summary">把反例转成检查、规则和回归测试，阻止同类问题再次出现。</p>
+              <div class="methodology-story"><div><span>问题</span><p>同类偏差会跨项目重复出现，单次修复无法阻止下一次漂移。</p></div><div><span>判断与行动</span><p>沉淀问题边界、处理步骤、失败样本、证据要求和验收标准。</p></div><div><span>验证</span><p>本地 Skill 与跨项目 UI 门禁可被调用、检查和持续修订。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>项目分析、质量治理、协作交付、能力成长</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-6">查看方法</button>
             </article>
             <article class="methodology-card" id="method-7" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">可追溯交付</span></div><h3>用归档和版本化保持结论可复查</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>需求、方案和修复如果只存在于聊天记录里，下一次遇到同类问题就只能重新猜，也无法判断历史结论是否仍有效。</p></div><div><span>我的判断</span><p>重要变更必须回答为什么改、改了什么、如何验证、风险在哪里；历史证据不能直接冒充当前事实。</p></div><div><span>落地动作</span><p>保留前置备份、版本目录、根因、修改范围、验证结果和风险，让交付事实可以被复查和恢复。</p></div><div><span>结果证据</span><p>当前迭代已形成前置备份、任务归档和成长文档联动，页面判断可以对应回具体版本事实。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>把“我记得怎么做”升级为“团队可以按证据复现”。</p><p><strong>可复用场景</strong>Bug 修复、架构升级、UI 改版、交付复盘。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">可追溯交付</span></div><h3>让结论可以复查</h3></header>
+              <p class="methodology-summary">用备份、版本、根因和验证记录，把经验从记忆变成可复现事实。</p>
+              <div class="methodology-story"><div><span>问题</span><p>需求和修复只留在聊天里，无法判断历史结论是否仍然有效。</p></div><div><span>判断与行动</span><p>保留前置备份、修改原因、影响范围、验证结果和风险。</p></div><div><span>验证</span><p>任务归档与成长文档联动，页面判断能回到具体版本事实。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>Bug 修复、架构升级、UI 改版、交付复盘</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-7">查看方法</button>
             </article>
             <article class="methodology-card" id="method-8" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">协作边界</span></div><h3>用双机协作划分共享资产与本机状态</h3></header>
-              <div class="methodology-story"><div><span>发现的问题</span><p>本机路径、账号、缓存和运行状态不能直接搬到另一台电脑；只同步文件却不重新验证，也会制造“看起来能用”的假象。</p></div><div><span>我的判断</span><p>协作要共享可复用资产，隔离机器差异；同步完成不等于交付完成，恢复后仍要检查入口、依赖和真实环境。</p></div><div><span>落地动作</span><p>区分源代码、配置模板、Skill、文档、测试与凭证、路径、缓存、日志；分享页面时保留可展示内容，运行能力单独确认。</p></div><div><span>结果证据</span><p>当前项目已区分本地服务和分享展示边界；跨设备运行仍以目标环境复核为准，不把本机状态包装成通用能力。</p></div></div>
-              <footer class="methodology-card-footer"><p><strong>方法沉淀</strong>同步可复用资产，隔离机器状态，恢复后重新验证。</p><p><strong>可复用场景</strong>GitHub 分享、双机开发、现场交付、团队协作。</p></footer>
+              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">协作边界</span></div><h3>分开共享资产与本机状态</h3></header>
+              <p class="methodology-summary">共享代码、规则和文档，隔离账号、路径、缓存与运行状态。</p>
+              <div class="methodology-story"><div><span>问题</span><p>同步文件不等于另一台机器已经具备相同运行条件。</p></div><div><span>判断与行动</span><p>区分可复用资产与机器差异，恢复后重新检查入口、依赖和环境。</p></div><div><span>验证</span><p>本地服务与分享展示已有明确边界，跨设备运行仍以目标环境复核为准。</p></div></div>
+              <footer class="methodology-card-footer"><p><strong>适用</strong>GitHub 分享、双机开发、现场交付、团队协作</p></footer><button class="methodology-card-open" type="button" data-methodology-open="method-8">查看方法</button>
             </article>
           </div>
         </div>
@@ -620,7 +628,7 @@
     <footer class="footer">
       <span>Display OS</span>
     </footer>
-    <script src="./static-runtime.js?v=21a6fee650b2"></script>
-    <script src="./script.js?v=21a6fee650b2"></script>
+    <script src="./static-runtime.js?v=0d145bab512c"></script>
+    <script src="./script.js?v=0d145bab512c"></script>
   </body>
 </html>

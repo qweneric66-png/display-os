@@ -7904,3 +7904,69 @@ body.page-pager-enabled #showcase .showcase-project-unit > .project-pricing .pri
   .terminal-contrast { grid-template-columns: 1fr; }
   .methodology-card { padding: 20px; }
 }
+
+/* Methodology progressive disclosure: scan conclusions first, open evidence on demand. */
+.methodology-summary {
+  margin: 0;
+  color: rgba(255,255,255,.76);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.methodology-card-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  min-height: 38px;
+  margin-top: 2px;
+  padding: 0 15px;
+  color: #fff;
+  border: 1px solid rgba(239,114,91,.55);
+  border-radius: 999px;
+  background: rgba(239,114,91,.13);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.methodology-card-open:hover { background: rgba(239,114,91,.24); }
+.methodology-card-open:focus-visible { outline: 3px solid rgba(239,114,91,.35); outline-offset: 3px; }
+.methodology-page[data-view="overview"] .methodology-hero-card {
+  gap: 14px;
+  padding: clamp(20px, 2.4vw, 30px);
+}
+.methodology-page[data-view="overview"] .methodology-loop,
+.methodology-page[data-view="overview"] .methodology-hero-proof,
+.methodology-page[data-view="overview"] .methodology-story { display: none; }
+.methodology-page[data-view="overview"] .methodology-card {
+  min-height: 214px;
+  gap: 13px;
+  padding: 20px;
+}
+.methodology-page[data-view="overview"] .methodology-card-header { gap: 10px; }
+.methodology-page[data-view="overview"] .methodology-card h3 { font-size: clamp(20px, 1.7vw, 25px); }
+.methodology-page[data-view="overview"] .methodology-card-footer {
+  display: block;
+  margin-top: auto;
+  padding-top: 11px;
+}
+.methodology-page[data-view="overview"] .methodology-card-footer p { font-size: 12px; }
+.methodology-page[data-view="overview"] .methodology-card-open { margin-top: 0; }
+.methodology-page[data-view="detail"] .methodology-grid {
+  grid-template-columns: minmax(0, 920px);
+  justify-content: center;
+}
+.methodology-page[data-view="detail"] .methodology-card { padding: clamp(24px, 3vw, 38px); }
+.methodology-page[data-view="detail"] .methodology-card h3 { font-size: clamp(26px, 3vw, 38px); }
+.methodology-page[data-view="detail"] .methodology-summary { max-width: 720px; font-size: 16px; }
+.methodology-page[data-view="detail"] .methodology-story { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.methodology-page[data-view="detail"] .methodology-card-open { display: none; }
+
+@media (max-width: 820px) {
+  .methodology-page[data-view="overview"] .methodology-grid { gap: 12px; }
+  .methodology-page[data-view="overview"] .methodology-card { min-height: 0; padding: 18px; }
+  .methodology-page[data-view="overview"] .methodology-hero-card { padding: 18px; }
+  .methodology-page[data-view="detail"] .methodology-story { grid-template-columns: 1fr; }
+  .methodology-page[data-view="detail"] .methodology-card { padding: 20px; }
+  .methodology-page[data-view="detail"] .methodology-summary { font-size: 14px; }
+}

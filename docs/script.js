@@ -594,6 +594,7 @@ const methodologyPage = document.querySelector("#methodologyPage");
 const methodologyContent = document.querySelector("#methodologyContent");
 const methodologyIndexButtons = document.querySelectorAll("[data-methodology-target]");
 const methodologyCards = document.querySelectorAll("[data-methodology-card]");
+const methodologyCardOpenButtons = document.querySelectorAll("[data-methodology-open]");
 const inputPanelState = document.querySelector("#inputPanelState");
 const fileStatus = document.querySelector("#fileStatus");
 const preflightSummary = document.querySelector("#preflightSummary");
@@ -650,6 +651,7 @@ let methodologyReturnFocus = null;
 
 function setMethodologyView(targetId = "all") {
   const showAll = targetId === "all";
+  if (methodologyPage) methodologyPage.dataset.view = showAll ? "overview" : "detail";
   methodologyCards.forEach((card) => {
     card.hidden = !showAll && card.id !== targetId;
   });
@@ -7375,6 +7377,9 @@ openMethodologyFromCapabilitiesButton?.addEventListener("click", openMethodology
 closeMethodologyButton?.addEventListener("click", closeMethodologyPage);
 methodologyIndexButtons.forEach((button) => {
   button.addEventListener("click", () => setMethodologyView(button.dataset.methodologyTarget || "all"));
+});
+methodologyCardOpenButtons.forEach((button) => {
+  button.addEventListener("click", () => setMethodologyView(button.dataset.methodologyOpen || "all"));
 });
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !methodologyPage?.hidden) closeMethodologyPage();
