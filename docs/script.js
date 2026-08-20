@@ -2201,28 +2201,34 @@ function buildExpandedWorkflow(profile, source) {
 }
 
 function buildDetailFromProfile(profile, source = sourceInput?.value || "", audit = null) {
-  const facts = buildProjectReviewFacts(profile, source);
-  const evidenceBoundary = audit || buildManualAudit(source);
+  const name = profile?.projectName || titleInput?.value?.trim() || "待补充项目";
+  const targetUsers = (profile?.targetUsers || []).filter(Boolean).slice(0, 3);
+  const problems = (profile?.userPainPoints || [profile?.coreProblem]).filter(Boolean).slice(0, 3);
+  const capabilities = (profile?.technicalModules || []).filter(Boolean).slice(0, 5);
+  const workflow = (profile?.workflow || []).filter(Boolean).slice(0, 7);
+  const value = (profile?.businessValue || []).filter(Boolean).slice(0, 3);
+  const decisions = (profile?.engineeringDecisions || profile?.differentiators || []).filter(Boolean).slice(0, 3);
+  const evidence = (profile?.evidenceStatus || audit?.confirmed || []).filter(Boolean).slice(0, 3);
+  const boundaries = (profile?.boundaries || audit?.limitations || []).filter(Boolean).slice(0, 3);
+  const positioning = profile?.positioning || profile?.landingText || `${name}用于把分散的业务资料整理成可复查的交付流程。`;
+  const overview = profile?.brief || `${targetUsers.join("、") || "目标用户"}使用${name}处理${problems[0] || "需要连续判断和复查的业务任务"}。${positioning}`;
+  const blocks = (items, prefix) => items.map((body, index) => ({ subtitle: `${prefix}.${index + 1}`, body }));
   return {
-    title: `${facts.name}完整项目复盘`,
-    description: `${facts.name}的介绍按项目复盘结构生成，重点说明业务问题、流程设计、数据处理、异常处理、交付结果和可复查证据。`,
+    title: `${name}｜作品详情`,
+    description: overview,
     sections: [
-      { title: "一、项目背景", blocks: [{ subtitle: "1.1 项目定位", body: `${facts.name}是${facts.systemChange}。`, list: [`目标用户：${facts.targetUsers.join("、")}`, `使用场景：${facts.scenario}`] }] },
-      { title: "二、业务痛点", blocks: [{ subtitle: "2.1 原始问题", body: facts.originalProblem }, { subtitle: "2.2 旧流程缺陷", body: facts.oldFlowDefect }] },
-      { title: "三、解决方案", blocks: [{ subtitle: "3.1 系统改造方式", body: facts.systemChange }, { subtitle: "3.2 核心能力", list: facts.modules.slice(0, 5) }] },
-      { title: "四、核心流程", blocks: [{ subtitle: "4.1 流程拆解", list: facts.workflow }] },
-      { title: "五、数据输入与输出", blocks: [{ subtitle: "5.1 输入资料", list: facts.inputs }, { subtitle: "5.2 输出结果", list: facts.outputs }] },
-      { title: "六、异常处理与人工确认", blocks: [{ subtitle: "6.1 异常处理机制", list: facts.exceptionHandling }, { subtitle: "6.2 人工确认环节", list: facts.manualConfirmation }] },
-      { title: "七、可复查证据", blocks: [{ subtitle: "7.1 证据来源", list: facts.evidence }] },
-      { title: "八、项目价值", blocks: [{ subtitle: "8.1 可复用价值", list: facts.reusableValue }, { subtitle: "8.2 项目边界", list: facts.boundary }] },
-      { title: "九、后续优化方向", blocks: [{ subtitle: "9.1 待补充方向", list: ["补充真实运行截图与结果样例", "补充失败样本和异常复盘记录", "补充最终交付表格或报告文件"] }] },
-      {
-        title: "十、证据边界",
-        blocks: [
-          { subtitle: "10.1 当前已确认", list: evidenceBoundary.confirmed?.length ? evidenceBoundary.confirmed : ["当前仅有手工资料，尚未建立项目文件证据链。"] },
-          { subtitle: "10.2 仍需核验", list: evidenceBoundary.limitations?.length ? evidenceBoundary.limitations : ["待补充运行验证和最终交付结果。"] }
-        ]
-      }
+      { title: "一、项目概览", blocks: [{ subtitle: "1.1 项目定位", body: overview }] },
+      { title: "二、原流程与核心矛盾", blocks: blocks(problems.length ? problems : ["当前资料尚未形成足够明确的核心矛盾。"], "2") },
+      { title: "三、核心解决方案", blocks: blocks(capabilities.length >= 3 ? capabilities : [positioning, ...workflow.slice(0, 2)], "3").slice(0, 5) },
+      { title: "四、完整业务流程", blocks: [{ subtitle: "4.1 代表性流程", body: workflow.length ? workflow.join(" → ") : "待补充真实业务流程。" }] },
+      { title: "五、项目价值与关键判断", blocks: [
+        { subtitle: "5.1 工作方式的变化", body: value.join("；") || positioning },
+        { subtitle: "5.2 关键判断", body: decisions.join("；") || "关键结论仍需结合项目证据补充。" }
+      ] },
+      { title: "六、证据与边界", blocks: [
+        { subtitle: "6.1 当前可信结论", body: evidence.join("；") || "当前实现范围已有项目资料支持，仍需按真实交付结果验收。" },
+        { subtitle: "6.2 仍需验证", body: boundaries.join("；") || "长期稳定性、量化效果和真实业务终态仍需补充验证。" }
+      ] }
     ]
   };
 }
@@ -4829,7 +4835,7 @@ function buildWorkRecordFromProject(project, result, images = { input: [], panel
     value: resultValue || project.value || (card.keywords || []).slice(0, 5).join(" / ") || "待补充",
     oneLine: resultOneLine || project.oneLine || card.oneLine || "",
     keywords: resultKeywords.length ? resultKeywords : (projectKeywords.length ? projectKeywords : (card.keywords || [])),
-    detail: project.detail || result.detail || buildDetailFromProfile(profile, source),
+    detail: result.detail || buildDetailFromProfile(profile, source, result.audit) || project.detail,
     diagrams: project.diagrams || result.diagrams || [],
     images,
     brief: result.brief || "",
