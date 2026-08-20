@@ -5162,6 +5162,14 @@ body.methodology-open { overflow: hidden; }
 .methodology-loop { display: flex; align-items: center; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
 .methodology-loop span { flex: 0 0 auto; padding: 9px 12px; color: #fff; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06); font-size: 12px; font-weight: 800; }
 .methodology-loop i { color: #ef725b; font-style: normal; }
+.methodology-loop .methodology-loopback { margin-left: 2px; font-size: 18px; font-weight: 900; }
+.terminal-contrast { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.terminal-contrast > div { display: grid; grid-template-columns: 1fr auto; gap: 7px 10px; min-width: 0; padding: 14px 16px; border: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.14); }
+.terminal-contrast strong { grid-column: 1 / -1; color: #ef725b; font-size: 12px; }
+.terminal-contrast span,.terminal-contrast b { font-size: 12px; line-height: 1.5; }
+.terminal-contrast span { color: rgba(255,255,255,.58); text-decoration: line-through; text-decoration-color: rgba(239,114,91,.7); }
+.terminal-contrast i { align-self: center; color: #ef725b; font-style: normal; }
+.terminal-contrast b { grid-column: 1 / -1; color: #fff; font-weight: 800; }
 .methodology-grid { display: grid; max-width: 1180px; margin: 0 auto; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .methodology-card { position: relative; min-height: 100%; padding: 28px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
 .methodology-card[hidden] { display: none; }
@@ -7893,5 +7901,6 @@ body.page-pager-enabled #showcase .showcase-project-unit > .project-pricing .pri
     row-gap: 8px;
   }
   .methodology-story { grid-template-columns: 1fr; }
+  .terminal-contrast { grid-template-columns: 1fr; }
   .methodology-card { padding: 20px; }
 }
