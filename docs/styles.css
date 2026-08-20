@@ -322,23 +322,27 @@ h1 {
 .capability-heading h2 {
   max-width: 760px;
   margin-bottom: 0;
-  font-size: clamp(30px, 4vw, 56px);
+  font-size: clamp(36px, 4.4vw, 62px);
   line-height: 1.08;
 }
 
 .capability-lead {
   margin: 10px 0 0;
   color: #4d4a43;
-  font-size: clamp(14px, 1.25vw, 16px);
-  line-height: 1.65;
+  font-size: clamp(17px, 1.35vw, 19px);
+  line-height: 1.7;
 }
 
 .capability-principle {
   margin: 0;
   color: #1f2823;
-  font-size: clamp(17px, 1.65vw, 22px);
+  font-size: clamp(21px, 1.8vw, 25px);
   font-weight: 850;
   line-height: 1.45;
+}
+
+.capability-heading .eyebrow {
+  font-size: 14px;
 }
 
 .capability-layout {
@@ -378,7 +382,7 @@ h1 {
   display: block;
   margin-bottom: 14px;
   color: #d85e2d;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.16em;
 }
@@ -386,7 +390,7 @@ h1 {
 .capability-card h3,
 .self-review h3 {
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 23px;
   line-height: 1.2;
 }
 
@@ -394,8 +398,8 @@ h1 {
 .self-review > p {
   margin-bottom: 12px;
   color: #555149;
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 17px;
+  line-height: 1.68;
 }
 
 .capability-card.is-primary p,
@@ -406,8 +410,8 @@ h1 {
 .capability-card small {
   display: block;
   color: #777067;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .self-review {
@@ -429,7 +433,7 @@ h1 {
 .capability-boundaries dt {
   margin-bottom: 5px;
   color: #b64b25;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.08em;
 }
@@ -437,8 +441,8 @@ h1 {
 .capability-boundaries dd {
   margin: 0;
   color: #4f4b44;
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 .capability-link {
@@ -449,6 +453,7 @@ h1 {
   background: transparent;
   color: #a9431f;
   font: inherit;
+  font-size: 16px;
   font-weight: 850;
   text-align: left;
   cursor: pointer;
@@ -487,7 +492,7 @@ h1 {
 .capability-evidence p {
   margin: 0 0 10px;
   color: #5d584f;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.65;
 }
 
@@ -4922,7 +4927,7 @@ body.page-pager-enabled #capabilities .capability-shell {
 
   .capability-lead,
   .self-review > p {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
