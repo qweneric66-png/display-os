@@ -681,6 +681,8 @@ function closeMethodologyPage() {
 }
 
 function isPagePagerViewport() {
+  // Desktop keeps the one-section-at-a-time workbench; public narrow screens use normal document flow.
+  return window.matchMedia("(min-width: 961px) and (min-height: 640px)").matches;
   // 落地展示页是固定视口工作台，桌面与窄屏都保持项目单元的页面级切换。
   return true;
 }

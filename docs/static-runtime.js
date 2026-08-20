@@ -39,7 +39,7 @@
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=a3c48bce3654", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=f6faf536ae18", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
