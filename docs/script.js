@@ -1147,7 +1147,7 @@ function applyPortfolioProfileDefaults(profile = {}) {
   const boundaries = Array.isArray(profile.boundaries) && profile.boundaries.length
     ? profile.boundaries
     : ["运行结果、量化指标和长期稳定性需以当前版本现场验收为准。"];
-  return {
+  const normalized = {
     ...profile,
     userPainPoints: Array.isArray(profile.userPainPoints) && profile.userPainPoints.length
       ? profile.userPainPoints
@@ -1161,6 +1161,42 @@ function applyPortfolioProfileDefaults(profile = {}) {
     boundaries,
     technicalModules: differentiators,
     engineeringDecisions: [...evidenceStatus, ...boundaries]
+  };
+  normalized.productionEvidence = buildProductionEvidence(normalized);
+  normalized.productDiscovery = buildProductDiscovery(normalized);
+  return normalized;
+}
+
+function buildProductionEvidence(profile = {}) {
+  const value = profile.productionEvidence && typeof profile.productionEvidence === "object" ? profile.productionEvidence : {};
+  const list = (items, fallback) => Array.isArray(items) && items.filter(Boolean).length ? items.filter(Boolean) : [fallback];
+  return {
+    usageScenario: String(value.usageScenario || "真实使用场景待核实"),
+    actualUsers: list(value.actualUsers, "实际使用者待核实；不能用目标用户替代"),
+    dataScale: String(value.dataScale || "实际处理规模待核实"),
+    usagePeriod: String(value.usagePeriod || "实际运行周期待核实"),
+    lastVerifiedAt: String(value.lastVerifiedAt || "最近现场验证时间待核实"),
+    maturityStatus: String(value.maturityStatus || "当前阶段待核实"),
+    confirmedResults: list(value.confirmedResults, "尚无可核实的真实业务结果"),
+    limitations: list(value.limitations, (profile.boundaries || [])[0] || "适用范围待核实"),
+    evidenceSources: list(value.evidenceSources, "运行记录、平台回执或用户验收证据待补充")
+  };
+}
+
+function buildProductDiscovery(profile = {}) {
+  const value = profile.productDiscovery && typeof profile.productDiscovery === "object" ? profile.productDiscovery : {};
+  const list = (items, fallback) => Array.isArray(items) && items.filter(Boolean).length ? items.filter(Boolean) : [fallback];
+  return {
+    userRole: String(value.userRole || "真实用户角色待核实"),
+    originalWorkflow: list(value.originalWorkflow, (profile.oldVsNew || [])[0] || "原工作方式待补充"),
+    primaryPain: list(value.primaryPain, (profile.userPainPoints || [profile.coreProblem]).filter(Boolean)[0] || "核心痛点待补充"),
+    existingSolutionGap: list(value.existingSolutionGap, "现有方案为何失效仍需直接证据"),
+    initialHypothesis: String(value.initialHypothesis || "初始假设待核实"),
+    validationEvidence: list(value.validationEvidence, "验证方法与证据待补充"),
+    counterEvidence: list(value.counterEvidence, "尚未发现可核实的反证记录"),
+    hypothesisStatus: String(value.hypothesisStatus || "待核实"),
+    revisedUnderstanding: String(value.revisedUnderstanding || "假设是否被修正待核实"),
+    decisionChanges: list(value.decisionChanges, "尚无可核实的产品决策变化记录")
   };
 }
 
@@ -2279,6 +2315,7 @@ function buildExpandedWorkflow(profile, source) {
 }
 
 function buildDetailFromProfile(profile, source = sourceInput?.value || "", audit = null) {
+  profile = applyPortfolioProfileDefaults(profile || {});
   const name = profile?.projectName || titleInput?.value?.trim() || "待补充项目";
   const targetUsers = (profile?.targetUsers || []).filter(Boolean).slice(0, 3);
   const problems = (profile?.userPainPoints || [profile?.coreProblem]).filter(Boolean).slice(0, 3);
@@ -2289,6 +2326,8 @@ function buildDetailFromProfile(profile, source = sourceInput?.value || "", audi
   const evidence = (profile?.evidenceStatus || audit?.confirmed || []).filter(Boolean).slice(0, 3);
   const boundaries = (profile?.boundaries || audit?.limitations || []).filter(Boolean).slice(0, 3);
   const positioning = profile?.positioning || profile?.landingText || `${name}用于把分散的业务资料整理成可复查的交付流程。`;
+  const production = profile.productionEvidence;
+  const discovery = profile.productDiscovery;
   const overview = profile?.brief || `${targetUsers.join("、") || "目标用户"}使用${name}处理${problems[0] || "需要连续判断和复查的业务任务"}。${positioning}`;
   const blocks = (items, prefix) => items.map((body, index) => ({ subtitle: `${prefix}.${index + 1}`, body }));
   return {
@@ -2296,16 +2335,25 @@ function buildDetailFromProfile(profile, source = sourceInput?.value || "", audi
     description: overview,
     sections: [
       { title: "一、项目概览", blocks: [{ subtitle: "1.1 项目定位", body: overview }] },
-      { title: "二、原流程与核心矛盾", blocks: blocks(problems.length ? problems : ["当前资料尚未形成足够明确的核心矛盾。"], "2") },
-      { title: "三、核心解决方案", blocks: blocks(capabilities.length >= 3 ? capabilities : [positioning, ...workflow.slice(0, 2)], "3").slice(0, 5) },
-      { title: "四、完整业务流程", blocks: [{ subtitle: "4.1 代表性流程", body: workflow.length ? workflow.join(" → ") : "待补充真实业务流程。" }] },
-      { title: "五、项目价值与关键判断", blocks: [
-        { subtitle: "5.1 工作方式的变化", body: value.join("；") || positioning },
-        { subtitle: "5.2 关键判断", body: decisions.join("；") || "关键结论仍需结合项目证据补充。" }
+      { title: "二、真实使用与运行证据", blocks: [
+        { subtitle: "2.1 使用现状", body: `场景：${production.usageScenario}；用户：${production.actualUsers.join("、")}；规模：${production.dataScale}；周期：${production.usagePeriod}；阶段：${production.maturityStatus}。` },
+        { subtitle: "2.2 已确认结果", body: production.confirmedResults.join("；") },
+        { subtitle: "2.3 限制与证据", body: `${production.limitations.join("；")}；证据：${production.evidenceSources.join("、")}；最近验证：${production.lastVerifiedAt}。` }
       ] },
-      { title: "六、证据与边界", blocks: [
-        { subtitle: "6.1 当前可信结论", body: evidence.join("；") || "当前实现范围已有项目资料支持，仍需按真实交付结果验收。" },
-        { subtitle: "6.2 仍需验证", body: boundaries.join("；") || "长期稳定性、量化效果和真实业务终态仍需补充验证。" }
+      { title: "三、问题发现与假设演进", blocks: [
+        { subtitle: "3.1 用户与原工作方式", body: `用户：${discovery.userRole}；原流程：${discovery.originalWorkflow.join("；")}` },
+        { subtitle: "3.2 痛点与现有方案缺口", body: `${discovery.primaryPain.join("；")}；${discovery.existingSolutionGap.join("；")}` },
+        { subtitle: "3.3 初始假设与变化", body: `初始假设：${discovery.initialHypothesis}；状态：${discovery.hypothesisStatus}；验证：${discovery.validationEvidence.join("；")}；反证：${discovery.counterEvidence.join("；")}；修正后认识：${discovery.revisedUnderstanding}；决策变化：${discovery.decisionChanges.join("；")}` }
+      ] },
+      { title: "四、核心解决方案", blocks: blocks(capabilities.length >= 3 ? capabilities : [positioning, ...workflow.slice(0, 2)], "4").slice(0, 5) },
+      { title: "五、完整业务流程", blocks: [{ subtitle: "5.1 代表性流程", body: workflow.length ? workflow.join(" → ") : "待补充真实业务流程。" }] },
+      { title: "六、项目价值与关键判断", blocks: [
+        { subtitle: "6.1 工作方式的变化", body: value.join("；") || positioning },
+        { subtitle: "6.2 关键判断", body: decisions.join("；") || "关键结论仍需结合项目证据补充。" }
+      ] },
+      { title: "七、证据与边界", blocks: [
+        { subtitle: "7.1 当前可信结论", body: evidence.join("；") || "当前实现范围已有项目资料支持，仍需按真实交付结果验收。" },
+        { subtitle: "7.2 仍需验证", body: boundaries.join("；") || "长期稳定性、量化效果和真实业务终态仍需补充验证。" }
       ] }
     ]
   };
@@ -2320,7 +2368,12 @@ async function renderAnalysis(result) {
   safeResult.bullets = Array.isArray(safeResult.bullets) ? safeResult.bullets : [];
   safeResult.diagrams = Array.isArray(safeResult.diagrams) ? safeResult.diagrams : [];
   safeResult.projectProfile = safeResult.projectProfile || buildLocalProfile(safeResult.landingTitle, sourceInput.value, activeProjectPath);
-  safeResult.detail = safeResult.detail || buildDetailFromProfile(safeResult.projectProfile, sourceInput.value, safeResult.audit || currentReadAudit);
+  safeResult.projectProfile = applyPortfolioProfileDefaults(safeResult.projectProfile);
+  const detailTitles = (safeResult.detail?.sections || []).map((section) => String(section?.title || "")).join(" ");
+  const isCustomDetail = /自定义详情/.test(detailTitles);
+  if (!safeResult.detail || (!isCustomDetail && (!/真实使用与运行证据/.test(detailTitles) || !/问题发现与假设演进/.test(detailTitles)))) {
+    safeResult.detail = buildDetailFromProfile(safeResult.projectProfile, sourceInput.value, safeResult.audit || currentReadAudit);
+  }
   currentAnalysisResult = safeResult;
   safeResult.promoStructure = normalizePromotionStructure(safeResult);
   const paidIdea = ensureCommercializationPlan(safeResult);

@@ -8327,3 +8327,90 @@ body.page-pager-enabled #showcase .showcase-project-unit > .project-pricing .pri
     overflow-y: auto;
   }
 }
+
+/* Public share page only: expose the project and its cover, not the local workbench. */
+body.public-share-mode .topbar-actions,
+body.public-share-mode .analysis-steps,
+body.public-share-mode .tab-edit-actions,
+body.public-share-mode .showcase-actions,
+body.public-share-mode #analysisForm > .input-section:first-of-type,
+body.public-share-mode #analysisForm > .input-section:nth-of-type(4),
+body.public-share-mode #analysisForm > .preflight-card,
+body.public-share-mode #analysisForm > .control-row,
+body.public-share-mode #inputImageDrop,
+body.public-share-mode #generateShowcase,
+body.public-share-mode #generatePricing,
+body.public-share-mode #inputImagePreview .image-remove {
+  display: none !important;
+}
+
+body.public-share-mode #analysis .analysis-grid {
+  align-items: start !important;
+}
+
+body.public-share-mode #analysis .input-panel {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 16px !important;
+  gap: 12px;
+  align-content: start;
+}
+
+body.public-share-mode #analysis .input-panel-header {
+  padding-bottom: 10px;
+}
+
+body.public-share-mode #analysis .input-panel-header h3 {
+  font-size: 18px;
+}
+
+body.public-share-mode #analysis .project-title-control .inline-required,
+body.public-share-mode #analysis #projectTitle {
+  display: none !important;
+}
+
+body.public-share-mode #analysis .public-project-select {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 34px 8px 10px;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: #fffdf8;
+  font: inherit;
+}
+
+body.public-share-mode #analysis #inputImagePreview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-height: 0;
+}
+
+body.public-share-mode #analysis #inputImagePreview .image-thumb {
+  width: 100%;
+}
+
+body.public-share-mode #analysis #inputImagePreview .image-thumb img {
+  width: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #f7f3ea;
+}
+
+body.public-share-mode #analysis #inputImagePreview .image-thumb figcaption {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body.public-share-mode #analysis .analysis-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  body.public-share-mode #analysis .input-panel {
+    padding: 12px !important;
+  }
+}

@@ -39,7 +39,7 @@
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=d65087fd88b2", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=f44fbe31f0ef", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
@@ -91,6 +91,88 @@
   const activeRecord = (payload) => payload.records.find((record) => record.key === payload.activeKey) || payload.records[0];
 
   window.__DISPLAY_OS_STATIC_MODE__ = true;
+
+  const publicShareHiddenSelectors = [
+    ".topbar-actions",
+    ".analysis-steps",
+    ".tab-edit-actions",
+    ".showcase-actions",
+    "#analysisForm > .input-section:first-of-type",
+    "#analysisForm > .input-section:nth-of-type(4)",
+    "#analysisForm > .preflight-card",
+    "#analysisForm > .control-row",
+    "#inputImageDrop",
+    "#generateShowcase",
+    "#generatePricing"
+  ];
+  let publicProjectSelectorPromise = null;
+
+  function hidePublicShareControls() {
+    publicShareHiddenSelectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((node) => {
+        node.hidden = true;
+        node.setAttribute("aria-hidden", "true");
+      });
+    });
+    document.querySelectorAll("#inputImagePreview .image-remove").forEach((node) => {
+      node.hidden = true;
+      node.setAttribute("aria-hidden", "true");
+    });
+  }
+
+  function ensurePublicProjectSelector(payload) {
+    const titleInput = document.querySelector("#projectTitle");
+    const titleControl = titleInput?.closest(".project-title-control");
+    if (!titleControl) return;
+
+    titleInput.hidden = true;
+    titleInput.setAttribute("aria-hidden", "true");
+    let selector = titleControl.querySelector("#publicProjectSelect");
+    if (!selector) {
+      selector = document.createElement("select");
+      selector.id = "publicProjectSelect";
+      selector.className = "public-project-select";
+      selector.setAttribute("aria-label", "选择公开项目");
+      titleControl.insertBefore(selector, titleInput);
+      selector.addEventListener("change", () => {
+        const menu = document.querySelector("#projectHistoryMenu");
+        if (!menu || !selector.value) return;
+        const pathKey = `record:${selector.value}`;
+        let trigger = Array.from(menu.querySelectorAll("[data-project-key]"))
+          .find((node) => node.dataset.projectKey === pathKey);
+        if (!trigger) {
+          trigger = document.createElement("button");
+          trigger.type = "button";
+          trigger.hidden = true;
+          trigger.dataset.projectKey = pathKey;
+          menu.appendChild(trigger);
+        }
+        trigger.click();
+      });
+    }
+
+    const records = Array.isArray(payload?.records) ? payload.records : [];
+    selector.replaceChildren(...records.map((record) => {
+      const option = document.createElement("option");
+      option.value = String(record?.key || "");
+      option.textContent = String(record?.title || "公开项目");
+      return option;
+    }));
+    const activeKey = String(payload?.activeKey || records[0]?.key || "");
+    if (activeKey) selector.value = activeKey;
+  }
+
+  function configurePublicShareMode() {
+    if (!document.body) return;
+    document.body.classList.add("public-share-mode");
+    hidePublicShareControls();
+    if (!publicProjectSelectorPromise) {
+      publicProjectSelectorPromise = snapshotPromise
+        .then((payload) => ensurePublicProjectSelector(payload))
+        .catch(() => {});
+    }
+  }
+
   window.fetch = async (input, init = {}) => {
     const url = getRequestUrl(input);
     if (!url.pathname.startsWith("/api/")) return originalFetch(input, init);
@@ -170,6 +252,7 @@
 
   function lockStaticActions() {
     document.body?.setAttribute("data-static-mode", "true");
+    configurePublicShareMode();
     const lockSelectors = [
       "#updateCurrentProject",
       "#syncGithub",
