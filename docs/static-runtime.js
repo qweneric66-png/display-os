@@ -29,21 +29,16 @@
     const input = Array.isArray(record.images.input)
       ? await Promise.all(record.images.input.map(async (image) => ({ ...image, src: await loadAssetAsDataUrl(image?.src) })))
       : [];
-    const panels = {};
-    for (const [scope, images] of Object.entries(record.images.panels || {})) {
-      panels[scope] = Array.isArray(images)
-        ? await Promise.all(images.map(async (image) => ({ ...image, src: await loadAssetAsDataUrl(image?.src) })))
-        : [];
-    }
-    record.images = { ...record.images, input, panels };
+    record.images = { ...record.images, input, panels: record.images.panels || {} };
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=f44fbe31f0ef", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=public-left-minimal-20260821", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
-    await Promise.all(payload.records.map((record) => hydrateRecordImages(record)));
+    const current = payload.records.find((record) => record.key === payload.activeKey) || payload.records[0];
+    if (current) await hydrateRecordImages(current);
     return payload;
   });
 
