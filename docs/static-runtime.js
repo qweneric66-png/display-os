@@ -122,6 +122,21 @@
 
     titleInput.hidden = true;
     titleInput.setAttribute("aria-hidden", "true");
+    const records = Array.isArray(payload?.records) ? payload.records : [];
+    const renderPublicCover = (record) => {
+      const preview = document.querySelector("#inputImagePreview");
+      const image = record?.images?.input?.[0];
+      const src = String(image?.src || record?.showcase?.cover || "");
+      if (!preview || !src) return;
+      const figure = document.createElement("figure");
+      figure.className = "image-thumb";
+      const imageNode = document.createElement("img");
+      imageNode.src = src;
+      imageNode.alt = String(record?.title || "项目封面");
+      figure.appendChild(imageNode);
+      preview.classList.add("large-images", "cover-images");
+      preview.replaceChildren(figure);
+    };
     let selector = titleControl.querySelector("#publicProjectSelect");
     if (!selector) {
       selector = document.createElement("select");
@@ -133,6 +148,8 @@
         const menu = document.querySelector("#projectHistoryMenu");
         if (!menu || !selector.value) return;
         const pathKey = `record:${selector.value}`;
+        const targetRecord = records.find((record) => String(record?.key || "") === selector.value);
+        renderPublicCover(targetRecord);
         let trigger = Array.from(menu.querySelectorAll("[data-project-key]"))
           .find((node) => node.dataset.projectKey === pathKey);
         if (!trigger) {
@@ -144,6 +161,7 @@
         }
         trigger.click();
         [0, 250, 800, 1600].forEach((delay) => window.setTimeout(() => {
+          renderPublicCover(targetRecord);
           const preview = document.querySelector("#inputImagePreview");
           if (preview && typeof window.renderImagePreview === "function") {
             window.renderImagePreview("input", preview);
@@ -152,7 +170,6 @@
       });
     }
 
-    const records = Array.isArray(payload?.records) ? payload.records : [];
     selector.replaceChildren(...records.map((record) => {
       const option = document.createElement("option");
       option.value = String(record?.key || "");
@@ -161,6 +178,7 @@
     }));
     const activeKey = String(payload?.activeKey || records[0]?.key || "");
     if (activeKey) selector.value = activeKey;
+    renderPublicCover(records.find((record) => String(record?.key || "") === activeKey));
   }
 
   function configurePublicShareMode() {
