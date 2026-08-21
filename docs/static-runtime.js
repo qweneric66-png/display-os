@@ -39,7 +39,7 @@
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=c49713095a11", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=49f4ad572ada", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
@@ -218,7 +218,7 @@
     });
     document.querySelectorAll("input[type=file]").forEach((node) => { node.disabled = true; });
     const pathInput = document.querySelector("#projectPath");
-    const titleInput = document.querySelector("#projectName");
+    const titleInput = document.querySelector("#projectTitle");
     if (pathInput) pathInput.readOnly = true;
     if (titleInput) titleInput.readOnly = true;
   }
