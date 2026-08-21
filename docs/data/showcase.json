@@ -1382,7 +1382,7 @@
             "label": "证据 3",
             "supports": "control/unified_dispatcher/web/index.html",
             "status": "待现场验收",
-            "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 127.0.0.1:8790。"
+            "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 本机服务地址。"
           },
           {
             "label": "证据 4",
@@ -3272,7 +3272,7 @@
           },
           {
             "label": "可复查与可复用资产",
-            "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、D:\\erp\\pdd\\see\\README.md",
+            "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、公开项目快照",
             "status": "待现场验收",
             "evidence": [
               "公开项目快照",
