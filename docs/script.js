@@ -1170,8 +1170,6 @@ function applyPortfolioProfileDefaults(profile = {}) {
 function buildProductionEvidence(profile = {}) {
   const value = profile.productionEvidence && typeof profile.productionEvidence === "object" ? profile.productionEvidence : {};
   const list = (items, fallback) => Array.isArray(items) && items.filter(Boolean).length ? items.filter(Boolean) : [fallback];
-  const evidencedResults = (profile.evidenceStatus || []).filter((item) => /历史交付|现场运行|平台回执|用户验收|真实运行/.test(String(item))).slice(0, 3);
-  const evidenceSources = (profile.evidenceFiles || []).filter(Boolean).slice(0, 4);
   return {
     usageScenario: String(value.usageScenario || "真实使用场景待核实"),
     actualUsers: list(value.actualUsers, "实际使用者待核实；不能用目标用户替代"),
@@ -1179,9 +1177,9 @@ function buildProductionEvidence(profile = {}) {
     usagePeriod: String(value.usagePeriod || "实际运行周期待核实"),
     lastVerifiedAt: String(value.lastVerifiedAt || "最近现场验证时间待核实"),
     maturityStatus: String(value.maturityStatus || "当前阶段待核实"),
-    confirmedResults: list(value.confirmedResults, evidencedResults[0] || "尚无可核实的真实业务结果"),
+    confirmedResults: list(value.confirmedResults, "尚无可核实的真实业务结果"),
     limitations: list(value.limitations, (profile.boundaries || [])[0] || "适用范围待核实"),
-    evidenceSources: list(value.evidenceSources, evidenceSources[0] || "运行记录、平台回执或用户验收证据待补充")
+    evidenceSources: list(value.evidenceSources, "运行记录、平台回执或用户验收证据待补充")
   };
 }
 

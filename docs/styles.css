@@ -8340,8 +8340,6 @@ body.public-share-mode #analysisForm > .control-row,
 body.public-share-mode #inputImageDrop,
 body.public-share-mode #generateShowcase,
 body.public-share-mode #generatePricing,
-body.public-share-mode #analysis .content-tools,
-body.public-share-mode #analysis .image-add-button,
 body.public-share-mode #inputImagePreview .image-remove {
   display: none !important;
 }
