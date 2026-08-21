@@ -143,6 +143,12 @@
           menu.appendChild(trigger);
         }
         trigger.click();
+        [0, 250, 800, 1600].forEach((delay) => window.setTimeout(() => {
+          const preview = document.querySelector("#inputImagePreview");
+          if (preview && typeof window.renderImagePreview === "function") {
+            window.renderImagePreview("input", preview);
+          }
+        }, delay));
       });
     }
 
