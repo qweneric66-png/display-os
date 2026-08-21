@@ -1,7 +1,7 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-20T09:33:28.779Z",
+  "generatedAt": "2026-08-21T06:48:57.345Z",
   "activeKey": "project-1",
   "records": [
     {
@@ -2057,7 +2057,7 @@
       },
       "pricing": null,
       "activeTab": "promo",
-      "updatedAt": "2026-08-20T09:33:08.307Z",
+      "updatedAt": "2026-08-21T01:51:38.174Z",
       "uiState": {
         "activeTab": "promo"
       }
@@ -8550,7 +8550,7 @@
       "key": "project-1",
       "title": "跨境选品智能体平台",
       "projectPath": "公开项目快照",
-      "updatedAt": "2026-08-20T09:33:08.307Z",
+      "updatedAt": "2026-08-21T01:51:38.174Z",
       "activeTab": "promo"
     },
     {

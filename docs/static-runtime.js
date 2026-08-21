@@ -39,7 +39,7 @@
     return record;
   };
 
-  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=d65087fd88b2", { cache: "no-store" }).then(async (response) => {
+  const snapshotPromise = originalFetch("./data/analysis-snapshot.json?v=c49713095a11", { cache: "no-store" }).then(async (response) => {
     if (!response.ok) throw new Error("静态分析快照加载失败");
     const payload = await response.json();
     if (!Array.isArray(payload.records) || !payload.records.length) throw new Error("静态分析快照为空");
@@ -91,6 +91,32 @@
   const activeRecord = (payload) => payload.records.find((record) => record.key === payload.activeKey) || payload.records[0];
 
   window.__DISPLAY_OS_STATIC_MODE__ = true;
+  const publicOnlySelectors = [
+    ".topbar-actions",
+    ".analysis-steps",
+    "#analysisForm",
+    ".input-panel",
+    ".tab-edit-actions",
+    "#publishSyncStatus",
+    "#loadDemo"
+  ];
+
+  function configurePublicShareMode() {
+    document.body?.classList.add("public-share-mode");
+    publicOnlySelectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((node) => {
+        node.hidden = true;
+        node.setAttribute("aria-hidden", "true");
+      });
+    });
+    const heading = document.querySelector("#analysis .analysis-heading > div");
+    if (heading && !heading.querySelector(".public-share-badge")) {
+      const badge = document.createElement("span");
+      badge.className = "public-share-badge";
+      badge.textContent = "公开展示 · 只读内容";
+      heading.appendChild(badge);
+    }
+  }
   window.fetch = async (input, init = {}) => {
     const url = getRequestUrl(input);
     if (!url.pathname.startsWith("/api/")) return originalFetch(input, init);
@@ -170,6 +196,7 @@
 
   function lockStaticActions() {
     document.body?.setAttribute("data-static-mode", "true");
+    configurePublicShareMode();
     const lockSelectors = [
       "#updateCurrentProject",
       "#syncGithub",
@@ -194,11 +221,6 @@
     const titleInput = document.querySelector("#projectName");
     if (pathInput) pathInput.readOnly = true;
     if (titleInput) titleInput.readOnly = true;
-    const status = document.querySelector("#publishSyncStatus");
-    if (status) {
-      status.textContent = "静态镜像 · 已保存内容";
-      status.dataset.tone = "ok";
-    }
   }
 
   function scheduleReadonlyLock() {
