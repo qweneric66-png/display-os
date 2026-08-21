@@ -371,9 +371,13 @@
         }
       },
       "portfolio": {
+        "portfolioId": "portfolio-d-agent",
+        "projectId": "公开项目快照",
         "status": "generated",
         "visibility": "visible",
         "manualEdited": false,
+        "createdAt": "2026-08-20T09:33:06.540Z",
+        "updatedAt": "2026-08-20T09:33:06.540Z",
         "hero": {
           "title": "跨境选品智能体平台",
           "subtitle": "前端任务控制台 + 后端任务接口 + selection service 运维层组成的本地选品工作流",
@@ -1057,9 +1061,13 @@
         }
       },
       "portfolio": {
+        "portfolioId": "portfolio-d-erp",
+        "projectId": "公开项目快照",
         "status": "generated",
         "visibility": "visible",
         "manualEdited": false,
+        "createdAt": "2026-08-18T03:05:46.815Z",
+        "updatedAt": "2026-08-18T03:05:46.816Z",
         "hero": {
           "title": "跨境商品统一调度平台",
           "subtitle": "本地处理完成不等于平台上线，异常商品可定位、可重试。",
@@ -1382,7 +1390,7 @@
             "label": "证据 3",
             "supports": "control/unified_dispatcher/web/index.html",
             "status": "待现场验收",
-            "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 本机服务地址。"
+            "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 127.0.0.1:8790。"
           },
           {
             "label": "证据 4",
@@ -1752,9 +1760,13 @@
         }
       },
       "portfolio": {
+        "portfolioId": "portfolio-d-3d",
+        "projectId": "公开项目快照",
         "status": "generated",
         "visibility": "visible",
         "manualEdited": false,
+        "createdAt": "2026-08-17T01:26:52.815Z",
+        "updatedAt": "2026-08-17T01:26:52.815Z",
         "hero": {
           "title": "LEX建模｜AI + SolidWorks 工程自动化平台",
           "subtitle": "参数冲突先阻断，模型须通过重建、位置、截图和保存检查。",
@@ -2456,9 +2468,13 @@
         }
       },
       "portfolio": {
+        "portfolioId": "portfolio-d-reddit",
+        "projectId": "公开项目快照",
         "status": "generated",
         "visibility": "visible",
         "manualEdited": false,
+        "createdAt": "2026-08-14T01:31:00.572Z",
+        "updatedAt": "2026-08-14T01:31:00.572Z",
         "hero": {
           "title": "Reddit 视觉RAG平台",
           "subtitle": "证据不足先补证，人工确认后才能进入可引用知识库。",
@@ -3062,9 +3078,13 @@
         }
       },
       "portfolio": {
+        "portfolioId": "portfolio-d-erp-pdd",
+        "projectId": "公开项目快照",
         "status": "generated",
         "visibility": "visible",
         "manualEdited": false,
+        "createdAt": "2026-08-10T02:26:58.075Z",
+        "updatedAt": "2026-08-10T02:26:58.076Z",
         "hero": {
           "title": "PDD 店铺商品采集平台",
           "subtitle": "支持登录暂停、价格复核、失败续跑和 Excel 去重导出。",
@@ -3272,7 +3292,7 @@
           },
           {
             "label": "可复查与可复用资产",
-            "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、公开项目快照",
+            "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、D:\\erp\\pdd\\see\\README.md",
             "status": "待现场验收",
             "evidence": [
               "公开项目快照",

@@ -1,12 +1,13 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-21T07:00:18.273Z",
+  "generatedAt": "2026-08-20T09:33:28.779Z",
   "activeKey": "project-1",
   "records": [
     {
       "key": "project-1",
       "projectPath": "公开项目快照",
+      "createdAt": "2026-08-20T09:06:36.408Z",
       "displayOrder": 6,
       "title": "跨境选品智能体平台",
       "source": "公开项目快照",
@@ -296,6 +297,8 @@
             "riskNote": "毛利未含获客、税费、退款和长期售后；人工确认不能被包装成完全无人值守。"
           }
         },
+        "providerUsed": "本地分析结果",
+        "modelUsed": "本地分析结果",
         "projectProfile": {
           "projectName": "跨境选品智能体平台",
           "positioning": "面向跨境电商选品、市场调研与采购团队的本地决策辅助工作台。它不让 AI 直接给出选品结论，而是把 AI 生成的关键词与候选、平台真实数据、确定性规则和人工复核连接成可回查、可续跑的选品证据链。",
@@ -377,6 +380,873 @@
             "阶段结果与Excel交付"
           ]
         },
+        "audit": {
+          "mode": "真实读取 + Codex 只读分析",
+          "status": "partial",
+          "statusLabel": "已读取并完成 Codex 分析，仍需运行验证",
+          "confidence": "中等",
+          "headline": "已读取 41 个关键文本文件，发现 59 个待解析交付物，分析结论来自本机 Codex。",
+          "nextAction": "先核对 Codex 结论与关键证据，再启动项目或执行测试验证。",
+          "projectName": "跨境选品智能体平台",
+          "inferredName": "选品智能体控制台",
+          "projectNameSource": "用户输入",
+          "domain": "selection-agent",
+          "counts": {
+            "candidateFiles": 325,
+            "selectedTextFiles": 41,
+            "unparsedArtifacts": 59,
+            "ignoredDirectories": 15,
+            "skippedLargeFiles": 16,
+            "depthLimitHits": 1585,
+            "linkedGrowthDocs": 1
+          },
+          "confirmed": [
+            "真实读取了 41 个文本或代码文件。",
+            "发现 59 个表格、截图、PDF 或日志类文件，但本次没有解析其内容。",
+            "已读取 1 份项目复盘资料，并纳入 Codex 深度分析。"
+          ],
+          "limitations": [
+            "当前只读取文本与代码摘要，表格、图片、PDF 和日志只确认存在，尚未解析内容。",
+            "当前未启动项目、未调用测试、未验证 API 或浏览器采集流程。",
+            "当前画像用于说明项目实现路径和工程边界；线上完整运行结果、长期稳定性和量化指标仍需现场验收。",
+            "成长档案通过项目名称和路径关键词匹配，属于关联线索，需要用户确认是否为同一项目。",
+            "本次调用使用 Codex 只读审阅，未修改项目文件，也不等同于项目已经运行通过。"
+          ],
+          "evidenceLedger": [
+            {
+              "claim": "已读取 项目工程能力成长档案.md，包含项目问题演进、工程取舍、异常复盘或面试答辩记录。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "项目复盘资料",
+              "confidence": "中高",
+              "status": "已读取全文，已纳入 Codex 分析"
+            },
+            {
+              "claim": "选品智能体控制台 后端依赖",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "\"name\": \"选品智能体控制台\",",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "类目选择与子任务1【亚马逊选品】执行范围规则：；1. 类目层级说明；子任务1【亚马逊选品】的执行范围，必须严格由当前类目选择状态决定，不允许自行扩展、不允许跳过、不允许猜测类目。；当用户同时选择了具体的一级类目、二级类目、三级类目时：",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/api/taskApi.js 不是展示文案来源，但可证明：包含服务端/API入口、包含外部请求或页面交互、包含文件读取或上传处理、包含识别、表格或业务数据处理。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/manualbackupbeforeexcelworkflowbugfix20260526160248/taskApi.js 不是展示文案来源，但可证明：包含服务端/API入口、包含外部请求或页面交互。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/main.js 不是展示文案来源，但可证明：包含服务端/API入口。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/components/CategoryMode.vue 不是展示文案来源，但可证明：包含服务端/API入口、包含识别、表格或业务数据处理、包含模型调用或提示词生成。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/components/ExcelMode.vue 不是展示文案来源，但可证明：包含文件读取或上传处理、包含识别、表格或业务数据处理、包含模型调用或提示词生成。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/components/OutputDownloads.vue 不是展示文案来源，但可证明：包含服务端/API入口、包含识别、表格或业务数据处理。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "agent/frontend/src/components/SkillRegistryPanel.vue 不是展示文案来源，但可证明：包含服务端/API入口。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "代码结构线索",
+              "confidence": "线索",
+              "status": "已读取，未执行验证"
+            }
+          ],
+          "selectedFiles": [
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 107,
+              "readChars": 107,
+              "contentHash": "06828fa848acecc8381da5f0671f0d5f52be629ece17350a342a6db56d44c778",
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文件存在性证据",
+              "size": 349,
+              "readChars": 349,
+              "contentHash": "05aa82ca3450f0aae41e662eccf10c7b9ba5678580f453969d7205e9ab031188",
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 322,
+              "readChars": 322,
+              "contentHash": "b8b2a460a9a5370070007c9e5e070d82897341e85ebe8f617b9f1b8a2915912c",
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 287,
+              "readChars": 287,
+              "contentHash": "eb42501d15049c60b97d4f317fcfef85051ad28422a071dc87c04e106dcaf4ad",
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 349,
+              "readChars": 349,
+              "contentHash": "4a28339c33f95ea949ef6100deda0683ad2917fda4b2d0d2b979ff24ba23f881",
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 1804,
+              "readChars": 1804,
+              "contentHash": "12bbf7701d29070c888125c955908588863870384f62b15ececb032fa3da3e1e",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 131,
+              "readChars": 131,
+              "contentHash": "ba5c9096d20a482aaa1aa9e5f98ad6127d3e97c2f21de84f7c78d9b8073c8e26",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 3200,
+              "readChars": 3200,
+              "contentHash": "4fd800e7b1a5fb24b13fac2e31946d205012b7c28d8c61580b0669b2fa3517cc",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 3484,
+              "readChars": 3200,
+              "contentHash": "12eeebdabaa7bc1b67b2fe95fffe07910840a426134c7ba541525dfd46d75500",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 53,
+              "readChars": 53,
+              "contentHash": "9943e80ee867bd06da1039bb873407d16bd5d8f9701bcbd145bf6ebf8e4d7560",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 150,
+              "readChars": 150,
+              "contentHash": "31952875f8bb2e71f49231c95349945ffc0c1dd975f06309a0d138f002cfd23d",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2934,
+              "readChars": 2934,
+              "contentHash": "98252dc9f9e81167e893f2c32f08ee60e9a6c43fadb454400ed3bff3a68fbf0d",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 7101,
+              "readChars": 3200,
+              "contentHash": "4522e795fe0e57795f30d5318c082f703feb508fbf4e35efb30381a993b22c74",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1784,
+              "readChars": 1784,
+              "contentHash": "a4d6cb13d4a807eb68cc166435616da00d2704664fa2d4a687a0a6c15434a33e",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1356,
+              "readChars": 1356,
+              "contentHash": "84016af8db625b13c378f0e5476a6468ce2c3d9951259646ecdfb07368496899",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1059,
+              "readChars": 1059,
+              "contentHash": "38c549143539d7be3b0ff6ce66c862927d9e59ccf2e6309c365762e67649d5e4",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1086,
+              "readChars": 1086,
+              "contentHash": "d6df0a56c1d23d3d003f9a9639d02a9c637fb4650b81690615ae46271359e6ad",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 6431,
+              "readChars": 3200,
+              "contentHash": "2ace3aa10141acaa0532cc06e34bfbcfbf2449707dcbd037a1626a0e3cb4dccb",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1364,
+              "readChars": 1364,
+              "contentHash": "73fee6e7f42d640f759b635135b835ff5b3c623d1e3e08e1d23e9dff2965522d",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1838,
+              "readChars": 1838,
+              "contentHash": "370378611736cb8e92f4264c75ea21499240dade00fec3c9017571bda5c3cebf",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 6820,
+              "readChars": 3200,
+              "contentHash": "a677b7a863b56375e47d203d21f35dbd6f3602d11aaccb5aca1fd17f80e3a540",
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 3909,
+              "readChars": 3200,
+              "contentHash": "5dc710ddcd466ab878105810f796cd3eb5f389ebe90c09fdb854c90a2c9464d4",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 2399,
+              "readChars": 2399,
+              "contentHash": "0ae83933ca7b51c6c08bbbb0b89bd53a2f56d2bae23c13d879ce1233ec9c8f79",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 3167,
+              "readChars": 3167,
+              "contentHash": "2cb4d086d3c1f8daa1483e1f49f69c3f5b394067056cde7a1081205094aa6085",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1173,
+              "readChars": 1173,
+              "contentHash": "5e968b2de15a6917d308065048fad6ca788f26df571780bea02db5f12f22ed85",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 5459,
+              "readChars": 3200,
+              "contentHash": "714aac4db158c54b46f7526afe76b00639ea946a9f1e70934411d2c2337d5da0",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 799,
+              "readChars": 799,
+              "contentHash": "6d4e31ec3ecc2e956b9a91a0ed092d17a5372dd229ece6bce58aa51180a50f4a",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1358,
+              "readChars": 1358,
+              "contentHash": "201263026b43755dce16cee2f7ac0a921d34e184db4f9a6179174226fb62536b",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1341,
+              "readChars": 1341,
+              "contentHash": "d2bfa11c71b47e0f0b6c06bf04986550ec1bf9e541421a29d68324e11ff52e71",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1050,
+              "readChars": 1050,
+              "contentHash": "36728613ce4027af1953d526b6c55b638bfcb670014851ecfb3e5e2adbf54026",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 69,
+              "readChars": 69,
+              "contentHash": "437f5c1f8df12c9a9a6cc290ba8e08434691dc247888401565693f1f3e8df6dc",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 25236,
+              "readChars": 3200,
+              "contentHash": "b588245fa42676a2cfccb939288621a4afc673ef32f1e78a6c2e39bec95de663",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1744,
+              "readChars": 1744,
+              "contentHash": "c43566a140d1a2e40493d306df390d343d9275a8731340900e9c88ef012826ec",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 42,
+              "readChars": 42,
+              "contentHash": "e67daa3622424886bd85b75fa3f4392b0ea3527e7a27ca43dc7935807ea59e3f",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 54,
+              "readChars": 54,
+              "contentHash": "56433ad62efe62be19c1c3fa2bbc150fbd47bc9ef2a1fd2c7b15c20736e057e4",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 1513,
+              "readChars": 1513,
+              "contentHash": "3bbcca13b20dd8635a61f5e82fb89b971d462b9da8868c380e76ce728c0d08c7",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 3103,
+              "readChars": 3103,
+              "contentHash": "9d34194440cf688e64ebd3c11826125ace53f777c4c54eb00c9cb3bf93621d20",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 2865,
+              "readChars": 2865,
+              "contentHash": "fc88188f16600015a43385d67ca5cfb2e0c761a11a618d1b6760deb1e39c5081",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 2898,
+              "readChars": 2898,
+              "contentHash": "d970d7948d971eb5fed63fe9030681d4036817b8a41f6c54f38045fd2b203ded",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 3544,
+              "readChars": 3200,
+              "contentHash": "ead6fd8e459f80324a256bbbe2667cbe366e6cd9a64677d43abbbbb232fc25fb",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 11659,
+              "readChars": 3200,
+              "contentHash": "d169d24fea66246224cf786945c200fa23d1e2002f52f424aaf151c1256b067c",
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            }
+          ],
+          "unparsedArtifacts": [
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 4258,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 201,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 201,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 201,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 5500,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 23288,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2807,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 27907,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1349,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 17300,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 3771,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 10301,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 7059,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 18169,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2191,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2832,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 790,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 133,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 133,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1949749,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 5089,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 3914,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 89635,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 27077,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 323,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 323,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1039,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 4557,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 12162,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 15133,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2638,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 703,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 301,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 336,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 500,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 3340,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 9802,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1620,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 202,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 23944,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 500,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 584,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1197,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 425,
+              "status": "存在，尚未解析"
+            }
+          ],
+          "scan": {
+            "rootPath": "公开项目快照",
+            "maxDepth": 5,
+            "maxSelectedFiles": 80,
+            "totalCharacterBudget": 70000,
+            "ignoredDirectories": [
+              ".display-os",
+              ".git",
+              "agent/backend/core/__pycache__",
+              "agent/backend/routes/__pycache__",
+              "agent/backend/__pycache__",
+              "agent/frontend/dist",
+              "agent/frontend/node_modules",
+              "agent/versions",
+              "agents/000-总指挥/.git",
+              "agents/001-网页处理专家/.git",
+              "agents/001-网页处理专家/.venv_amazon/Lib/site-packages",
+              "agents/001-网页处理专家/.venv_amazon/Scripts/__pycache__",
+              "agents/001-网页处理专家/__pycache__",
+              "runtime",
+              "versions"
+            ]
+          },
+          "contentMethod": "project-analysis-detail/latest",
+          "rewrittenAt": "2026-08-20T09:25:01.238Z",
+          "evidenceBoundary": "current implementation + current service check + historical runtime counterexample",
+          "profileMethod": "project-analysis-detail/latest-four-judgments",
+          "profileRewrittenAt": "2026-08-20T09:29:58.733Z"
+        },
         "diagrams": [
           {
             "title": "任务运行机制",
@@ -454,7 +1324,9 @@
             ],
             "mermaid": "flowchart LR\n  T1[\"任务开始\"] --> T2[\"准备输入\"]\n  T2 --> T3[\"执行核心处理\"]\n  T3 --> T4[\"生成结构化结果\"]\n  T4 --> T5[\"人工复核与修正\"]\n  T5 --> T6[\"验收关键指标\"]\n  T6 --> T7[\"归档与交付\"]\n  T3 -. 执行失败 .-> A1[\"保留现场\"]\n  A1 -. 重试条件满足 .-> T3\n  T4 -. 结果不完整 .-> A2[\"补齐数据\"]\n  A2 -. 补齐后复核 .-> T5\n  T6 -. 验收未通过 .-> A3[\"回退调整\"]\n  A3 -. 调整后复测 .-> T6"
           }
-        ]
+        ],
+        "diagramProjectPath": "公开项目快照",
+        "diagramProjectName": "跨境选品智能体平台"
       },
       "images": {
         "input": [
@@ -837,9 +1709,13 @@
           }
         },
         "portfolio": {
+          "portfolioId": "portfolio-d-agent",
+          "projectId": "公开项目快照",
           "status": "generated",
           "visibility": "visible",
           "manualEdited": false,
+          "createdAt": "2026-08-20T09:33:06.540Z",
+          "updatedAt": "2026-08-20T09:33:06.540Z",
           "hero": {
             "title": "跨境选品智能体平台",
             "subtitle": "前端任务控制台 + 后端任务接口 + selection service 运维层组成的本地选品工作流",
@@ -1180,11 +2056,16 @@
         "displayOrder": 999
       },
       "pricing": null,
-      "activeTab": "promo"
+      "activeTab": "promo",
+      "updatedAt": "2026-08-20T09:33:08.307Z",
+      "uiState": {
+        "activeTab": "promo"
+      }
     },
     {
       "key": "project-2",
       "projectPath": "公开项目快照",
+      "createdAt": "2026-08-18T01:55:45.722Z",
       "displayOrder": 4,
       "title": "跨境商品统一调度平台",
       "source": "公开项目快照",
@@ -1410,6 +2291,8 @@
             "riskNote": "毛利未含获客、税费、退款和长期售后；人工确认不能被包装成完全无人值守。"
           }
         },
+        "providerUsed": "本地分析结果",
+        "modelUsed": "本地分析结果",
         "projectProfile": {
           "projectName": "跨境商品统一调度平台",
           "positioning": "面向跨境商品运营与上架团队的本地交付工作台，将分散在网页、表格、图片工具和平台后台中的商品上架流程，整理成一条能看见进度、确认结果并从异常处继续的任务链。",
@@ -1492,6 +2375,888 @@
           ],
           "landingText": "把分散在网页、表格、图片工具和平台后台中的商品上架工作，整理成一条可追踪、可确认、可恢复的任务链。用户能看到每个商品处理到哪一步、为什么被阻断、下一步怎么处理；本地任务结束不再被误当成平台上线成功。",
           "brief": "跨境商品统一调度平台面向采集、运营、上架与复核人员，沿“商品输入—资料治理—人工确认—发布门禁—平台回查—异常恢复”完成同一条交付链。项目的差异不在功能数量，而在后台真值确认、批量冲突零写入和平台结果闭环。当前已验证关键门禁与状态归并，人工耗时、在线可售率和长期稳定性仍待持续采样。"
+        },
+        "audit": {
+          "mode": "真实读取 + 规则整理",
+          "status": "partial",
+          "statusLabel": "已读取，仍需运行验证",
+          "confidence": "中等",
+          "headline": "已读取 27 个关键文本文件，发现 201 个待解析交付物。",
+          "nextAction": "先核对证据台账，再补充项目运行或测试验证。",
+          "projectName": "跨境商品统一调度平台",
+          "inferredName": "选品智能体控制台",
+          "projectNameSource": "用户输入",
+          "domain": "pdd-collection",
+          "counts": {
+            "candidateFiles": 386,
+            "selectedTextFiles": 27,
+            "unparsedArtifacts": 201,
+            "ignoredDirectories": 73,
+            "skippedLargeFiles": 5,
+            "depthLimitHits": 23,
+            "linkedGrowthDocs": 4
+          },
+          "confirmed": [
+            "真实读取了 27 个文本或代码文件。",
+            "发现 201 个表格、截图、PDF 或日志类文件，但本次没有解析其内容。",
+            "已读取 4 份项目复盘资料，并纳入 Codex 深度分析。"
+          ],
+          "limitations": [
+            "当前只读取文本与代码摘要，表格、图片、PDF 和日志只确认存在，尚未解析内容。",
+            "当前未启动项目、未调用测试、未验证 API 或浏览器采集流程。",
+            "当前画像用于说明项目实现路径和工程边界；线上完整运行结果、长期稳定性和量化指标仍需现场验收。",
+            "成长档案通过项目名称和路径关键词匹配，属于关联线索，需要用户确认是否为同一项目。"
+          ],
+          "evidenceLedger": [
+            {
+              "claim": "已读取 项目复盘文档.md，包含项目问题演进、工程取舍、异常复盘或面试答辩记录。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "项目复盘资料",
+              "confidence": "中高",
+              "status": "已读取全文，已纳入 Codex 分析"
+            },
+            {
+              "claim": "已读取 答辩文档.md，包含项目问题演进、工程取舍、异常复盘或面试答辩记录。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "项目复盘资料",
+              "confidence": "中高",
+              "status": "已读取全文，已纳入 Codex 分析"
+            },
+            {
+              "claim": "已读取 个人能力成长文档.md，包含项目问题演进、工程取舍、异常复盘或面试答辩记录。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "项目复盘资料",
+              "confidence": "中高",
+              "status": "已读取全文，已纳入 Codex 分析"
+            },
+            {
+              "claim": "已读取 项目工程能力成长档案.md，包含项目问题演进、工程取舍、异常复盘或面试答辩记录。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "项目复盘资料",
+              "confidence": "中高",
+              "status": "已读取全文，已纳入 Codex 分析"
+            },
+            {
+              "claim": "API publish must not reuse image download gate； Symptom； Root Cause； Rule",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "20260811 精铺图片改为本机 Codex CLI；用户明确要求不要用图片 API 处理精铺图片。精铺入口必须使用 CodexCliImageRepairClient，不得默认实例化 CodexImageRepairClient，处理模式记录为 localcodexclinoimageapi。；旧图片 API 客户端可为异常中心兼容代码保留，但不能被 p",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Success Case 20260527； Requirement； Inputs； Source: D:\\erp\\pdd\\Create 3D DIY配件\\test.xlsx",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Mercado Libre Compliance Cleanup； Trigger Conditions； Inputs； Product Overview Source Mapping",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Template Analysis 20260527； Workbook Structure； 帮助: visible help sheet.； Required Fields From Row 3",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Mercado Libre Compliance Upload； Trigger Conditions； Core Workflow； Field Mapping Rules",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Referencestyle example: 2in1 USB + TypeC card reader； Expected public Listing； Кардридер 2в1 USB + TypeC для карт SD и TF； Описание",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Ozon official research notes； Productcard management； Variant/card grouping； What this skill deliberately does not hardcode",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Workbook field mapping； Source workbook contract；The current reference workbook D:\\erp\\date\\Ozon利润表模板.xlsx uses Sheet1 with these relevant columns:；| Y:Z | 父SKU and 子SKU | primary ",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "Listing workflow and evidence rules； Contents； Evidence ladder； Imagetofact conversion",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            }
+          ],
+          "selectedFiles": [
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1525,
+              "readChars": 1525,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 903,
+              "readChars": 903,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2037,
+              "readChars": 2037,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 1381,
+              "readChars": 1381,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文件存在性证据",
+              "size": 2710,
+              "readChars": 2710,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文件存在性证据",
+              "size": 4106,
+              "readChars": 3200,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 568,
+              "readChars": 568,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 677,
+              "readChars": 677,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2249,
+              "readChars": 2249,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2137,
+              "readChars": 2137,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2409,
+              "readChars": 2409,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2238,
+              "readChars": 2238,
+              "selectionScore": 10,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1769,
+              "readChars": 1769,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 31311,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 7790,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 6474,
+              "readChars": 6474,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2233,
+              "readChars": 2233,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 9372,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 4685,
+              "readChars": 4685,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 313,
+              "readChars": 313,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2021,
+              "readChars": 2021,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1713,
+              "readChars": 1713,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 3060,
+              "readChars": 3060,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 6541,
+              "readChars": 6541,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 8940,
+              "readChars": 8940,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 304,
+              "readChars": 304,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 73805,
+              "readChars": 9000,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            }
+          ],
+          "unparsedArtifacts": [
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 100491,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 101457,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 100491,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 120272,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 134100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 2768843,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 216131,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 191644,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 2512167,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 58912,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 89950,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 70825,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 122992,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 76418,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 9396,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 9396,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 9066,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 9066,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 13428,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 13428,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 13428,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 13260,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 62424,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 89306,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 8001,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 359000,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 62340,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 278799,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 115627,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 42067,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 457605,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 364535,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 61822,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 87790,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 74509,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 75580,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 731,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 372,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 17219,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 17764,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 6023,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 6136,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5841,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4832,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5471,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4832,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5471,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4832,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5471,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4833,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5472,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5969,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5841,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5977,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5965,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5964,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 4905,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "表格交付物",
+              "size": 5964,
+              "status": "存在，尚未解析"
+            }
+          ],
+          "scan": {
+            "rootPath": "公开项目快照",
+            "maxDepth": 5,
+            "maxSelectedFiles": 80,
+            "totalCharacterBudget": 70000,
+            "ignoredDirectories": [
+              ".agents/skills/mercadolibre-compliance-cleanup/scripts/__pycache__",
+              ".agents/skills/mercadolibre-compliance-upload/scripts/__pycache__",
+              ".agents/skills/ozon-publish-monitoring/versions",
+              ".agents/versions",
+              ".codex-tmp-ozon-title/__pycache__",
+              ".display-os",
+              ".git",
+              ".pytest_cache",
+              ".tmp/pytest-of-Win11/pytest-10/test_all_store_dedup_persists_0/ozon/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_analysis_uses_persisted_c0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_archive_requires_explicit0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_authoritative_actual_weig0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_background_analysis_can_e0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_background_analysis_failu0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_background_analysis_pause0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_background_analysis_task_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_no_write_term0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_operation_is_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_progress_fini0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_progress_wait0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_requires_one_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_retries_busy_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_skips_parent_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_start_persist0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_writes_config0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_writes_persis0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_writes_reliab0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_writes_reliab1/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_adopt_writes_safe_i0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_end_is_cooperative_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_batch_price_confirmation_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_brand_material_cleanup_ch0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_brand_material_scope_comp0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_brand_material_scope_rela0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_busy_workbook_failure_kee0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_cancelled_inflight_batch_0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_cancel_propagates_into_tr0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_cancel_requested_batch_is0/runtime",
+              ".tmp/pytest-of-Win11/pytest-10/test_capacity_scan_is_read_onl0/versions",
+              ".tmp/pytest-of-Win11/pytest-10/test_case_list_is_page_limited0/runtime"
+            ]
+          },
+          "languageRewrittenAt": "2026-08-20T02:24:25.057Z",
+          "problemStructureRewrittenAt": "2026-08-20T02:29:39.405Z"
         },
         "diagrams": [
           {
@@ -1638,6 +3403,8 @@
             "敏感接口需要本地 token"
           ]
         },
+        "diagramProjectPath": "公开项目快照",
+        "diagramProjectName": "跨境商品统一调度平台",
         "profileVersion": "portfolio-profile-v2-20260820",
         "detailVersion": "project-analysis-detail-v3-20260820"
       },
@@ -1997,9 +3764,13 @@
           }
         },
         "portfolio": {
+          "portfolioId": "portfolio-d-erp",
+          "projectId": "公开项目快照",
           "status": "generated",
           "visibility": "visible",
           "manualEdited": false,
+          "createdAt": "2026-08-18T03:05:46.815Z",
+          "updatedAt": "2026-08-18T03:05:46.816Z",
           "hero": {
             "title": "跨境商品统一调度平台",
             "subtitle": "本地处理完成不等于平台上线，异常商品可定位、可重试。",
@@ -2322,7 +4093,7 @@
               "label": "证据 3",
               "supports": "control/unified_dispatcher/web/index.html",
               "status": "待现场验收",
-              "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 本机服务地址。"
+              "details": "项目 README 将统一调度器定义为用户-facing dispatcher，默认地址为 127.0.0.1:8790。"
             },
             {
               "label": "证据 4",
@@ -2369,11 +4140,16 @@
         "displayOrder": 999
       },
       "pricing": null,
-      "activeTab": "profile"
+      "activeTab": "profile",
+      "updatedAt": "2026-08-20T08:55:39.582Z",
+      "uiState": {
+        "activeTab": "profile"
+      }
     },
     {
       "key": "project-3",
       "projectPath": "公开项目快照",
+      "createdAt": "2026-08-14T07:55:36.301Z",
       "displayOrder": 3,
       "title": "LEX建模｜AI + SolidWorks 工程自动化平台",
       "source": "公开项目快照",
@@ -2579,6 +4355,8 @@
             "riskNote": "毛利未含获客、税费、退款和长期售后；人工确认不能被包装成完全无人值守。"
           }
         },
+        "providerUsed": "本地分析结果",
+        "modelUsed": "本地分析结果",
         "projectProfile": {
           "projectName": "LEX建模｜AI + SolidWorks 工程自动化平台",
           "positioning": "面向机械设计人员的本地工程工作台，把材料属性、参考图判断、人工复核与 SolidWorks 零件/装配执行连接成可追踪任务链，让用户分清“AI 给出候选”“工程师已确认”和“CAD 文件已验收”。",
@@ -2666,6 +4444,848 @@
           ],
           "landingText": "把材料属性、参考图分析、工程师确认和 SolidWorks 执行连接成一条可追踪任务链。分析结论能回到图像区域，冲突参数会被阻断，CAD 结果还需通过组件、重建、位置、截图和保存共同验收。",
           "brief": "LEX建模面向机械设计、CAD 执行和工程复核人员，沿“准备输入—结构化分析—人工确认—任务生成—SolidWorks 执行—结果验收”协作。项目不把 AI 候选或接口成功当成 CAD 成果，而是用来源区域、冲突门禁和多证据验收控制风险。当前已有代码、测试和复盘证据；真实工程识别率、建模成功率与跨机器稳定性仍待持续采样。"
+        },
+        "audit": {
+          "mode": "真实读取 + Codex 只读分析",
+          "status": "partial",
+          "statusLabel": "已读取并完成 Codex 分析，仍需运行验证",
+          "confidence": "中等",
+          "headline": "已读取 30 个关键文本文件，发现 159 个待解析交付物，分析结论来自本机 Codex。",
+          "nextAction": "先核对 Codex 结论与关键证据，再启动项目或执行测试验证。",
+          "projectName": "LEX建模｜AI + SolidWorks 工程自动化平台",
+          "inferredName": "3d",
+          "projectNameSource": "用户输入",
+          "domain": "generic",
+          "counts": {
+            "candidateFiles": 279,
+            "selectedTextFiles": 30,
+            "unparsedArtifacts": 159,
+            "ignoredDirectories": 6,
+            "skippedLargeFiles": 0,
+            "depthLimitHits": 44,
+            "linkedGrowthDocs": 0
+          },
+          "confirmed": [
+            "真实读取了 30 个文本或代码文件。",
+            "发现 159 个表格、截图、PDF 或日志类文件，但本次没有解析其内容。",
+            "没有匹配到项目成长档案。"
+          ],
+          "limitations": [
+            "当前只读取文本与代码摘要，表格、图片、PDF 和日志只确认存在，尚未解析内容。",
+            "当前未启动项目、未调用测试、未验证 API 或浏览器采集流程。",
+            "当前画像用于说明项目实现路径和工程边界；线上完整运行结果、长期稳定性和量化指标仍需现场验收。",
+            "本次调用使用 Codex 只读审阅，未修改项目文件，也不等同于项目已经运行通过。"
+          ],
+          "evidenceLedger": [
+            {
+              "claim": "SolidWorks 材料表自动建模平台；这是一个前端工作台，用来维护材料分类、材料属性模板、项目材料表，并把可生成的零件任务发送给 SolidWorks 执行端。； 运行； 当前能力",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "SolidWorks 材料属性表；这是一个面向 SolidWorks 自动化前置整理的本地工作台。当前版本聚焦两件事：； 维护“材料表 / 属性表”，把材料名称、材料代号、属性字段、单位和示例值整理成可复用模板。； 在材料表上方粘贴参考图，点击“分析”后通过本地桥接服务调用 Codex，按 sketchtosolidworksbridge skill 生成工",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "SolidWorks 材料属性表；这是一个面向 SolidWorks 自动化前置整理的本地工作台。当前版本聚焦两件事：； 维护“材料表 / 属性表”，把材料名称、材料代号、属性字段、单位和示例值整理成可复用模板。； 在材料表上方粘贴参考图，点击“分析”后通过本地桥接服务调用 Codex，按 sketchtosolidworksbridge skill 生成工",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "SolidWorks 材料属性表；这是一个面向 SolidWorks 自动化前置整理的本地工作台。当前版本聚焦两件事：； 维护“材料表 / 属性表”，把材料名称、材料代号、属性字段、单位和示例值整理成可复用模板。； 在材料表上方粘贴参考图，点击“分析”后通过本地桥接服务调用 Codex，按 sketchtosolidworksbridge skill 生成工",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "SolidWorks 材料属性表；这是一个面向 SolidWorks 自动化前置整理的本地工作台。当前版本聚焦两件事：； 维护“材料表 / 属性表”，把材料名称、材料代号、属性字段、单位和示例值整理成可复用模板。； 在材料表上方粘贴参考图，点击“分析”后通过本地桥接服务调用 Codex，按 sketchtosolidworksbridge skill 生成工",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "已读取 solidworks-material-platform/data/backups/20260716_114500_codex_bridge_prechange/package.json",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "已读取 solidworks-material-platform/data/backups/20260716_143000_overview_v2_prechange/package.json",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "已读取 solidworks-material-platform/package.json",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "答辩文档； 材料属性表界面优化说明； 改动背景；原界面承载了太多信息，包括项目状态、执行端、任务发送和调试数据。用户实际只想维护材料和属性，因此页面需要从“控制台”改成“表格工具”。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            },
+            {
+              "claim": "个人能力成长文档； 20260716｜界面信息取舍能力； 我发现的问题；页面混乱不是因为按钮太多或间距太小，而是主任务不清。用户要的是材料和属性表，页面却展示了执行端、状态卡和任务数据。",
+              "sourceFile": "项目公开资料",
+              "evidenceType": "文档声明",
+              "confidence": "中等",
+              "status": "已读取，未执行验证"
+            }
+          ],
+          "selectedFiles": [
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 583,
+              "readChars": 583,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 751,
+              "readChars": 751,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1994,
+              "readChars": 1994,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2116,
+              "readChars": 2116,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 629,
+              "readChars": 629,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2265,
+              "readChars": 2265,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文件存在性证据",
+              "size": 309,
+              "readChars": 309,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1009,
+              "readChars": 1009,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 4399,
+              "readChars": 4399,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "代码结构线索",
+              "size": 300,
+              "readChars": 300,
+              "selectionScore": 100,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 3634,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 4352,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2597,
+              "readChars": 2597,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 2011,
+              "readChars": 2011,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 15583,
+              "readChars": 9000,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 4623,
+              "readChars": 4623,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 365,
+              "readChars": 365,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 1167,
+              "readChars": 1167,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 245,
+              "readChars": 245,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 603,
+              "readChars": 603,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 2725,
+              "readChars": 2725,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 205,
+              "readChars": 205,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 205,
+              "readChars": 205,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 238611,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 238611,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 8462,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 6847,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 1716,
+              "readChars": 1716,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "配置线索",
+              "size": 5565,
+              "readChars": 3200,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "文档声明",
+              "size": 9575,
+              "readChars": 9000,
+              "selectionScore": 0,
+              "status": "已读取摘要"
+            }
+          ],
+          "unparsedArtifacts": [
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 24822,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 8298,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 11088,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1926,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 11252,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 4139,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 1862509,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2193,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 967114,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 6149,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 954162,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 13177,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 7645,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 8923,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 7862,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 0,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 3229714,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 52537,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 856874,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 38582,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 3992909,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 49827,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 537258,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 43275,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 510201,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 67912,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2344585,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 55139,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2290771,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 43831,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 6449281,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 44706,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 2213185,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 49373,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 5136441,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "运行记录",
+              "size": 34789,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 68,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 68,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 68,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 68,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 315100,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 444251,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 444251,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 444251,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 224645,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 150407,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 365253,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 364521,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 364894,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 364055,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 384473,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 68018,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 25777,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 440245,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 391128,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 377173,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 440199,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 48076,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 40241,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 447208,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 459882,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 424759,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 426438,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 425547,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 135050,
+              "status": "存在，尚未解析"
+            },
+            {
+              "relative": "项目公开资料",
+              "kind": "截图或图片证据",
+              "size": 426438,
+              "status": "存在，尚未解析"
+            }
+          ],
+          "scan": {
+            "rootPath": "公开项目快照",
+            "maxDepth": 5,
+            "maxSelectedFiles": 80,
+            "totalCharacterBudget": 70000,
+            "ignoredDirectories": [
+              ".display-os",
+              "solidworks-material-platform/data/runtime",
+              "solidworks-material-platform/dist",
+              "solidworks-material-platform/node_modules",
+              "solidworks-material-platform/versions",
+              "versions"
+            ]
+          }
         },
         "diagrams": [
           {
@@ -2812,6 +5432,8 @@
             "敏感接口需要本地 token"
           ]
         },
+        "diagramProjectPath": "公开项目快照",
+        "diagramProjectName": "LEX建模｜AI + SolidWorks 工程自动化平台",
         "profileVersion": "portfolio-profile-v2-20260820",
         "detailVersion": "project-analysis-detail-v3-20260820"
       },
@@ -3149,9 +5771,13 @@
           }
         },
         "portfolio": {
+          "portfolioId": "portfolio-d-3d",
+          "projectId": "公开项目快照",
           "status": "generated",
           "visibility": "visible",
           "manualEdited": false,
+          "createdAt": "2026-08-17T01:26:52.815Z",
+          "updatedAt": "2026-08-17T01:26:52.815Z",
           "hero": {
             "title": "LEX建模｜AI + SolidWorks 工程自动化平台",
             "subtitle": "参数冲突先阻断，模型须通过重建、位置、截图和保存检查。",
@@ -3517,11 +6143,16 @@
         "displayOrder": 999
       },
       "pricing": null,
-      "activeTab": "detail"
+      "activeTab": "detail",
+      "updatedAt": "2026-08-20T05:43:38.829Z",
+      "uiState": {
+        "activeTab": "detail"
+      }
     },
     {
       "key": "project-4",
       "projectPath": "公开项目快照",
+      "createdAt": "2026-08-14T02:39:44.431Z",
       "displayOrder": 2,
       "title": "Reddit 视觉RAG平台",
       "source": "公开项目快照",
@@ -3928,7 +6559,43 @@
             "mermaid": "flowchart LR\n  A[\"正式训练范围\"] --> E[\"可复查训练记录\"]\n  B[\"AI 处理与证据状态\"] --> E\n  C[\"人工决定与知识块引用\"] --> E\n  D[\"停止、恢复与下一步\"] --> E\n  E --> F[\"继续补证、审核或验收\"]"
           }
         ],
+        "providerUsed": "本地分析结果",
         "analysisMode": "本地规则分析",
+        "audit": {
+          "mode": "增量证据同步",
+          "status": "verified_increment",
+          "statusLabel": "增量证据已同步",
+          "confidence": "中高",
+          "headline": "正式训练源恢复、审核状态分层与补证门禁已进入项目画像。",
+          "nextAction": "补充真实外部登录网络条件、长期批量运行和多实例调度验证。",
+          "projectName": "Reddit RAG Training Console",
+          "confirmed": [
+            "正式训练范围恢复通过真实页面验证。",
+            "AI 已处理与人工待决策已分离。",
+            "证据不足状态、下一步和生成门禁已通过回归与双视口验收。"
+          ],
+          "limitations": [
+            "外部 Reddit 环境可用性仍受登录与网络限制。",
+            "当前本地持久化不代表多实例生产调度。",
+            "单次完整任务和小规模回归不能推出长期批量成功率。"
+          ],
+          "incrementalSync": {
+            "checkedAt": "2026-08-19T10:00:00+08:00",
+            "categories": [
+              "主流程",
+              "架构",
+              "数据链路",
+              "交付/证据",
+              "边界"
+            ],
+            "sourceKinds": [
+              "当前实现",
+              "运行证据",
+              "成长记录"
+            ],
+            "conflict": false
+          }
+        },
         "profileVersion": "portfolio-profile-v2-20260820",
         "detailVersion": "project-analysis-detail-v3-20260820"
       },
@@ -4279,9 +6946,13 @@
           }
         },
         "portfolio": {
+          "portfolioId": "portfolio-d-reddit",
+          "projectId": "公开项目快照",
           "status": "generated",
           "visibility": "visible",
           "manualEdited": false,
+          "createdAt": "2026-08-14T01:31:00.572Z",
+          "updatedAt": "2026-08-14T01:31:00.572Z",
           "hero": {
             "title": "Reddit 视觉RAG平台",
             "subtitle": "证据不足先补证，人工确认后才能进入可引用知识库。",
@@ -4631,6 +7302,7 @@
         "pathKey": "公开项目快照",
         "title": "Reddit RAG Training Console",
         "summary": "先以单一数据源和少量问题集验证召回、引用和人工复核，再扩展多源接入、部署和持续评测。",
+        "createdAt": "2026-08-14T03:04:13.151Z",
         "selectedProductId": "",
         "products": [
           {
@@ -4723,16 +7395,22 @@
           }
         ]
       },
-      "activeTab": "profile"
+      "activeTab": "profile",
+      "updatedAt": "2026-08-20T05:43:35.677Z",
+      "uiState": {
+        "activeTab": "profile"
+      }
     },
     {
       "key": "project-5",
       "projectPath": "公开项目快照",
+      "createdAt": "2026-08-14T07:37:31.320Z",
       "displayOrder": 1,
       "title": "PDD 店铺商品采集平台",
       "source": "公开项目快照",
       "analysis": {
         "profileVersion": "pdd-profile-20260807",
+        "providerUsed": "本地分析结果",
         "projectProfile": {
           "projectName": "PDD 店铺商品采集平台",
           "positioning": "面向选品、采购和商品资料整理人员的本地 PDD 商品采集工作台，把店铺或商品链接整理成可复查的 SKU 价格 Excel 结果。",
@@ -5123,6 +7801,8 @@
             "敏感接口需要本地 token"
           ]
         },
+        "diagramProjectPath": "公开项目快照",
+        "diagramProjectName": "PDD 店铺商品采集平台",
         "detailVersion": "project-analysis-detail-v3-20260820"
       },
       "images": {
@@ -5394,9 +8074,13 @@
           }
         },
         "portfolio": {
+          "portfolioId": "portfolio-d-erp-pdd",
+          "projectId": "公开项目快照",
           "status": "generated",
           "visibility": "visible",
           "manualEdited": false,
+          "createdAt": "2026-08-10T02:26:58.075Z",
+          "updatedAt": "2026-08-10T02:26:58.076Z",
           "hero": {
             "title": "PDD 店铺商品采集平台",
             "subtitle": "支持登录暂停、价格复核、失败续跑和 Excel 去重导出。",
@@ -5604,7 +8288,7 @@
             },
             {
               "label": "可复查与可复用资产",
-              "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、公开项目快照",
+              "value": "页面采集流程、OCR 校验方法、Excel 交付模板、异常处理清单、D:\\erp\\pdd\\see\\README.md",
               "status": "待现场验收",
               "evidence": [
                 "公开项目快照",
@@ -5761,6 +8445,7 @@
         "pathKey": "公开项目快照",
         "title": "PDD 店铺商品采集平台",
         "summary": "先用诊断和标准交付切入，证明节省的返工与交付时间，再销售本地部署、按量执行和维护服务。",
+        "createdAt": "2026-08-10T08:29:37.672Z",
         "selectedProductId": "",
         "products": [
           {
@@ -5853,29 +8538,48 @@
           }
         ]
       },
-      "activeTab": "detail"
+      "activeTab": "detail",
+      "updatedAt": "2026-08-20T05:43:03.945Z",
+      "uiState": {
+        "activeTab": "detail"
+      }
     }
   ],
   "summaries": [
     {
       "key": "project-1",
-      "title": "跨境选品智能体平台"
+      "title": "跨境选品智能体平台",
+      "projectPath": "公开项目快照",
+      "updatedAt": "2026-08-20T09:33:08.307Z",
+      "activeTab": "promo"
     },
     {
       "key": "project-2",
-      "title": "跨境商品统一调度平台"
+      "title": "跨境商品统一调度平台",
+      "projectPath": "公开项目快照",
+      "updatedAt": "2026-08-20T08:55:39.582Z",
+      "activeTab": "profile"
     },
     {
       "key": "project-3",
-      "title": "LEX建模｜AI + SolidWorks 工程自动化平台"
+      "title": "LEX建模｜AI + SolidWorks 工程自动化平台",
+      "projectPath": "公开项目快照",
+      "updatedAt": "2026-08-20T05:43:38.829Z",
+      "activeTab": "detail"
     },
     {
       "key": "project-4",
-      "title": "Reddit 视觉RAG平台"
+      "title": "Reddit 视觉RAG平台",
+      "projectPath": "公开项目快照",
+      "updatedAt": "2026-08-20T05:43:35.677Z",
+      "activeTab": "profile"
     },
     {
       "key": "project-5",
-      "title": "PDD 店铺商品采集平台"
+      "title": "PDD 店铺商品采集平台",
+      "projectPath": "公开项目快照",
+      "updatedAt": "2026-08-20T05:43:03.945Z",
+      "activeTab": "detail"
     }
   ]
 }

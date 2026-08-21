@@ -681,7 +681,6 @@ function closeMethodologyPage() {
 }
 
 function isPagePagerViewport() {
-  if (window.__DISPLAY_OS_STATIC_MODE__) return false;
   // Desktop keeps the one-section-at-a-time workbench; public narrow screens use normal document flow.
   return window.matchMedia("(min-width: 961px) and (min-height: 640px)").matches;
 }
