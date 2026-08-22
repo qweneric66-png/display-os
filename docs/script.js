@@ -585,6 +585,7 @@ let showcaseContentObserver = null;
 const countdown = document.querySelector("#countdown");
 const apiStatus = document.querySelector("#apiStatus");
 let statusVisibilityTimer = null;
+let landingImageMetadataSaveTimer = null;
 const generateButton = document.querySelector("#generateButton");
 const readProject = document.querySelector("#readProject");
 const newProjectButton = document.querySelector("#newProject");
@@ -2417,7 +2418,7 @@ function setPanelEditing(panel, editing) {
   if (!panel) return;
   panel.classList.toggle("is-editing", editing);
   panel.querySelectorAll("h3, h4, h5, p, li, .mermaid-code").forEach((node) => {
-    if (node.closest(".content-tools, .section-image-drop, .image-strip, .promo-flow")) return;
+    if (node.closest(".content-tools, .section-image-drop, .image-strip, .promo-flow, .landing-project-media")) return;
     node.contentEditable = editing ? "true" : "false";
   });
   if (editTabButton) {
@@ -2463,6 +2464,8 @@ async function saveActiveTabEdits({ quiet = false, persist = true } = {}) {
     result.landingTitle = document.querySelector("#landingTitle").textContent.trim();
     result.landingText = document.querySelector("#landingText").textContent.trim();
     result.bullets = getListText("#landingBullets");
+    syncLandingImageMetadataFromDom();
+    await saveProjectImages();
   } else if (tabId === "brief") {
     result.brief = document.querySelector("#briefText").textContent.trim();
   } else if (tabId === "promo") {
@@ -5719,9 +5722,14 @@ async function readImageFiles(files, scope = "input") {
     return;
   }
   imageStore.panels[scope] = imageStore.panels[scope] || [];
-  imageStore.panels[scope].push(...images);
+  imageStore.panels[scope].push(...images.map((image, index) => scope === "landing" ? {
+    ...image,
+    title: `截图 ${String(imageStore.panels[scope].length + index + 1).padStart(2, "0")}`,
+    description: "说明这张截图展示的任务、结果或验证证据。"
+  } : image));
   await saveProjectImages();
-  renderScopedImages(scope);
+  if (scope === "landing") renderLandingProjectImages();
+  else renderScopedImages(scope);
 }
 
 const projectImageMaxEdge = 1800;
@@ -5890,7 +5898,8 @@ async function removeImage(scope, imageId) {
   }
   imageStore.panels[scope] = (imageStore.panels[scope] || []).filter((image) => image.id !== imageId);
   await saveProjectImages();
-  renderScopedImages(scope);
+  if (scope === "landing") renderLandingProjectImages();
+  else renderScopedImages(scope);
 }
 
 function renderImagePreview(scope, container) {
@@ -5934,17 +5943,7 @@ function getImageDisplayTitle(scope, image) {
 }
 
 function getLandingProjectImages() {
-  const candidates = [
-    ...cleanImages(imageStore.input),
-    ...cleanImages(imageStore.panels?.["detail-hero"])
-  ];
-  const seen = new Set();
-  return candidates.filter((image) => {
-    const key = String(image.src || "");
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return cleanImages(imageStore.panels?.landing);
 }
 
 function renderLandingProjectImages() {
@@ -5952,14 +5951,39 @@ function renderLandingProjectImages() {
   const container = document.querySelector("#landingProjectImages");
   if (!section || !container) return;
   const images = getLandingProjectImages();
-  section.hidden = images.length === 0;
-  container.innerHTML = images
-    .map((image) => `
-      <figure class="landing-project-image">
-        <img src="${image.src}" alt="${escapeHtml(getImageDisplayTitle("input", image))}" />
+  section.classList.toggle("is-empty", images.length === 0);
+  container.innerHTML = images.length ? images
+    .map((image, index) => `
+      <figure class="landing-project-image" data-landing-image-id="${escapeHtml(image.id)}">
+        <img src="${image.src}" alt="${escapeHtml(image.title || `项目截图 ${index + 1}`)}" />
+        <figcaption>
+          <input class="landing-image-title" type="text" value="${escapeHtml(image.title || `截图 ${String(index + 1).padStart(2, "0")}`)}" data-landing-image-field="title" aria-label="截图 ${index + 1} 标题" />
+          <textarea class="landing-image-description" rows="2" data-landing-image-field="description" aria-label="截图 ${index + 1} 描述">${escapeHtml(image.description || "说明这张截图展示的任务、结果或验证证据。")}</textarea>
+          <div class="landing-image-actions" aria-label="截图操作">
+            <button type="button" data-move-landing-image="up" ${index === 0 ? "disabled" : ""}>前移</button>
+            <button type="button" data-move-landing-image="down" ${index === images.length - 1 ? "disabled" : ""}>后移</button>
+            <label>替换<input type="file" accept="image/*" data-replace-landing-image="${escapeHtml(image.id)}" aria-label="替换截图 ${index + 1}"></label>
+            <button type="button" data-remove-image="${escapeHtml(image.id)}" data-image-scope="landing">删除</button>
+          </div>
+        </figcaption>
       </figure>
     `)
-    .join("");
+    .join("") : `
+      <button class="landing-image-empty" type="button" data-add-image-scope="landing">
+        <strong>粘贴或上传项目截图</strong>
+        <span>选中此区域按 Ctrl+V，或点击上传；不会使用项目封面图。</span>
+      </button>
+    `;
+}
+
+function syncLandingImageMetadataFromDom() {
+  const images = imageStore.panels?.landing || [];
+  document.querySelectorAll("[data-landing-image-id]").forEach((card) => {
+    const image = images.find((item) => item.id === card.dataset.landingImageId);
+    if (!image) return;
+    image.title = card.querySelector('[data-landing-image-field="title"]')?.value.trim() || "项目截图";
+    image.description = card.querySelector('[data-landing-image-field="description"]')?.value.trim() || "";
+  });
 }
 
 function renderScopedImages(scope) {
@@ -7140,12 +7164,40 @@ projectImagesInput.addEventListener("change", (event) => {
   event.target.value = "";
 });
 
+document.addEventListener("input", (event) => {
+  const field = event.target.closest("[data-landing-image-field]");
+  if (!field) return;
+  const card = field.closest("[data-landing-image-id]");
+  const image = (imageStore.panels?.landing || []).find((item) => item.id === card?.dataset.landingImageId);
+  if (!image) return;
+  image[field.dataset.landingImageField] = field.value.trim();
+  clearTimeout(landingImageMetadataSaveTimer);
+  landingImageMetadataSaveTimer = setTimeout(() => {
+    saveProjectImages().catch(() => {});
+  }, 350);
+});
+
 inputImageDrop.addEventListener("click", () => projectImagesInput.click());
 inputImageDrop.addEventListener("paste", (event) => {
   pasteImagesFromClipboard(event, "input");
 });
 
 document.addEventListener("change", (event) => {
+  const replacementInput = event.target.closest("[data-replace-landing-image]");
+  if (replacementInput) {
+    const file = Array.from(replacementInput.files || []).find((item) => item.type.startsWith("image/"));
+    const image = (imageStore.panels?.landing || []).find((item) => item.id === replacementInput.dataset.replaceLandingImage);
+    if (file && image) {
+      optimizeProjectImage(file).then(async (src) => {
+        image.src = src;
+        image.name = file.name || image.name;
+        await saveProjectImages();
+        renderLandingProjectImages();
+      });
+    }
+    replacementInput.value = "";
+    return;
+  }
   const input = event.target.closest("[data-image-scope]");
   if (!input) return;
   readImageFiles(input.files, input.dataset.imageScope);
@@ -7153,6 +7205,20 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("click", async (event) => {
+  const moveLandingButton = event.target.closest("[data-move-landing-image]");
+  if (moveLandingButton) {
+    syncLandingImageMetadataFromDom();
+    const card = moveLandingButton.closest("[data-landing-image-id]");
+    const images = imageStore.panels?.landing || [];
+    const index = images.findIndex((item) => item.id === card?.dataset.landingImageId);
+    const targetIndex = moveLandingButton.dataset.moveLandingImage === "up" ? index - 1 : index + 1;
+    if (index >= 0 && targetIndex >= 0 && targetIndex < images.length) {
+      [images[index], images[targetIndex]] = [images[targetIndex], images[index]];
+      await saveProjectImages();
+      renderLandingProjectImages();
+    }
+    return;
+  }
   const workCardModalOpen = event.target.closest("[data-work-card-modal-open]");
   if (workCardModalOpen) {
     const card = workCardModalOpen.closest(".generated-work");
