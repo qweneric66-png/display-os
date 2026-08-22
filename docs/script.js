@@ -1149,6 +1149,10 @@ function applyPortfolioProfileDefaults(profile = {}) {
     : ["运行结果、量化指标和长期稳定性需以当前版本现场验收为准。"];
   return {
     ...profile,
+    actualUsers: Array.isArray(profile.actualUsers) && profile.actualUsers.length ? profile.actualUsers : ["实际使用者待核实"],
+    designedUsers: Array.isArray(profile.designedUsers) && profile.designedUsers.length ? profile.designedUsers : (profile.targetUsers || []),
+    inferredUsers: Array.isArray(profile.inferredUsers) ? profile.inferredUsers : [],
+    userEvidence: Array.isArray(profile.userEvidence) && profile.userEvidence.length ? profile.userEvidence : ["用户身份与实际使用情况待核实"],
     userPainPoints: Array.isArray(profile.userPainPoints) && profile.userPainPoints.length
       ? profile.userPainPoints
       : [profile.coreProblem || "具体用户后果待验证"],
@@ -1159,6 +1163,21 @@ function applyPortfolioProfileDefaults(profile = {}) {
     evidenceStatus,
     maturity: profile.maturity || "已梳理当前实现；运行效果与量化指标待验证或持续采样。",
     boundaries,
+    problemDiscovery: Array.isArray(profile.problemDiscovery) && profile.problemDiscovery.length
+      ? profile.problemDiscovery
+      : ["原工作方式与核心矛盾待核实"],
+    judgmentEvolution: profile.judgmentEvolution && typeof profile.judgmentEvolution === "object"
+      ? profile.judgmentEvolution
+      : { state: "pending", originalWork: "待核实", coreContradiction: "待核实", initialHypothesis: "待核实", validation: "待核实", correction: "当前判断待核实" },
+    personalResponsibility: Array.isArray(profile.personalResponsibility) && profile.personalResponsibility.length
+      ? profile.personalResponsibility
+      : ["个人责任范围待核实"],
+    aiRationale: profile.aiRationale || "AI 适用性待核实；确定性规则足够时不强行使用 AI。",
+    aiValidation: Array.isArray(profile.aiValidation) && profile.aiValidation.length ? profile.aiValidation : ["AI 输出验证方法待核实"],
+    outcomes: Array.isArray(profile.outcomes) && profile.outcomes.length ? profile.outcomes : (profile.businessValue || ["项目结果待核实"]),
+    metricDefinitions: Array.isArray(profile.metricDefinitions) && profile.metricDefinitions.length
+      ? profile.metricDefinitions
+      : ["量化指标的统计对象、时间范围与样本待补充"],
     technicalModules: differentiators,
     engineeringDecisions: [...evidenceStatus, ...boundaries]
   };
@@ -2291,21 +2310,35 @@ function buildDetailFromProfile(profile, source = sourceInput?.value || "", audi
   const positioning = profile?.positioning || profile?.landingText || `${name}用于把分散的业务资料整理成可复查的交付流程。`;
   const overview = profile?.brief || `${targetUsers.join("、") || "目标用户"}使用${name}处理${problems[0] || "需要连续判断和复查的业务任务"}。${positioning}`;
   const blocks = (items, prefix) => items.map((body, index) => ({ subtitle: `${prefix}.${index + 1}`, body }));
+  const evolution = profile?.judgmentEvolution && typeof profile.judgmentEvolution === "object" ? profile.judgmentEvolution : {};
+  const hasEvolutionEvidence = ["partial", "verified", "corrected", "refuted"].includes(String(evolution.state || "").toLowerCase());
+  const sectionTwoTitle = hasEvolutionEvidence ? "二、问题发现与判断演进" : "二、原流程、核心矛盾与当前判断";
+  const responsibility = (profile?.personalResponsibility || []).filter(Boolean).slice(0, 4);
+  const aiValidation = (profile?.aiValidation || []).filter(Boolean).slice(0, 3);
+  const outcomes = (profile?.outcomes || value).filter(Boolean).slice(0, 4);
+  const metrics = (profile?.metricDefinitions || []).filter(Boolean).slice(0, 3);
   return {
     title: `${name}｜作品详情`,
     description: overview,
     sections: [
       { title: "一、项目概览", blocks: [{ subtitle: "1.1 项目定位", body: overview }] },
-      { title: "二、原流程与核心矛盾", blocks: blocks(problems.length ? problems : ["当前资料尚未形成足够明确的核心矛盾。"], "2") },
-      { title: "三、核心解决方案", blocks: blocks(capabilities.length >= 3 ? capabilities : [positioning, ...workflow.slice(0, 2)], "3").slice(0, 5) },
-      { title: "四、完整业务流程", blocks: [{ subtitle: "4.1 代表性流程", body: workflow.length ? workflow.join(" → ") : "待补充真实业务流程。" }] },
-      { title: "五、项目价值与关键判断", blocks: [
-        { subtitle: "5.1 工作方式的变化", body: value.join("；") || positioning },
-        { subtitle: "5.2 关键判断", body: decisions.join("；") || "关键结论仍需结合项目证据补充。" }
+      { title: sectionTwoTitle, blocks: hasEvolutionEvidence ? [
+        { subtitle: "2.1 原工作与核心矛盾", body: [evolution.originalWork, evolution.coreContradiction].filter(Boolean).join("；") || problems.join("；") },
+        { subtitle: "2.2 假设、验证与修正", body: [evolution.initialHypothesis, evolution.validation, evolution.correction].filter(Boolean).join("；") }
+      ] : [
+        { subtitle: "2.1 原工作与核心矛盾", body: problems.join("；") || "当前资料尚未形成足够明确的核心矛盾。" },
+        { subtitle: "2.2 当前判断", body: evolution.correction || decisions[0] || "当前判断及其形成过程仍需补充证据。" }
       ] },
-      { title: "六、证据与边界", blocks: [
-        { subtitle: "6.1 当前可信结论", body: evidence.join("；") || "当前实现范围已有项目资料支持，仍需按真实交付结果验收。" },
-        { subtitle: "6.2 仍需验证", body: boundaries.join("；") || "长期稳定性、量化效果和真实业务终态仍需补充验证。" }
+      { title: "三、关键判断与解决机制", blocks: blocks(capabilities.length >= 3 ? capabilities : [positioning, ...workflow.slice(0, 2)], "3").slice(0, 5) },
+      { title: "四、代表性业务流程", blocks: [{ subtitle: "4.1 业务事实、门禁与失败回流", body: workflow.length ? workflow.join(" → ") : "待补充真实业务流程。" }] },
+      { title: "五、我的责任、AI 边界与项目结果", blocks: [
+        { subtitle: "5.1 我的责任与 AI 辅助", body: responsibility.join("；") || "个人责任范围待核实。" },
+        { subtitle: "5.2 为什么使用 AI 以及如何验证", body: [profile?.aiRationale, ...aiValidation].filter(Boolean).join("；") },
+        { subtitle: "5.3 结果与指标口径", body: [...outcomes, ...metrics].join("；") || "项目结果和指标口径待补充。" }
+      ] },
+      { title: "六、证据、边界与下一步", blocks: [
+        { subtitle: "6.1 可信结论与反例", body: evidence.join("；") || "当前实现范围已有项目资料支持，仍需按真实交付结果验收。" },
+        { subtitle: "6.2 当前边界与下一证据动作", body: boundaries.join("；") || "长期稳定性、量化效果和真实业务终态仍需补充验证。" }
       ] }
     ]
   };
@@ -2471,7 +2504,7 @@ async function saveActiveTabEdits({ quiet = false, persist = true } = {}) {
   } else if (tabId === "profile") {
     profile.projectName = document.querySelector("#profileTitle").textContent.trim();
     profile.positioning = document.querySelector("#profilePositioning").textContent.trim();
-    profile.coreProblem = document.querySelector("#profileProblem").textContent.trim();
+    profile.coreProblem = getListText("#profileProblem").join("；");
     profile.targetUsers = getListText("#profileUsers");
     profile.workflow = getListText("#profileWorkflow");
     profile.technicalModules = getListText("#profileModules");
@@ -3174,14 +3207,13 @@ function renderProfile(profile) {
   const painPoints = Array.isArray(profile.userPainPoints) && profile.userPainPoints.length
     ? profile.userPainPoints
     : [profile.coreProblem || "待分析"];
-  document.querySelector("#profileProblem").textContent = painPoints.join(" ");
+  renderList("#profileProblem", painPoints.slice(0, 5));
   renderList("#profileUsers", profile.targetUsers);
   renderList("#profileWorkflow", profile.workflow);
   renderList("#profileModules", profile.differentiators || profile.technicalModules);
   const trustItems = [
-    ...(Array.isArray(profile.evidenceStatus) ? profile.evidenceStatus : []),
-    ...(profile.maturity ? [`成熟度：${profile.maturity}`] : []),
-    ...(Array.isArray(profile.boundaries) ? profile.boundaries.map((item) => `边界：${item}`) : [])
+    ...(profile.maturity ? [profile.maturity] : []),
+    ...(Array.isArray(profile.boundaries) ? profile.boundaries.slice(0, 4) : [])
   ];
   renderList("#profileDecisions", trustItems.length ? trustItems : profile.engineeringDecisions);
 }
@@ -3267,8 +3299,7 @@ function resetOutputPanels() {
   renderAudit(buildManualAudit(sourceInput?.value || ""));
   document.querySelector("#profileTitle").textContent = "项目画像";
   document.querySelector("#profilePositioning").textContent = "先读取项目，再生成项目定位、用户痛点、核心流程和证据链。";
-  document.querySelector("#profileProblem").textContent = "待分析";
-   ["#profileUsers", "#profileWorkflow", "#profileModules", "#profileDecisions"].forEach((selector) => renderList(selector, ["待分析"]));
+  ["#profileProblem", "#profileUsers", "#profileWorkflow", "#profileModules", "#profileDecisions"].forEach((selector) => renderList(selector, ["待分析"]));
   document.querySelector("#detailTitle").textContent = "完整项目介绍";
   document.querySelector("#detailArticle").innerHTML = "";
   document.querySelector("#diagramList").innerHTML = "";
