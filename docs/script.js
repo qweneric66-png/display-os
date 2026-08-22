@@ -2392,8 +2392,12 @@ function getActiveTabId() {
 }
 
 function activateTab(tabId = "profile") {
-  const target = Array.from(tabs).find((tab) => tab.dataset.tab === String(tabId));
-  if (!target || target.hidden) return;
+  const requested = Array.from(tabs).find((tab) => tab.dataset.tab === String(tabId));
+  const target = requested && !requested.hidden
+    ? requested
+    : Array.from(tabs).find((tab) => tab.dataset.tab === "detail" && !tab.hidden)
+      || Array.from(tabs).find((tab) => !tab.hidden);
+  if (!target) return;
   tabs.forEach((tab) => tab.classList.remove("active"));
   panels.forEach((panel) => {
     setPanelEditing(panel, false);
@@ -3035,16 +3039,11 @@ function renderDetail(detail, profile) {
   article.innerHTML = `
     <div class="detail-intro">
       <p>${escapeHtml(safeDetail.description || "")}</p>
-      <div class="image-placeholder" data-image-scope="detail-hero">项目截图区域：上传首页、流程、结果或表格截图后可放入这里。</div>
-      <div class="image-strip section-images" data-image-preview="detail-hero"></div>
     </div>
     ${sections
       .map(
-        (section, sectionIndex) => `
+        (section) => `
           <section class="detail-section">
-            <div class="content-tools">
-              <label class="ghost-button compact image-action">添加图片<input type="file" accept="image/*" multiple data-image-scope="detail-hero"></label>
-            </div>
             <h4>${escapeHtml(section.title)}</h4>
             ${(section.blocks || [])
               .map(
@@ -3062,11 +3061,6 @@ function renderDetail(detail, profile) {
       )
       .join("")}
   `;
-  const heroDrop = article.querySelector('[data-image-scope="detail-hero"]');
-  if (heroDrop) {
-    heroDrop.classList.add("paste-image-zone");
-    heroDrop.tabIndex = 0;
-  }
 }
 
 function renderDiagrams(diagrams, profileOverride = null, projectPath = "") {
@@ -5685,6 +5679,7 @@ async function readImageFiles(files, scope = "input") {
     imageStore.input.push(...images);
     await saveProjectImages();
     renderImagePreview("input", inputImagePreview);
+    renderLandingProjectImages();
     renderInputReadiness();
     return;
   }
@@ -5854,6 +5849,7 @@ async function removeImage(scope, imageId) {
     imageStore.input = imageStore.input.filter((image) => image.id !== imageId);
     await saveProjectImages();
     renderImagePreview("input", inputImagePreview);
+    renderLandingProjectImages();
     renderInputReadiness();
     return;
   }
@@ -5902,6 +5898,35 @@ function getImageDisplayTitle(scope, image) {
   return image.title || image.name || "已添加图片";
 }
 
+function getLandingProjectImages() {
+  const candidates = [
+    ...cleanImages(imageStore.input),
+    ...cleanImages(imageStore.panels?.["detail-hero"])
+  ];
+  const seen = new Set();
+  return candidates.filter((image) => {
+    const key = String(image.src || "");
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function renderLandingProjectImages() {
+  const section = document.querySelector("#landingProjectMedia");
+  const container = document.querySelector("#landingProjectImages");
+  if (!section || !container) return;
+  const images = getLandingProjectImages();
+  section.hidden = images.length === 0;
+  container.innerHTML = images
+    .map((image) => `
+      <figure class="landing-project-image">
+        <img src="${image.src}" alt="${escapeHtml(getImageDisplayTitle("input", image))}" />
+      </figure>
+    `)
+    .join("");
+}
+
 function renderScopedImages(scope) {
   document.querySelectorAll(`[data-image-preview="${scope}"]`).forEach((container) => renderImagePreview(scope, container));
 }
@@ -5909,6 +5934,7 @@ function renderScopedImages(scope) {
 async function renderAllPanelImages() {
   await loadProjectImages();
   renderImagePreview("input", inputImagePreview);
+  renderLandingProjectImages();
   Object.keys(imageStore.panels).forEach(renderScopedImages);
 }
 

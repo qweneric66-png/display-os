@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Display OS | 项目展示与 Idea 售卖系统</title>
-    <link rel="stylesheet" href="./styles.css?v=97e564005795" />
+    <link rel="stylesheet" href="./styles.css?v=38b30043d01e" />
   </head>
   <body class="compact-kpi-mode">
     <header class="topbar">
@@ -55,8 +55,7 @@
               <h2>让 AI 进入真实业务流程，<br />并对结果负责</h2>
             </div>
             <div class="capability-intro">
-              <p class="capability-lead">我擅长处理流程分散、状态不清、结果难验证的复杂业务，把 AI、规则与人工组织成可交付的工作系统。</p>
-              <p class="capability-principle">我的优势不是让 AI 做得更多，而是知道什么算完成、哪里会失败、什么不能交给 AI。</p>
+              <p class="capability-principle">我关注的不是 AI 能不能做，而是它什么时候算真正完成、失败后怎么恢复、哪些判断必须留给人。</p>
             </div>
           </header>
 
@@ -65,32 +64,32 @@
               <article class="capability-card is-primary">
                 <span class="capability-index">核心能力 01</span>
                 <h3>识别并消灭“假完成”</h3>
-                <p>不把接口成功、文件生成或模型返回，当成业务已经完成。</p>
+                <p>不把接口成功、文件生成或模型返回，当成业务完成。</p>
                 <div class="capability-change">
-                  <span>工作变化</span>
-                  <strong>从“程序执行成功”，推进到业务结果可核验。</strong>
+                  <strong>从“程序执行成功”推进到“业务结果可核验”。</strong>
                 </div>
-                <small><b>项目证据</b> 跨境 ERP · PDD · Reddit RAG</small>
+                <small class="capability-proof"><b>机制证据</b> ERP 平台回执 · PDD 对象核验 · RAG 来源与推断分层</small>
+                <div class="capability-result"><span>结果</span><strong>结果可核验</strong></div>
               </article>
               <article class="capability-card">
                 <span class="capability-index">核心能力 02</span>
                 <h3>把失败变成可恢复状态</h3>
-                <p>把异常定位到对象和阶段，保留已完成结果，避免整批重跑。</p>
+                <p>把异常定位到对象和阶段，保留已完成结果。</p>
                 <div class="capability-change">
-                  <span>工作变化</span>
-                  <strong>从“失败后重来”，变成只修复出错部分。</strong>
+                  <strong>从“失败后重来”变成“只修复出错部分”。</strong>
                 </div>
-                <small><b>项目证据</b> PDD · Reddit · LEX 工程自动化</small>
+                <small class="capability-proof"><b>机制证据</b> PDD 失败对象续跑 · Reddit 失败队列 · LEX 阶段回查</small>
+                <div class="capability-result"><span>结果</span><strong>局部恢复</strong></div>
               </article>
               <article class="capability-card">
                 <span class="capability-index">核心能力 03</span>
                 <h3>划清 AI 的责任边界</h3>
-                <p>AI 提供候选，规则验证确定条件，人工负责高风险判断。</p>
+                <p>AI 给候选，规则做校验，高风险判断由人确认。</p>
                 <div class="capability-change">
-                  <span>工作变化</span>
-                  <strong>从“尽量自动化”，变成让每类判断各负其责。</strong>
+                  <strong>从“尽量自动化”变成“每类判断各负其责”。</strong>
                 </div>
-                <small><b>项目证据</b> Amazon · 跨境 ERP · SolidWorks</small>
+                <small class="capability-proof"><b>机制证据</b> Amazon 低证据拒判 · ERP 发布确认 · SolidWorks 参数复核</small>
+                <div class="capability-result"><span>结果</span><strong>高风险人工兜底</strong></div>
               </article>
             </div>
 
@@ -104,11 +103,11 @@
                 </div>
                 <div>
                   <dt>正在验证</dt>
-                  <dd>长期成功率、统一效率指标、外部使用结果。</dd>
+                  <dd>长期运行稳定性、人工节省时间、外部用户使用结果。</dd>
                 </div>
                 <div>
                   <dt>不做主张</dt>
-                  <dd>不把模型接入写成算法能力，不把系统实现写成商业成果。</dd>
+                  <dd>不把模型接入写成算法能力，不把系统实现写成商业成功。</dd>
                 </div>
               </dl>
               <a class="capability-link" href="#showcase">查看三项能力对应的项目证据</a>
@@ -219,7 +218,7 @@
               <button class="tab" type="button" data-tab="detail">详情</button>
               <button class="tab" type="button" data-tab="diagram">流程图</button>
               <button class="tab" type="button" data-tab="landing">落地页</button>
-              <button class="tab" type="button" data-tab="brief">简介</button>
+              <button class="tab" type="button" data-tab="brief" hidden aria-hidden="true" tabindex="-1">简介</button>
               <button class="tab" type="button" data-tab="promo">宣传</button>
               <button class="tab" type="button" data-tab="idea" hidden aria-hidden="true" tabindex="-1">售价</button>
             </div>
@@ -309,8 +308,12 @@
                 <li>通过 FastAPI、SQLite 队列和 JSONL 日志，把本地采集能力包装成可调用服务</li>
                 <li>可继续包装成电商数据采集执行包、工作台模板或简历项目案例</li>
               </ul>
+              <section class="landing-project-media" id="landingProjectMedia" aria-label="项目截图" hidden>
+                <h4>项目截图</h4>
+                <div class="landing-project-images" id="landingProjectImages"></div>
+              </section>
             </div>
-            <div class="tab-panel" id="brief">
+            <div class="tab-panel" id="brief" hidden>
               <h3>项目简介</h3>
               <p id="briefText">我围绕 PDD 店铺商品采集场景，设计了一个本地可视化任务平台，把登录确认、商品列表定位、详情 SKU 采集、OCR 价格识别和 Excel 模板导出串成可观察、可恢复、可审计的流程。</p>
             </div>
@@ -544,125 +547,122 @@
 
     <section class="methodology-page" id="methodologyPage" aria-labelledby="methodologyTitle" hidden>
       <header class="methodology-topbar">
-        <div class="methodology-title-group"><div><span class="methodology-eyebrow">ENGINEERING PLAYBOOK</span><h2 id="methodologyTitle">工程方法论</h2></div><span class="methodology-topbar-badge">方法 × 案例 × 证据</span></div>
+        <div class="methodology-title-group"><div><span class="methodology-eyebrow">DECISION PLAYBOOK</span><h2 id="methodologyTitle">工程方法论</h2></div><span class="methodology-topbar-badge">案例化方法</span></div>
         <button class="ghost-button methodology-close" id="closeMethodology" type="button">返回工作台</button>
       </header>
       <div class="methodology-shell">
         <aside class="methodology-index" aria-label="工程方法论目录">
-          <div class="methodology-index-heading"><span>8 个关键决策案例</span><strong>从真实失败中沉淀可复用方法</strong></div>
+          <div class="methodology-index-heading"><span>8 项可复用方法</span><strong>问题重构 · 架构取舍 · 证据边界</strong></div>
           <button class="methodology-index-button is-active" type="button" data-methodology-target="all"><span>00</span><strong>方法总览</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-1"><span>01</span><strong>业务终态</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-2"><span>02</span><strong>否决记忆</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-3"><span>03</span><strong>证据资格</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-4"><span>04</span><strong>双契约编译</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-5"><span>05</span><strong>异常产品化</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-6"><span>06</span><strong>权限与评测</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-7"><span>07</span><strong>反证洞察</strong></button>
-          <button class="methodology-index-button" type="button" data-methodology-target="method-8"><span>08</span><strong>经验编译</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-1"><span>01</span><strong>终态建模</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-2"><span>02</span><strong>负样本记忆</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-3"><span>03</span><strong>证据准入</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-4"><span>04</span><strong>语义执行解耦</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-5"><span>05</span><strong>异常对象化</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-6"><span>06</span><strong>风险分级授权</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-7"><span>07</span><strong>反证驱动洞察</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-8"><span>08</span><strong>经验规则化</strong></button>
         </aside>
         <div class="methodology-content" id="methodologyContent" tabindex="-1">
           <section class="methodology-hero-card" data-methodology-overview>
-            <div class="methodology-hero-copy"><span class="methodology-kicker">EVIDENCE-CONSTRAINED DELIVERY</span><h3>不是展示我做过什么，而是展示我为什么这样做</h3><p>这些方法都来自真实项目中的失败、误判或边界问题：先重构问题，再改变架构，最后用结果证据确认方法成立。项目是证据，关键判断才是主角。</p></div>
-            <div class="methodology-loop" aria-label="定义终态、建立事实、划分责任、编排状态、分层验证、沉淀复用"><span>定义终态</span><i>→</i><span>建立事实</span><i>→</i><span>划分责任</span><i>→</i><span>编排状态</span><i>→</i><span>分层验证</span><i>→</i><span>沉淀复用</span><i class="methodology-loopback">↺</i></div>
-            <div class="terminal-contrast" aria-label="表面成功与真实终态对照"><div><strong>跨境 ERP</strong><span>接口受理、文件生成</span><i>→</i><b>商品审核完成并在线可售</b></div><div><strong>SolidWorks</strong><span>文件保存成功</span><i>→</i><b>实体、尺寸、装配与回读一致</b></div><div><strong>Reddit RAG</strong><span>模型生成答案</span><i>→</i><b>答案有来源并能支持判断</b></div></div>
-            <div class="methodology-hero-proof"><strong>阅读方式</strong><span>总览先看反直觉判断</span><span>详情再看架构与取舍</span><span>证据不足处明确标注边界</span></div>
+            <div class="methodology-hero-copy"><span class="methodology-kicker">DECISION METHODS</span><h3>关键决策方法</h3><p>从真实项目的问题重构、架构取舍与验证结果中提炼。</p></div>
           </section>
           <div class="methodology-grid">
             <article class="methodology-card" id="method-1" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">终态反推法</span></div><h3>系统显示成功，可能正是最大的业务风险</h3></header>
-              <p class="methodology-summary">先定义业务真正完成的证据，再反推状态、异常、补偿和页面。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>跨境 ERP 商品发布</strong><em>机制已落地</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">业务终态</span></div><h3>业务终态建模</h3></header>
+              <p class="methodology-summary">以在线可售反推发布状态与回查链路。</p>
+              <div class="methodology-overview-proof"><strong>跨境 ERP 商品发布</strong><em>已落地</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>问题不在接口稳定性，而在系统把“成功”定义错了。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>文件生成或接口受理后，商品仍可能因类目、图片、价格或审核失败而不可售。技术完成掩盖了业务失败。</p></div><div><span>问题重构</span><p>技术执行、平台受理和业务成功是不同事实，不能压缩成一个 success 状态。</p></div><div><span>关键取舍</span><p>只增加重试会重复提交，也无法解释商品停在哪一段；因此先拆成功定义，再设计补偿流程。</p></div><div><span>结果与证据</span><p>系统可区分未提交、未受理、审核失败、已上线但不可售，并将异常定位到具体商品和阶段。</p></div></div>
-                <div class="methodology-architecture"><span>架构变化</span><div><b>V1</b><i>文件生成 / 接口返回</i><strong>→ success</strong></div><div><b>V2</b><i>提交 → 受理 → 审核 → 上线</i><strong>→ 在线可售</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>终态反推法</strong><p>以用户可确认的最终事实为起点，而不是以现有接口为起点。</p></div><div><span>验证边界</span><p>状态与回查机制已有项目证据；在线可售率提升尚无完整对照数据。</p></div><div><span>可复用</span><p>订单履约、财务到账、内容发布、工程建模、RAG回答和数据同步。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>接口受理仅表示过程完成，不关闭发布任务。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>文件或接口成功后，商品仍可能未上线或不可售。</p></div><div><span>调整</span><p>拆分提交、受理、审核、上线与可售，并保留阶段证据。</p></div><div><span>结果</span><p>异常可定位到具体商品和失败阶段。</p></div></div>
+                <div class="methodology-architecture"><span>状态重构</span><div><b>旧</b><i>文件生成 / 接口返回</i><strong>→ 技术成功</strong></div><div><b>新</b><i>提交 → 受理 → 审核 → 上线</i><strong>→ 在线可售</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>状态与回查机制已有项目证据；可售率提升尚无完整对照。</p></div><div><span>适用场景</span><p>履约、到账、内容发布、工程建模与数据同步。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-1">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-1">案例 →</button>
             </article>
             <article class="methodology-card" id="method-2" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">否决记忆法</span></div><h3>系统不只要记住选中了谁，还要记住为什么没选</h3></header>
-              <p class="methodology-summary">把人工否决从操作噪声变成负样本，让候选空间持续收敛。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>跨境选品 Agent</strong><em>流程已有运行记录</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">候选决策</span></div><h3>负样本记忆</h3></header>
+              <p class="methodology-summary">记录否决原因，持续收敛候选空间。</p>
+              <div class="methodology-overview-proof"><strong>跨境选品 Agent</strong><em>已运行</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>选品系统稀缺的不是召回更多候选，而是减少同类错误候选再次出现。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>Amazon发现、Takealot竞品验证和1688寻源跨平台运行；人工删掉的不合格候选，下次任务仍会重复出现。</p></div><div><span>问题重构</span><p>系统只保存正样本，没有保存价格、结构、评论或信息完整性等否决原因，人工判断无法积累。</p></div><div><span>关键取舍</span><p>没有把关键词、结构、价格、评分和图片混成黑盒总分，而是逐层收窄，图片只做最后辅助复核。</p></div><div><span>结果与证据</span><p>候选池、人工复核、否决原因与搜索游标形成连续流程，支持从已检查位置补充候选和阶段续跑。</p></div></div>
-                <div class="methodology-architecture"><span>架构变化</span><div><b>旧流程</b><i>重新搜索 → 重复候选</i><strong>→ 再次人工删除</strong></div><div><b>新流程</b><i>候选 → 规则 → 人工否决</i><strong>→ 记忆原因并续查</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>否决记忆法</strong><p>把拒绝原因作为下一轮召回、过滤和评测的输入。</p></div><div><span>验证边界</span><p>续查与阶段产物有运行证据；候选有效率提升仍需统一人工标注后计算。</p></div><div><span>可复用</span><p>招聘筛选、供应商评估、内容审核、销售线索和设计方案选择。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>人工否决是决策资产，不是操作噪声。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>淘汰候选在下一轮重复出现，人工判断无法积累。</p></div><div><span>调整</span><p>保存否决原因与搜索游标，按结构、价格和评论逐层筛选。</p></div><div><span>结果</span><p>支持阶段续查，避免从首屏重复搜索。</p></div></div>
+                <div class="methodology-architecture"><span>检索重构</span><div><b>旧</b><i>重新搜索</i><strong>→ 重复候选</strong></div><div><b>新</b><i>规则过滤 → 人工否决</i><strong>→ 记忆原因并续查</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>续查与阶段产物已有运行记录；候选有效率仍需统一标注。</p></div><div><span>适用场景</span><p>招聘筛选、供应商评估、内容审核与销售线索。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-2">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-2">案例 →</button>
             </article>
             <article class="methodology-card" id="method-3" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">证据资格门禁</span></div><h3>证据不足时，系统应该拒绝给出完整结论</h3></header>
-              <p class="methodology-summary">先判断数据有没有资格回答问题，再决定是否允许进入分析。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>Amazon 评论洞察</strong><em>真实反例驱动</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">分析准入</span></div><h3>证据准入控制</h3></header>
+              <p class="methodology-summary">数据完整性不足时阻断正式分析。</p>
+              <div class="methodology-overview-proof"><strong>Amazon 评论洞察</strong><em>已实现</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>最大风险不是少采几条，而是把残缺证据包装成完整洞察。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>Amazon部分场景只展示有限评论，采集程序可以正常结束，但样本并不代表完整用户反馈。</p></div><div><span>问题重构</span><p>“程序已完成”“页面数据已保存”“数据足以分析”“结论可用于判断”是四种不同状态。</p></div><div><span>关键取舍</span><p>继续分析会让流程更自动，却制造虚假确定性；因此宁愿暂停，也不让无资格证据进入正式结论。</p></div><div><span>结果与证据</span><p>系统识别登录、验证码、限流与部分展示；不完整时保存现场、标记边界并禁止正式分析。</p></div></div>
-                <div class="methodology-architecture"><span>门禁流程</span><div><b>证据完整</b><i>采集 → 完整性判断</i><strong>→ 允许分析</strong></div><div><b>证据不足</b><i>保存现场 → 标记缺口</i><strong>→ 暂停 / 转人工</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>证据资格门禁</strong><p>正确回答之前，先验证输入是否足以支撑这个回答。</p></div><div><span>验证边界</span><p>门禁、警告和禁止分析已有实现记录；评论覆盖率受平台可见范围限制。</p></div><div><span>可复用</span><p>RAG、OCR、财务审核、市场研究、法律检索和工程图纸解析。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>证据不足时，系统拒绝输出正式结论。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>程序完成不代表评论样本完整。</p></div><div><span>调整</span><p>采集后先识别登录、限流、验证码与数据缺口。</p></div><div><span>结果</span><p>证据不足时保存现场、标记缺口并阻断分析。</p></div></div>
+                <div class="methodology-architecture"><span>准入门禁</span><div><b>完整</b><i>采集 → 完整性校验</i><strong>→ 允许分析</strong></div><div><b>不足</b><i>保存现场 → 标记缺口</i><strong>→ 暂停 / 转人工</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>门禁与警告已有实现记录；评论覆盖仍受平台可见范围限制。</p></div><div><span>适用场景</span><p>RAG、OCR、财务审核、市场研究与图纸解析。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-3">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-3">案例 →</button>
             </article>
             <article class="methodology-card" id="method-4" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">双契约编译架构</span></div><h3>不要让模型直接操作专业软件，先把意图编译成可审查规格</h3></header>
-              <p class="methodology-summary">把不确定的语义理解与确定性的SolidWorks执行解耦。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>AI 辅助工程设计工作台</strong><em>架构已形成</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">工程执行</span></div><h3>语义—执行解耦</h3></header>
+              <p class="methodology-summary">AI生成可审查规格，确定性工具负责执行。</p>
+              <div class="methodology-overview-proof"><strong>AI 辅助工程设计工作台</strong><em>已实现</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>建模失败不一定是模型不准，更可能是语义判断与工具执行耦合后无法定位责任。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>草图、图片和语言存在尺寸缺失与关系歧义；直接生成API命令，错误通常到建模后才暴露。</p></div><div><span>问题重构</span><p>需要分别回答“要设计什么”和“SolidWorks执行什么”，两类错误应当独立校验。</p></div><div><span>关键取舍</span><p>没有追求一步到位，而是在两份契约之间加入尺寸、材料、关系、缺失项检查与人工确认。</p></div><div><span>项目价值</span><p>失败可定位为输入不全、规格冲突、执行命令或现场环境问题，任务可以修改规格后重复执行。</p></div></div>
-                <div class="methodology-architecture methodology-architecture--pipeline"><span>双契约编译</span><div><b>语义契约</b><i>草图 / 图片 / 语言</i><strong>→ 可审查工程规格</strong></div><div><b>执行契约</b><i>规则校验 / 人工确认</i><strong>→ SolidWorks建模任务</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>双契约编译架构</strong><p>AI先编译领域规格，再由确定性执行器编译成专业工具操作。</p></div><div><span>验证边界</span><p>规格与执行任务结构已有项目实现；复杂装配的端到端成功率仍需样本评测。</p></div><div><span>可复用</span><p>CAD、财务记账、数据库修改、商品发布、自动采购和工业控制。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>模型不直接操作 SolidWorks，先交付可审查规格。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>草图存在尺寸缺失与关系歧义，直接执行难以定位责任。</p></div><div><span>调整</span><p>拆分语义规格与执行任务，增加规则校验和人工确认。</p></div><div><span>结果</span><p>失败可定位到输入、规格、命令或现场环境。</p></div></div>
+                <div class="methodology-architecture methodology-architecture--pipeline"><span>双层契约</span><div><b>语义规格</b><i>草图 / 图片 / 语言</i><strong>→ 可审查工程规格</strong></div><div><b>执行任务</b><i>规则校验 / 人工确认</i><strong>→ SolidWorks 建模</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>规格与执行任务已有实现；复杂装配成功率仍需样本评测。</p></div><div><span>适用场景</span><p>CAD、财务记账、数据库修改、商品发布与工业控制。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-4">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-4">案例 →</button>
             </article>
             <article class="methodology-card" id="method-5" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">异常产品化</span></div><h3>异常不是一段错误文本，而是一个等待被推进的业务对象</h3></header>
-              <p class="methodology-summary">围绕影响、责任和恢复路径组织异常，而不是围绕错误码组织页面。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>跨境 ERP 异常中心</strong><em>53 / 90 条已处理</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">异常治理</span></div><h3>异常对象化</h3></header>
+              <p class="methodology-summary">按影响、责任与恢复路径组织异常。</p>
+              <div class="methodology-overview-proof"><strong>跨境 ERP 异常中心</strong><em>53 / 90 已处理</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>异常中心的目标不是证明系统报过错，而是帮助业务恢复。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>错误码和接口日志无法告诉运营哪些商品受影响、是否严重、能否重试以及谁来处理。</p></div><div><span>问题重构</span><p>异常需要拥有受影响对象、发生阶段、业务影响、处理资格、责任人与下一步动作。</p></div><div><span>关键取舍</span><p>技术详情保留在证据层，主界面只展示业务结论、严重程度和可以执行的恢复动作。</p></div><div><span>结果与证据</span><p>一次真实处理中完成53/90条修复，当前待办由90条收敛至37条。</p></div></div>
-                <div class="methodology-architecture"><span>异常对象模型</span><div><b>输入</b><i>受影响商品 + 失败阶段</i><strong>→ 判断影响与资格</strong></div><div><b>输出</b><i>责任人 + 修复动作</i><strong>→ 从失败阶段恢复</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>异常产品化</strong><p>让异常具有对象、状态、责任、处置资格和恢复路径。</p></div><div><span>验证边界</span><p>53/90是单次真实处理证据，不代表长期自动修复率或整体稳定性。</p></div><div><span>可复用</span><p>审批流、批量采集、数据治理、内容审核、任务调度和供应链系统。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>异常中心服务业务恢复，而非日志展示。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>错误码无法说明影响对象、严重程度与处理责任。</p></div><div><span>调整</span><p>按对象、阶段、影响、资格、责任与动作组织异常。</p></div><div><span>结果</span><p>一次处理中修复 53 / 90 条，待办收敛至 37 条。</p></div></div>
+                <div class="methodology-architecture"><span>对象模型</span><div><b>定位</b><i>受影响商品 + 失败阶段</i><strong>→ 判断影响与资格</strong></div><div><b>恢复</b><i>责任人 + 修复动作</i><strong>→ 从失败阶段续跑</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>53 / 90 为单次处置数据，不代表长期自动修复率。</p></div><div><span>适用场景</span><p>审批流、批量任务、数据治理、内容审核与供应链。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-5">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-5">案例 →</button>
             </article>
             <article class="methodology-card" id="method-6" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">权限随证据升级</span></div><h3>不要问AI总体好不好，要问它在这一步能拥有多大权限</h3></header>
-              <p class="methodology-summary">同样的准确率，用于搜索关键词和修改库存，风险完全不同。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>ERP × 选品 × RAG × 工程设计</strong><em>评测框架已形成</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">AI 治理</span></div><h3>风险分级授权</h3></header>
+              <p class="methodology-summary">按证据强度与可恢复能力逐级开放权限。</p>
+              <div class="methodology-overview-proof"><strong>ERP × 选品 × RAG × 工程设计</strong><em>框架已形成</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>AI自动化程度不应一次决定，而应随着证据和可恢复能力逐级开放。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>单一准确率不能说明一次错误会造成什么损失，也不能决定模型结果是否有资格自动写入业务系统。</p></div><div><span>问题重构</span><p>评测对象从“模型整体表现”改为“当前步骤的风险、权限、验证方式和失败恢复能力”。</p></div><div><span>关键取舍</span><p>价格、库存、类目、金额和工程尺寸等高风险字段，不因平均表现较好就直接自动执行。</p></div><div><span>落地方式</span><p>按离线只读、在线影子、人工确认、受限自动和业务回查五个阶段逐步提升权限。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>AI 权限由单步风险决定，不由平均准确率决定。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>单一准确率无法衡量错误损失与自动执行资格。</p></div><div><span>调整</span><p>按风险、证据、失败样本与回滚能力分级评测。</p></div><div><span>结果</span><p>高风险字段保留人工确认，低风险场景逐级开放。</p></div></div>
                 <div class="methodology-permission-ladder" aria-label="AI权限随证据升级"><span>离线只读</span><i>→</i><span>在线影子</span><i>→</i><span>人工确认</span><i>→</i><span>受限自动</span><i>→</i><strong>业务回查</strong></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>权限随证据升级</strong><p>自动化权限由风险、证据、失败样本和回滚能力共同决定。</p></div><div><span>验证边界</span><p>分阶段机制已形成；接受率、修改率、拒绝原因和回滚率需要继续积累。</p></div><div><span>可复用</span><p>所有会写入真实业务、财务、平台或专业工具的AI能力。</p></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>分阶段机制已形成；接受率、拒绝率与回滚率仍需积累。</p></div><div><span>适用场景</span><p>业务写入、财务处理、平台发布与专业工具执行。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-6">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-6">案例 →</button>
             </article>
             <article class="methodology-card" id="method-7" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">反证优先洞察</span></div><h3>用户洞察不是找一句支持想法的话，而是主动寻找能推翻它的反例</h3></header>
-              <p class="methodology-summary">把RAG从答案生成器升级为主张、支持证据与反对证据的争议系统。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>Reddit 用户洞察与 RAG</strong><em>方法待补评测</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">用户洞察</span></div><h3>反证驱动洞察</h3></header>
+              <p class="methodology-summary">以支持证据、反对证据和适用边界约束主张。</p>
+              <div class="methodology-overview-proof"><strong>Reddit 用户洞察与 RAG</strong><em>待补评测</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>高频声音不等于普遍需求；经得住反证的主张才有资格进入产品决策。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>普通RAG容易把若干相似帖子总结为“用户共识”，忽略反对意见、情境差异和特定人群。</p></div><div><span>问题重构</span><p>用户洞察应回答谁在什么场景遇到问题、证据是否冲突，以及当前材料能支持多强的结论。</p></div><div><span>关键取舍</span><p>模型只生成候选主张；出现反例时，结论必须降级为特定场景假设或待验证机会。</p></div><div><span>目标输出</span><p>每个主张同时保留支持证据、反对证据、适用人群、使用场景、证据强度和待验证问题。</p></div></div>
-                <div class="methodology-architecture"><span>洞察单元</span><div><b>主张</b><i>支持证据 + 反对证据</i><strong>→ 判断证据强度</strong></div><div><b>边界</b><i>人群 + 场景 + 冲突</i><strong>→ 产品假设 / 待验证</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>反证优先洞察法</strong><p>先寻找能够推翻主张的材料，再决定结论能否升级。</p></div><div><span>验证边界</span><p>当前适合作为方法设计表达；反例样本、人工一致率和洞察采用率仍需补齐。</p></div><div><span>可复用</span><p>市场研究、需求优先级、舆情、竞品分析、战略研究与知识问答。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>高频声音不等于普遍需求，主张必须经受反证。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>普通 RAG 容易把相似帖子总结为用户共识。</p></div><div><span>调整</span><p>主张同时保留支持、反对、人群、场景与证据强度。</p></div><div><span>设计结果</span><p>存在冲突时，结论降级为场景假设或待验证机会。</p></div></div>
+                <div class="methodology-architecture"><span>主张单元</span><div><b>证据</b><i>支持 + 反对</i><strong>→ 判断强度</strong></div><div><b>边界</b><i>人群 + 场景 + 冲突</i><strong>→ 假设 / 待验证</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>当前属于方法设计；反例样本与人工一致率仍需补齐。</p></div><div><span>适用场景</span><p>市场研究、需求优先级、舆情、竞品与战略分析。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-7">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-7">案例 →</button>
             </article>
             <article class="methodology-card" id="method-8" data-methodology-card>
-              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">经验编译系统</span></div><h3>聊天记录不是组织能力，能被下一次直接执行的规则才是</h3></header>
-              <p class="methodology-summary">把一次问题解决过程编译成事实档案、成长判断、Skill规则和验收门禁。</p>
-              <div class="methodology-overview-proof"><span>主案例</span><strong>跨项目 AI 协作基础设施</strong><em>已持续复用</em></div>
+              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">工程协作</span></div><h3>经验规则化</h3></header>
+              <p class="methodology-summary">将项目复盘转为可执行规则与验收门禁。</p>
+              <div class="methodology-overview-proof"><strong>跨项目 AI 协作基础设施</strong><em>持续复用</em></div>
               <div class="methodology-case-detail">
-                <blockquote class="methodology-judgment"><span>反直觉判断</span><strong>保存更多对话不能避免重复犯错，必须把判断变成可执行约束。</strong></blockquote>
-                <div class="methodology-story"><div><span>背景与问题</span><p>AI辅助开发会出现上下文丢失、不同电脑结果不一致、版本覆盖和修改原因无法追溯。</p></div><div><span>问题重构</span><p>聊天是过程数据；真正可复用的是问题边界、取舍依据、失败条件、执行步骤和验收标准。</p></div><div><span>关键取舍</span><p>没有把所有历史塞给AI，而是分离当前事实、个人判断、通用规则和项目级验证证据。</p></div><div><span>结果与证据</span><p>归档、成长档案、Skill与UI交付门禁形成分层机制，已在多个项目中持续调用和修订。</p></div></div>
-                <div class="methodology-architecture methodology-architecture--pipeline"><span>经验编译</span><div><b>项目事实</b><i>改了什么 / 为什么改</i><strong>→ 成长判断</strong></div><div><b>可复用资产</b><i>Skill规则 / 失败边界</i><strong>→ 验收门禁</strong></div></div>
-                <div class="methodology-method"><div><span>沉淀方法</span><strong>经验编译系统</strong><p>让下一次协作继承判断能力，而不是只继承聊天文本。</p></div><div><span>验证边界</span><p>规则已跨项目复用；对团队效率和缺陷减少的长期量化仍需建立基线。</p></div><div><span>可复用</span><p>个人AI开发、团队协作、多项目管理、FDE现场交付和知识治理。</p></div></div>
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>对话只有转化为规则与验收标准，才能被复用。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>上下文丢失、双机差异与版本覆盖导致重复犯错。</p></div><div><span>调整</span><p>分离项目事实、个人判断、通用规则与验证证据。</p></div><div><span>结果</span><p>归档、成长档案、Skill 与交付门禁形成分层机制。</p></div></div>
+                <div class="methodology-architecture methodology-architecture--pipeline"><span>资产分层</span><div><b>项目事实</b><i>变更 / 原因 / 证据</i><strong>→ 成长判断</strong></div><div><b>复用资产</b><i>规则 / 边界 / 步骤</i><strong>→ 验收门禁</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>规则已跨项目复用；长期效率与缺陷变化尚无统一基线。</p></div><div><span>适用场景</span><p>个人 AI 开发、团队协作、FDE 交付与知识治理。</p></div></div>
               </div>
-              <button class="methodology-card-open" type="button" data-methodology-open="method-8">查看案例与证据</button>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-8">案例 →</button>
             </article>
           </div>
         </div>
@@ -672,7 +672,7 @@
     <footer class="footer">
       <span>Display OS</span>
     </footer>
-    <script src="./static-runtime.js?v=97e564005795"></script>
-    <script src="./script.js?v=97e564005795"></script>
+    <script src="./static-runtime.js?v=38b30043d01e"></script>
+    <script src="./script.js?v=38b30043d01e"></script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-22T07:45:12.410Z",
+  "generatedAt": "2026-08-22T08:12:01.219Z",
   "activeKey": "project-1",
   "records": [
     {
@@ -1760,10 +1760,10 @@
         "displayOrder": 999
       },
       "pricing": null,
-      "activeTab": "promo",
-      "updatedAt": "2026-08-22T07:15:38.628Z",
+      "activeTab": "detail",
+      "updatedAt": "2026-08-22T08:10:43.854Z",
       "uiState": {
-        "activeTab": "promo"
+        "activeTab": "detail"
       }
     },
     {
@@ -10354,8 +10354,8 @@
       "key": "project-1",
       "title": "Amazon 评论洞察平台",
       "projectPath": "公开项目快照",
-      "updatedAt": "2026-08-22T07:15:38.628Z",
-      "activeTab": "promo"
+      "updatedAt": "2026-08-22T08:10:43.854Z",
+      "activeTab": "detail"
     },
     {
       "key": "project-2",
