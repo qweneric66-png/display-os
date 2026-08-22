@@ -8132,6 +8132,405 @@ body.page-pager-enabled #showcase .showcase-project-unit > .project-pricing .pri
   gap: 20px;
   min-width: 0;
 }
+
+/* 2026-08-22: methodology cases use one visual spine instead of nested panels. */
+.methodology-page {
+  background: #171917;
+}
+
+.methodology-topbar {
+  border-bottom-color: rgba(255, 255, 255, .08);
+  background: #171917;
+}
+
+.methodology-topbar-badge {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, .48);
+  font-weight: 700;
+}
+
+.methodology-index {
+  border-right-color: rgba(255, 255, 255, .08);
+  background: rgba(0, 0, 0, .08);
+}
+
+.methodology-index-button:hover,
+.methodology-index-button:focus-visible,
+.methodology-index-button.is-active {
+  background: rgba(255, 255, 255, .035);
+}
+
+.methodology-page[data-view="overview"] .methodology-hero-card {
+  border: 0;
+  border-left: 3px solid #ef725b;
+  background: transparent;
+}
+
+.methodology-page[data-view="overview"] .methodology-card {
+  border-color: rgba(255, 255, 255, .09);
+  background: rgba(255, 255, 255, .022);
+  box-shadow: none;
+}
+
+.methodology-page[data-view="overview"] .methodology-card:hover,
+.methodology-page[data-view="overview"] .methodology-card:focus-within {
+  border-color: rgba(239, 114, 91, .38);
+  background: rgba(255, 255, 255, .04);
+}
+
+.methodology-status {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(239, 114, 91, .88);
+  letter-spacing: .06em;
+}
+
+.methodology-page[data-view="overview"] .methodology-overview-proof {
+  align-items: end;
+  padding-top: 12px;
+  border-top-color: rgba(255, 255, 255, .07);
+}
+
+.methodology-overview-proof em {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, .48);
+}
+
+.methodology-page[data-view="detail"] .methodology-grid {
+  grid-template-columns: minmax(0, 980px);
+}
+
+.methodology-page[data-view="detail"] .methodology-card {
+  gap: 12px;
+  padding: clamp(18px, 2.4vw, 30px) clamp(2px, 1.2vw, 16px) 48px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.methodology-page[data-view="detail"] .methodology-card-header {
+  gap: 12px;
+  padding: 0;
+}
+
+.methodology-page[data-view="detail"] .methodology-card h3 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(34px, 4vw, 52px);
+  letter-spacing: -.025em;
+}
+
+.methodology-page[data-view="detail"] .methodology-summary {
+  max-width: 760px;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, .66);
+  font-size: 16px;
+}
+
+.methodology-page[data-view="detail"] .methodology-overview-proof {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.methodology-page[data-view="detail"] .methodology-overview-proof strong {
+  overflow: visible;
+  color: rgba(255, 255, 255, .88);
+  font-size: 14px;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.methodology-page[data-view="detail"] .methodology-overview-proof strong::before {
+  content: "项目 · ";
+  color: #ef725b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.methodology-page[data-view="detail"] .methodology-overview-proof em {
+  color: rgba(255, 255, 255, .42);
+  font-size: 12px;
+}
+
+.methodology-case-detail {
+  gap: 0;
+  margin-top: 10px;
+}
+
+.methodology-judgment {
+  gap: 8px;
+  margin: 0 0 26px;
+  padding: 18px 0 18px 20px;
+  border: 0;
+  border-left: 3px solid #ef725b;
+  background: linear-gradient(90deg, rgba(239, 114, 91, .1), transparent 72%);
+}
+
+.methodology-judgment strong {
+  max-width: 820px;
+  color: #fff;
+  font-size: clamp(22px, 2.3vw, 28px);
+  line-height: 1.42;
+}
+
+.methodology-page[data-view="detail"] .methodology-story {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div {
+  min-height: 0;
+  padding: 0 26px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-story span {
+  margin-bottom: 9px;
+  font-size: 12px;
+}
+
+.methodology-story p {
+  color: rgba(255, 255, 255, .76);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.methodology-architecture {
+  display: grid;
+  grid-template-columns: 104px repeat(2, minmax(0, 1fr));
+  gap: 0;
+  align-items: stretch;
+  margin: 0;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.methodology-architecture > span {
+  display: flex;
+  align-items: flex-start;
+  padding: 2px 22px 0 0;
+  border: 0;
+  background: transparent;
+}
+
+.methodology-architecture > div {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 12px;
+  align-content: start;
+  padding: 0 26px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-architecture > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-architecture b {
+  color: rgba(255, 255, 255, .48);
+}
+
+.methodology-architecture > div:last-child b,
+.methodology-architecture > div:last-child strong {
+  color: #f7d4cc;
+}
+
+.methodology-architecture i {
+  color: rgba(255, 255, 255, .56);
+  font-size: 14px;
+}
+
+.methodology-architecture strong {
+  color: rgba(255, 255, 255, .84);
+  font-size: 15px;
+}
+
+.methodology-method {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 22px 0 0;
+}
+
+.methodology-method > div {
+  padding: 0 28px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-method > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.methodology-method > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-method p {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, .6);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.methodology-permission-ladder {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 24px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  background: transparent;
+}
+
+.methodology-permission-ladder span,
+.methodology-permission-ladder strong {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, .62);
+  font-size: 13px;
+}
+
+.methodology-permission-ladder strong {
+  color: #f7d4cc;
+}
+
+@media (min-width: 1200px) {
+  .methodology-page[data-view="detail"] .methodology-grid {
+    grid-template-columns: minmax(0, 1080px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card {
+    padding-top: 28px;
+  }
+}
+
+@media (max-width: 820px) {
+  .methodology-page[data-view="overview"] .methodology-hero-card {
+    border-left-width: 2px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card {
+    padding: 12px 0 36px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card h3 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-overview-proof {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .methodology-judgment {
+    margin-bottom: 20px;
+    padding: 15px 0 15px 16px;
+  }
+
+  .methodology-judgment strong {
+    font-size: 20px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story {
+    grid-template-columns: 1fr;
+    padding: 4px 0;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story > div,
+  .methodology-page[data-view="detail"] .methodology-story > div:first-child,
+  .methodology-page[data-view="detail"] .methodology-story > div:last-child {
+    padding: 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story > div:first-child {
+    border-top: 0;
+  }
+
+  .methodology-architecture {
+    grid-template-columns: 1fr;
+    padding: 20px 0 4px;
+  }
+
+  .methodology-architecture > span {
+    min-height: 0;
+    padding: 0 0 12px;
+  }
+
+  .methodology-architecture > div,
+  .methodology-architecture > div:last-child {
+    padding: 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .methodology-method {
+    grid-template-columns: 1fr;
+    padding-top: 4px;
+  }
+
+  .methodology-method > div,
+  .methodology-method > div:first-child,
+  .methodology-method > div:last-child {
+    padding: 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .methodology-permission-ladder {
+    flex-wrap: wrap;
+    padding: 18px 0;
+    overflow-x: visible;
+  }
+
+  .methodology-index {
+    flex-wrap: nowrap;
+    align-content: initial;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+}
 .methodology-topbar-badge {
   display: inline-flex;
   align-items: center;
@@ -9111,12 +9510,21 @@ body.showcase-modal-active {
 }
 
 #showcase .generated-work .work-card-tabs {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
   gap: 6px;
   margin-top: 4px;
 }
 
 #showcase .generated-work .work-card-tab {
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
   min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   border-color: rgba(255, 255, 255, .28);
   border-radius: 7px;
   color: rgba(255, 253, 248, .9);
@@ -9127,8 +9535,25 @@ body.showcase-modal-active {
 #showcase .generated-work .work-card-tab:hover {
   border-color: #f2765c;
   color: #fffdf8;
-  background: rgba(223, 77, 55, .22);
+  background: #c83f2e;
   transform: translateY(-1px);
+}
+
+#showcase .generated-work .work-card-detail-entry {
+  border-color: #f2765c;
+  color: #fffdf8;
+  background: #df4d37;
+  box-shadow: 0 7px 16px rgba(223, 77, 55, .24);
+}
+
+#showcase .generated-work .work-card-detail-entry:focus-visible {
+  outline: 2px solid #ffd0a5;
+  outline-offset: 3px;
+}
+
+#showcase .generated-work .work-card-tab-arrow {
+  font-size: 16px;
+  line-height: 1;
 }
 
 #showcase .generated-work .work-card-tab:focus-visible {
@@ -9529,5 +9954,703 @@ body.showcase-modal-active {
 
   #showcase .showcase-card-modal-done {
     width: 100%;
+  }
+}
+
+/* 2026-08-22: presentation scale — larger desktop typography without restoring copy density. */
+@media (min-width: 961px) {
+  .topbar {
+    min-height: 82px;
+    padding: 18px clamp(26px, 4vw, 64px);
+  }
+
+  .brand {
+    gap: 12px;
+    font-size: 17px;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .nav {
+    gap: 28px;
+    font-size: 16px;
+  }
+
+  body.page-pager-enabled main#pageMain > section#capabilities {
+    padding: clamp(92px, 9vh, 118px) clamp(32px, 5vw, 76px) 42px;
+  }
+
+  #capabilities .capability-shell {
+    width: min(1600px, 100%);
+    gap: clamp(42px, 5vh, 60px);
+  }
+
+  #capabilities .capability-heading {
+    grid-template-columns: minmax(0, 1.45fr) minmax(360px, .65fr);
+    gap: clamp(36px, 4vw, 64px);
+  }
+
+  #capabilities .capability-heading h2 {
+    max-width: 980px;
+    font-size: clamp(56px, 4.2vw, 68px);
+    line-height: 1.08;
+  }
+
+  #capabilities .capability-heading .eyebrow {
+    font-size: 16px;
+  }
+
+  #capabilities .capability-principle {
+    padding-left: 20px;
+    font-size: clamp(22px, 1.55vw, 25px);
+    line-height: 1.55;
+  }
+
+  #capabilities .capability-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, .32fr);
+    gap: 24px;
+  }
+
+  #capabilities .capability-grid {
+    gap: 20px;
+  }
+
+  #capabilities .capability-card {
+    min-height: 410px;
+    padding: clamp(28px, 2.2vw, 36px);
+    border-radius: 22px;
+  }
+
+  #capabilities .capability-index {
+    margin-bottom: 22px;
+    font-size: 14px;
+  }
+
+  #capabilities .capability-card h3 {
+    margin-bottom: 14px;
+    font-size: clamp(28px, 2vw, 33px);
+    line-height: 1.22;
+  }
+
+  #capabilities .capability-card p {
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  #capabilities .capability-change strong {
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  #capabilities .capability-card small {
+    padding-top: 17px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  #capabilities .capability-result {
+    padding-top: 20px;
+  }
+
+  #capabilities .capability-result span {
+    font-size: 13px;
+  }
+
+  #capabilities .capability-result strong {
+    font-size: 20px;
+  }
+
+  #capabilities .self-review {
+    padding: 32px;
+    border-radius: 22px;
+  }
+
+  #capabilities .self-review h3 {
+    font-size: 26px;
+  }
+
+  #capabilities .capability-boundaries {
+    margin: 18px 0 26px;
+  }
+
+  #capabilities .capability-boundaries div {
+    padding: 17px 0;
+  }
+
+  #capabilities .capability-boundaries dt {
+    font-size: 13px;
+  }
+
+  #capabilities .capability-boundaries dd {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  #capabilities .capability-link {
+    min-height: 48px;
+    padding: 13px 16px;
+    font-size: 15px;
+  }
+
+  .methodology-topbar {
+    min-height: 96px;
+    padding: 22px clamp(32px, 4vw, 68px);
+  }
+
+  .methodology-topbar h2 {
+    font-size: clamp(38px, 3.4vw, 50px);
+  }
+
+  .methodology-eyebrow,
+  .methodology-kicker {
+    font-size: 13px;
+  }
+
+  .methodology-topbar-badge {
+    min-height: 34px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .methodology-close {
+    min-height: 46px;
+    padding: 0 18px;
+    font-size: 15px;
+  }
+
+  .methodology-shell {
+    grid-template-columns: 290px minmax(0, 1fr);
+  }
+
+  .methodology-index {
+    padding: 36px 22px 42px clamp(32px, 4vw, 68px);
+  }
+
+  .methodology-index-heading {
+    gap: 8px;
+    margin-bottom: 28px;
+    font-size: 14px;
+  }
+
+  .methodology-index-heading strong {
+    max-width: 210px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .methodology-index-button {
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    padding: 14px 12px;
+  }
+
+  .methodology-index-button span {
+    font-size: 13px;
+  }
+
+  .methodology-index-button strong {
+    font-size: 16px;
+  }
+
+  .methodology-content {
+    padding: 38px clamp(34px, 3.5vw, 62px) 64px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-hero-card {
+    max-width: 1380px;
+    margin-bottom: 28px;
+    padding: 30px 36px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-hero-copy h3 {
+    font-size: clamp(46px, 4vw, 60px);
+  }
+
+  .methodology-page[data-view="overview"] .methodology-hero-card > div > p {
+    max-width: 820px;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+
+  .methodology-grid {
+    max-width: 1380px;
+    gap: 22px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card {
+    min-height: 228px;
+    gap: 13px;
+    padding: 26px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card-header {
+    gap: 10px;
+  }
+
+  .methodology-number {
+    font-size: 15px;
+  }
+
+  .methodology-status {
+    font-size: 14px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card h3 {
+    font-size: clamp(28px, 2vw, 34px);
+  }
+
+  .methodology-summary {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .methodology-overview-proof {
+    padding-top: 15px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-overview-proof {
+    padding-right: 78px;
+  }
+
+  .methodology-overview-proof strong {
+    font-size: 15px;
+  }
+
+  .methodology-overview-proof em {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card-open {
+    right: 26px;
+    bottom: 26px;
+    font-size: 15px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-grid {
+    grid-template-columns: minmax(0, 1120px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card {
+    gap: 18px;
+    padding: 38px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card h3 {
+    font-size: clamp(38px, 3.1vw, 46px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-summary {
+    font-size: 18px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-overview-proof {
+    padding: 14px 16px;
+  }
+
+  .methodology-case-detail {
+    gap: 14px;
+  }
+
+  .methodology-judgment {
+    padding: 18px 20px;
+  }
+
+  .methodology-judgment span,
+  .methodology-architecture > span,
+  .methodology-method span,
+  .methodology-story span {
+    font-size: 13px;
+  }
+
+  .methodology-judgment strong {
+    font-size: clamp(24px, 2.1vw, 29px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story > div {
+    min-height: 132px;
+    padding: 17px 18px;
+  }
+
+  .methodology-story p {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .methodology-architecture {
+    grid-template-columns: 112px repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .methodology-architecture > span,
+  .methodology-architecture > div {
+    padding: 16px 17px;
+  }
+
+  .methodology-architecture b,
+  .methodology-architecture i,
+  .methodology-architecture strong {
+    font-size: 15px;
+  }
+
+  .methodology-method {
+    gap: 10px;
+  }
+
+  .methodology-method > div {
+    padding: 17px 18px;
+  }
+
+  .methodology-method p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .methodology-permission-ladder {
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .methodology-permission-ladder span,
+  .methodology-permission-ladder strong {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 680px) {
+  #capabilities .capability-heading h2 {
+    font-size: 42px;
+    line-height: 1.08;
+  }
+
+  #capabilities .capability-heading .eyebrow {
+    font-size: 14px;
+  }
+
+  #capabilities .capability-principle {
+    font-size: 18px;
+  }
+
+  #capabilities .capability-card h3 {
+    font-size: 27px;
+  }
+
+  #capabilities .capability-card p,
+  #capabilities .capability-change strong {
+    font-size: 16px;
+  }
+
+  #capabilities .capability-card small,
+  #capabilities .capability-boundaries dd {
+    font-size: 14px;
+  }
+
+  #capabilities .capability-result strong {
+    font-size: 19px;
+  }
+
+  .methodology-topbar h2 {
+    font-size: 28px;
+  }
+
+  .methodology-topbar-badge {
+    font-size: 10px;
+  }
+
+  .methodology-index-button strong {
+    font-size: 15px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-hero-copy h3 {
+    font-size: 34px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-hero-card > div > p {
+    font-size: 15px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card {
+    padding: 19px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card h3 {
+    font-size: 25px;
+  }
+
+  .methodology-summary {
+    font-size: 15px;
+  }
+
+  .methodology-overview-proof strong {
+    font-size: 14px;
+  }
+
+  .methodology-page[data-view="overview"] .methodology-card-open {
+    right: 19px;
+    bottom: 19px;
+    font-size: 14px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card {
+    padding: 22px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card h3 {
+    font-size: 31px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-summary {
+    font-size: 16px;
+  }
+
+  .methodology-judgment strong {
+    font-size: 21px;
+  }
+
+  .methodology-story p,
+  .methodology-method p {
+    font-size: 15px;
+  }
+}
+
+/* Final cascade: keep every methodology case on the same quiet information hierarchy. */
+.methodology-page[data-view="overview"] .methodology-hero-card {
+  border: 0;
+  border-left: 3px solid #ef725b;
+  background: transparent;
+}
+
+.methodology-page[data-view="overview"] .methodology-card {
+  border-color: rgba(255, 255, 255, .09);
+  background: rgba(255, 255, 255, .022);
+}
+
+.methodology-status,
+.methodology-overview-proof em,
+.methodology-topbar-badge {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.methodology-page[data-view="detail"] .methodology-grid {
+  grid-template-columns: minmax(0, 980px);
+}
+
+.methodology-page[data-view="detail"] .methodology-card {
+  gap: 12px;
+  padding: clamp(18px, 2.4vw, 30px) clamp(2px, 1.2vw, 16px) 48px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.methodology-page[data-view="detail"] .methodology-card h3 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(34px, 4vw, 52px);
+}
+
+.methodology-page[data-view="detail"] .methodology-summary {
+  max-width: 760px;
+  font-size: 16px;
+}
+
+.methodology-page[data-view="detail"] .methodology-overview-proof {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.methodology-case-detail {
+  gap: 0;
+  margin-top: 10px;
+}
+
+.methodology-judgment {
+  gap: 8px;
+  margin: 0 0 26px;
+  padding: 18px 0 18px 20px;
+  border: 0;
+  border-left: 3px solid #ef725b;
+  background: linear-gradient(90deg, rgba(239, 114, 91, .1), transparent 72%);
+}
+
+.methodology-judgment strong {
+  max-width: 820px;
+  font-size: clamp(22px, 2.3vw, 28px);
+}
+
+.methodology-page[data-view="detail"] .methodology-story {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div {
+  min-height: 0;
+  padding: 0 26px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.methodology-page[data-view="detail"] .methodology-story > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-story p {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.methodology-architecture {
+  grid-template-columns: 104px repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.methodology-architecture > span {
+  min-height: 0;
+  padding: 2px 22px 0 0;
+  border: 0;
+  background: transparent;
+}
+
+.methodology-architecture > div {
+  padding: 0 26px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-architecture > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-method {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 22px 0 0;
+}
+
+.methodology-method > div {
+  padding: 0 28px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, .09);
+  background: transparent;
+}
+
+.methodology-method > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.methodology-method > div:last-child {
+  padding-right: 0;
+}
+
+.methodology-permission-ladder {
+  gap: 10px;
+  padding: 24px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  background: transparent;
+}
+
+.methodology-permission-ladder span,
+.methodology-permission-ladder strong {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 820px) {
+  .methodology-page[data-view="detail"] .methodology-card {
+    padding: 12px 0 36px;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-card h3 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story,
+  .methodology-architecture,
+  .methodology-method {
+    grid-template-columns: 1fr;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story {
+    padding: 4px 0;
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story > div,
+  .methodology-page[data-view="detail"] .methodology-story > div:first-child,
+  .methodology-page[data-view="detail"] .methodology-story > div:last-child,
+  .methodology-architecture > div,
+  .methodology-architecture > div:last-child,
+  .methodology-method > div,
+  .methodology-method > div:first-child,
+  .methodology-method > div:last-child {
+    min-height: 0;
+    padding: 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .methodology-page[data-view="detail"] .methodology-story > div:first-child {
+    border-top: 0;
+  }
+
+  .methodology-architecture {
+    padding: 20px 0 4px;
+  }
+
+  .methodology-architecture > span {
+    padding: 0 0 12px;
+  }
+
+  .methodology-method {
+    padding-top: 4px;
+  }
+
+  .methodology-permission-ladder {
+    flex-wrap: wrap;
+    padding: 18px 0;
+    overflow-x: visible;
+  }
+}
+
+@media (max-width: 820px) {
+  .methodology-index {
+    flex-wrap: nowrap;
+    align-content: initial;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .methodology-index::-webkit-scrollbar {
+    display: none;
   }
 }

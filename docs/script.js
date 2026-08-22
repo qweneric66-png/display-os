@@ -5388,16 +5388,19 @@ function renderWorkCard(work) {
     }
   ];
   const modalId = `${panelPrefix}-dialog`;
-  const cardTabHtml = modalTabDefinitions.map((tab) => `
+  const cardTabHtml = `
         <button
-          class="work-card-tab"
+          class="work-card-tab work-card-detail-entry"
           type="button"
           aria-haspopup="dialog"
           aria-controls="${modalId}"
           aria-expanded="false"
-          data-work-card-modal-open="${tab.key}"
-        >${tab.label}</button>
-      `).join("");
+          data-work-card-modal-open="intro"
+        >
+          <span>查看项目详情</span>
+          <span class="work-card-tab-arrow" aria-hidden="true">↗</span>
+        </button>
+      `;
   const modalTabHtml = modalTabDefinitions.map((tab, index) => `
         <button
           class="showcase-modal-tab"
