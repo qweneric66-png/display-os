@@ -675,6 +675,12 @@ function openMethodologyPage() {
   methodologyReturnFocus = document.activeElement;
   methodologyPage.hidden = false;
   document.body.classList.add("methodology-open");
+  pageNavLinks.forEach((link) => {
+    link.classList.remove("is-current");
+    link.removeAttribute("aria-current");
+  });
+  openMethodologyButton?.classList.add("is-current");
+  openMethodologyButton?.setAttribute("aria-current", "page");
   setMethodologyView("all");
   closeMethodologyButton?.focus();
 }
@@ -683,7 +689,21 @@ function closeMethodologyPage() {
   if (!methodologyPage) return;
   methodologyPage.hidden = true;
   document.body.classList.remove("methodology-open");
+  openMethodologyButton?.classList.remove("is-current");
+  openMethodologyButton?.removeAttribute("aria-current");
+  if (isPagePagerEnabled()) updatePagePagerUI();
   if (methodologyReturnFocus instanceof HTMLElement) methodologyReturnFocus.focus();
+}
+
+function isMethodologyPageOpen() {
+  return Boolean(methodologyPage && !methodologyPage.hidden);
+}
+
+function hasBlockingOverlayOpen() {
+  return Boolean(
+    document.querySelector("dialog[open]") ||
+    document.querySelector(".pricing-modal:not([hidden]), .demand-modal:not([hidden])")
+  );
 }
 
 function isPagePagerViewport() {
@@ -854,8 +874,28 @@ function scrollActivePageByKeyboard(deltaY) {
 function navigateByPageStep(direction) {
   if (!isPagePagerEnabled() || pagePagerState.transitionLocked) return;
   const nextIndex = pagePagerState.currentIndex + direction;
+  if (nextIndex >= pageSections.length && direction > 0) {
+    openMethodologyPage();
+    return;
+  }
   if (nextIndex < 0 || nextIndex >= pageSections.length) return;
   activatePage(nextIndex);
+}
+
+function handleMethodologyWheel(event) {
+  if (!isPagePagerEnabled() || !isMethodologyPageOpen()) return false;
+  if (innerScrollCanConsume(event.target, event.deltaY)) return true;
+  event.preventDefault();
+  if (pagePagerState.transitionLocked) return true;
+  pagePagerState.wheelAccumulator += event.deltaY;
+  if (Math.abs(pagePagerState.wheelAccumulator) < 38) return true;
+  const direction = pagePagerState.wheelAccumulator > 0 ? 1 : -1;
+  pagePagerState.wheelAccumulator = 0;
+  if (direction < 0) {
+    closeMethodologyPage();
+    activatePage("showcase", { immediate: true });
+  }
+  return true;
 }
 
 function setupPagePagerEvents() {
@@ -879,7 +919,9 @@ function setupPagePagerEvents() {
   document.addEventListener(
     "wheel",
     (event) => {
-      if (!isPagePagerEnabled() || event.ctrlKey || Math.abs(event.deltaY) < 1) return;
+      if (event.ctrlKey || Math.abs(event.deltaY) < 1 || hasBlockingOverlayOpen()) return;
+      if (handleMethodologyWheel(event)) return;
+      if (!isPagePagerEnabled()) return;
       if (innerScrollCanConsume(event.target, event.deltaY)) return;
       event.preventDefault();
       if (pagePagerState.transitionLocked) return;
@@ -2417,10 +2459,19 @@ function getActiveTabPanel() {
 function setPanelEditing(panel, editing) {
   if (!panel) return;
   panel.classList.toggle("is-editing", editing);
+  const isLandingPanel = panel.id === "landing";
   panel.querySelectorAll("h3, h4, h5, p, li, .mermaid-code").forEach((node) => {
-    if (node.closest(".content-tools, .section-image-drop, .image-strip, .promo-flow, .landing-project-media")) return;
+    if (isLandingPanel || node.closest(".content-tools, .section-image-drop, .image-strip, .promo-flow, .landing-project-media")) {
+      node.contentEditable = "false";
+      return;
+    }
     node.contentEditable = editing ? "true" : "false";
   });
+  if (isLandingPanel) {
+    panel.querySelectorAll("[data-landing-image-field=\"description\"]").forEach((field) => {
+      field.disabled = !editing;
+    });
+  }
   if (editTabButton) {
     editTabButton.textContent = editing ? "编辑中" : "编辑";
     editTabButton.classList.toggle("is-active", editing);
@@ -2434,7 +2485,9 @@ function startEditActiveTab() {
   const panel = getActiveTabPanel();
   if (!panel) return;
   setPanelEditing(panel, true);
-  const firstEditable = panel.querySelector('[contenteditable="true"]');
+  const firstEditable = panel.id === "landing"
+    ? panel.querySelector('[data-landing-image-field="description"]:not(:disabled)')
+    : panel.querySelector('[contenteditable="true"]');
   firstEditable?.focus();
   setStatus("当前模块可编辑，修改后点击保存", "neutral");
 }
@@ -5253,6 +5306,7 @@ function buildShowcaseCardViewModel(work) {
     problemType: deriveShowcaseProblemType(normalized, portfolio),
     capabilities,
     cover: String(normalized.cover || "").trim(),
+    projectPath: String(normalized.projectPath || "").trim(),
     featuredShowcase: Boolean(normalized.featuredShowcase),
     hideCardActions: Boolean(normalized.hideCardActions),
     visibility,
@@ -5274,6 +5328,87 @@ function renderShowcaseCardValueChips(value) {
   return splitShowcaseCardValues(value)
     .map((item) => `<span class="showcase-modal-chip">${escapeHtml(item)}</span>`)
     .join("");
+}
+
+const showcaseEvidenceCache = new Map();
+
+function renderShowcaseEvidenceMetric(metric, className = "") {
+  if (!metric) return "";
+  return `
+    <div class="showcase-evidence-metric ${className}">
+      <span>${escapeHtml(metric.label || "核心指标")}</span>
+      <strong>${escapeHtml(metric.display || `${metric.value ?? "—"}${metric.unit || ""}`)}</strong>
+    </div>
+  `;
+}
+
+function renderProjectEvidenceOutcome(outcome) {
+  if (!outcome || outcome.status === "unavailable") {
+    return `<div class="showcase-evidence-empty">暂无成果数据</div>`;
+  }
+  const metrics = [outcome.primaryMetric, ...(Array.isArray(outcome.supportingMetrics) ? outcome.supportingMetrics : [])].filter(Boolean);
+  return `
+    <div class="showcase-evidence-headline">${escapeHtml(outcome.headline || "已读取项目成果数据")}</div>
+    ${metrics.length ? `<div class="showcase-evidence-metrics">${metrics.map((metric, index) => renderShowcaseEvidenceMetric(metric, index === 0 ? "is-primary" : "")).join("")}</div>` : ""}
+  `;
+}
+
+function renderProjectEvidenceProblem(problem) {
+  if (!problem || problem.status === "unavailable") {
+    return `<div class="showcase-evidence-empty">暂无问题类型数据</div>`;
+  }
+  const items = Array.isArray(problem.items) ? problem.items : [];
+  return `
+    <div class="showcase-evidence-headline">${escapeHtml(problem.headline || "问题类型待核验")}</div>
+    ${items.length ? `<div class="showcase-evidence-problems">${items.map((item) => `
+      <article class="showcase-evidence-problem">
+        <div class="showcase-evidence-problem-top">
+          <strong>${escapeHtml(item.name || "未命名问题")}</strong>
+          <span class="showcase-evidence-severity">${escapeHtml(item.severity || "待判断")}</span>
+        </div>
+        <p>${escapeHtml(item.impact || "影响范围待核验")}</p>
+        <div class="showcase-evidence-problem-meta">
+          <span>${escapeHtml(item.status || "待判断")}</span>
+          ${item.count === null || item.count === undefined ? "" : `<span>${escapeHtml(String(item.count))} 条关联记录</span>`}
+        </div>
+      </article>
+    `).join("")}</div>` : ""}
+  `;
+}
+
+function renderProjectEvidenceIntoModal(modal, evidence) {
+  const outcomePanel = modal?.querySelector('[data-evidence-panel="outcome"]');
+  const problemPanel = modal?.querySelector('[data-evidence-panel="problem"]');
+  if (outcomePanel) outcomePanel.innerHTML = renderProjectEvidenceOutcome(evidence?.outcome);
+  if (problemPanel) problemPanel.innerHTML = renderProjectEvidenceProblem(evidence?.problem);
+}
+
+async function loadShowcaseCardEvidence(card, modal) {
+  const projectPath = String(card?.dataset.projectPath || "").trim();
+  if (!projectPath || !modal) {
+    renderProjectEvidenceIntoModal(modal, { outcome: { status: "unavailable" }, problem: { status: "unavailable" } });
+    return;
+  }
+  const cacheKey = projectPath.toLowerCase();
+  if (showcaseEvidenceCache.has(cacheKey)) {
+    renderProjectEvidenceIntoModal(modal, showcaseEvidenceCache.get(cacheKey));
+    return;
+  }
+  const loading = { outcome: { status: "pending", headline: "正在读取成果数据" }, problem: { status: "pending", headline: "正在读取问题类型" } };
+  renderProjectEvidenceIntoModal(modal, loading);
+  try {
+    const response = await fetch(`/api/project-evidence?path=${encodeURIComponent(projectPath)}`, { cache: "no-store" });
+    if (!response.ok) throw new Error("项目证据暂时无法读取");
+    const evidence = await response.json();
+    showcaseEvidenceCache.set(cacheKey, evidence);
+    renderProjectEvidenceIntoModal(modal, evidence);
+  } catch (error) {
+    console.warn("项目证据读取失败", error);
+    renderProjectEvidenceIntoModal(modal, {
+      outcome: { status: "unavailable", headline: "成果数据读取失败" },
+      problem: { status: "unavailable", headline: "问题类型读取失败" }
+    });
+  }
 }
 
 function setShowcaseCardModalTab(modal, tabKey, { focus = false } = {}) {
@@ -5336,6 +5471,7 @@ function openShowcaseCardModal(card, tabKey) {
   } else {
     modal.setAttribute("open", "");
   }
+  void loadShowcaseCardEvidence(card, modal);
   modal.querySelector(`[data-work-card-modal-tab="${tabKey}"]`)?.focus({ preventScroll: true });
 }
 
@@ -5370,13 +5506,6 @@ function renderWorkCard(work) {
       key: "intro",
       label: "项目简介",
       content: `
-        <div class="showcase-modal-panel-heading">
-          <span class="showcase-modal-panel-index">01</span>
-          <div>
-            <span class="showcase-modal-panel-kicker">项目简介</span>
-            <h5>这个项目解决了什么问题？</h5>
-          </div>
-        </div>
         <div class="showcase-modal-fields">${cardFields}</div>
       `
     },
@@ -5384,16 +5513,8 @@ function renderWorkCard(work) {
       key: "outcome",
       label: "成果数据",
       content: `
-        <div class="showcase-modal-result-card">
-          <span class="showcase-modal-panel-index">02</span>
-          <div class="showcase-modal-result-copy">
-            <span class="showcase-modal-panel-kicker">可验证交付物</span>
-            <strong>${escapeHtml(view.dataOutcome)}</strong>
-            <p>当前项目已经留下的结果与交付对象。</p>
-          </div>
-        </div>
-        <div class="showcase-modal-chip-list" aria-label="成果数据分类">
-          ${renderShowcaseCardValueChips(view.dataOutcome)}
+        <div class="showcase-evidence-panel" data-evidence-panel="outcome" aria-live="polite">
+          <div class="showcase-evidence-empty">打开后读取当前项目成果数据</div>
         </div>
       `
     },
@@ -5401,16 +5522,8 @@ function renderWorkCard(work) {
       key: "problem",
       label: "问题类型",
       content: `
-        <div class="showcase-modal-result-card showcase-modal-problem-card">
-          <span class="showcase-modal-panel-index">03</span>
-          <div class="showcase-modal-result-copy">
-            <span class="showcase-modal-panel-kicker">业务问题分类</span>
-            <strong>${escapeHtml(view.problemType)}</strong>
-            <p>帮助读者快速判断这个项目主要解决哪类业务问题。</p>
-          </div>
-        </div>
-        <div class="showcase-modal-chip-list" aria-label="问题类型分类">
-          ${renderShowcaseCardValueChips(view.problemType)}
+        <div class="showcase-evidence-panel" data-evidence-panel="problem" aria-live="polite">
+          <div class="showcase-evidence-empty">打开后读取当前项目问题类型</div>
         </div>
       `
     }
@@ -5452,7 +5565,7 @@ function renderWorkCard(work) {
         >${tab.content}</section>
       `).join("");
   return `
-    <article class="project-card generated-work${view.featuredShowcase ? " featured-showcase" : ""}" data-work-id="${escapeHtml(view.id)}">
+    <article class="project-card generated-work${view.featuredShowcase ? " featured-showcase" : ""}" data-work-id="${escapeHtml(view.id)}" data-project-path="${escapeHtml(view.projectPath)}">
       ${actions}
       ${cover}
       <div class="work-card-info">
@@ -5471,23 +5584,12 @@ function renderWorkCard(work) {
         <div class="showcase-card-modal-frame">
           <header class="showcase-card-modal-header">
             <div class="showcase-card-modal-heading">
-              <span class="showcase-modal-eyebrow">项目卡片 · 信息详情</span>
               <h4 id="${panelPrefix}-modal-title">${escapeHtml(view.title)}</h4>
-              <p>选择信息维度，快速查看这个项目的价值、结果与问题边界。</p>
             </div>
             <button class="showcase-card-modal-close" type="button" data-work-card-modal-close aria-label="关闭项目详情">×</button>
           </header>
-          <div class="showcase-modal-context">
-            <span class="showcase-modal-context-index">项目</span>
-            <strong>${escapeHtml(view.title)}</strong>
-            <span class="showcase-modal-context-tag">${escapeHtml(view.tag)}</span>
-          </div>
           <div class="showcase-modal-tabs" role="tablist" aria-label="项目详情信息切换">${modalTabHtml}</div>
           <div class="showcase-modal-panels">${modalPanelHtml}</div>
-          <footer class="showcase-card-modal-footer">
-            <span data-work-card-modal-state>当前查看：项目简介</span>
-            <button class="showcase-card-modal-done" type="button" data-work-card-modal-close>完成查看</button>
-          </footer>
         </div>
       </dialog>
     </article>
@@ -5957,8 +6059,8 @@ function renderLandingProjectImages() {
       <figure class="landing-project-image" data-landing-image-id="${escapeHtml(image.id)}">
         <img src="${image.src}" alt="${escapeHtml(image.title || `项目截图 ${index + 1}`)}" />
         <figcaption>
-          <input class="landing-image-title" type="text" value="${escapeHtml(image.title || `截图 ${String(index + 1).padStart(2, "0")}`)}" data-landing-image-field="title" aria-label="截图 ${index + 1} 标题" />
-          <textarea class="landing-image-description" rows="2" data-landing-image-field="description" aria-label="截图 ${index + 1} 描述">${escapeHtml(image.description || "说明这张截图展示的任务、结果或验证证据。")}</textarea>
+          <strong class="landing-image-title">${escapeHtml(image.title || `截图 ${String(index + 1).padStart(2, "0")}`)}</strong>
+          <textarea class="landing-image-description" rows="2" data-landing-image-field="description" aria-label="截图 ${index + 1} 描述" disabled>${escapeHtml(image.description || "说明这张截图展示的任务、结果或验证证据。")}</textarea>
           <div class="landing-image-actions" aria-label="截图操作">
             <button type="button" data-move-landing-image="up" ${index === 0 ? "disabled" : ""}>前移</button>
             <button type="button" data-move-landing-image="down" ${index === images.length - 1 ? "disabled" : ""}>后移</button>
@@ -5981,7 +6083,6 @@ function syncLandingImageMetadataFromDom() {
   document.querySelectorAll("[data-landing-image-id]").forEach((card) => {
     const image = images.find((item) => item.id === card.dataset.landingImageId);
     if (!image) return;
-    image.title = card.querySelector('[data-landing-image-field="title"]')?.value.trim() || "项目截图";
     image.description = card.querySelector('[data-landing-image-field="description"]')?.value.trim() || "";
   });
 }

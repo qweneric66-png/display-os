@@ -1,7 +1,7 @@
 {
   "version": 2,
   "mode": "full-analysis-static-mirror",
-  "generatedAt": "2026-08-22T09:08:18.833Z",
+  "generatedAt": "2026-08-22T09:29:38.354Z",
   "activeKey": "project-1",
   "records": [
     {
@@ -1043,10 +1043,10 @@
         "panels": {
           "landing": [
             {
-              "id": "1787389537821-a585270c3d5c18",
-              "name": "codex-clipboard-205a9ee9-e644-481c-928d-ddaacdf9e0d7.png",
-              "title": "评论采集结果证据",
-              "description": "展示落地页截图可独立添加，并用一句话说明对应结果。",
+              "id": "1787390175156-63bedb15a418d8",
+              "name": "image.png",
+              "title": "截图 01",
+              "description": "说明这张截图展示的任务、结果或验证证据。",
               "src": "./assets/projects/01-amazon/image-02.png"
             }
           ]
@@ -1773,7 +1773,7 @@
       },
       "pricing": null,
       "activeTab": "landing",
-      "updatedAt": "2026-08-22T09:08:13.219Z",
+      "updatedAt": "2026-08-22T09:16:33.467Z",
       "uiState": {
         "activeTab": "landing"
       }
@@ -10366,7 +10366,7 @@
       "key": "project-1",
       "title": "Amazon 评论洞察平台",
       "projectPath": "公开项目快照",
-      "updatedAt": "2026-08-22T09:08:13.219Z",
+      "updatedAt": "2026-08-22T09:16:33.467Z",
       "activeTab": "landing"
     },
     {
