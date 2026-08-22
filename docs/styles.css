@@ -10654,3 +10654,306 @@ body.showcase-modal-active {
     display: none;
   }
 }
+
+/* 项目详情入口与项目名称同层，避免底部重复占据整行。 */
+#showcase .generated-work .work-card-title-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+#showcase .generated-work .work-card-title-row h3 {
+  min-width: 0;
+}
+
+#showcase .generated-work .work-card-title-row .work-card-tabs {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+#showcase .generated-work .work-card-title-row .work-card-tab {
+  width: auto;
+  min-width: 92px;
+  min-height: 30px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  #showcase .generated-work .work-card-title-row {
+    gap: 7px;
+  }
+
+  #showcase .generated-work .work-card-title-row .work-card-tab {
+    min-width: 82px;
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+}
+
+/* 2026-08-22：六项目从平铺卡片升级为“证据—决策—交付”能力架构。 */
+#showcase .showcase-heading {
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+#showcase .showcase-heading-copy {
+  max-width: 900px;
+}
+
+#showcase .showcase-heading-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: #d94a36;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+#showcase .showcase-heading-copy h2 {
+  margin: 0;
+  font-size: clamp(38px, 4vw, 58px);
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+
+#showcase .showcase-heading-copy p {
+  max-width: 780px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+#showcase .showcase-system-map {
+  display: grid;
+  grid-template-columns: minmax(250px, .72fr) minmax(0, 2fr);
+  gap: clamp(22px, 2.6vw, 38px);
+  margin-bottom: 24px;
+  padding: clamp(24px, 2.4vw, 34px);
+  overflow: hidden;
+  border: 1px solid rgba(217, 74, 54, .42);
+  border-radius: 18px;
+  color: #fffdf8;
+  background:
+    radial-gradient(circle at 88% 0, rgba(217, 74, 54, .26), transparent 34%),
+    linear-gradient(135deg, #10221f 0%, #14252a 50%, #171719 100%);
+  box-shadow: 0 18px 44px rgba(26, 39, 37, .13);
+}
+
+#showcase .showcase-system-header > span {
+  display: block;
+  color: #ff9c72;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+#showcase .showcase-system-header h3 {
+  margin: 9px 0 10px;
+  color: #fffdf8;
+  font-size: clamp(25px, 2.2vw, 34px);
+  line-height: 1.16;
+}
+
+#showcase .showcase-system-header p {
+  margin: 0;
+  color: rgba(255, 253, 248, .62);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#showcase .showcase-system-flow {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1.12fr) auto minmax(0, .86fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+}
+
+#showcase .showcase-system-stage {
+  display: flex;
+  min-width: 0;
+  min-height: 144px;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .06);
+}
+
+#showcase .showcase-system-stage-decision {
+  border-color: rgba(255, 156, 114, .52);
+  background: rgba(217, 74, 54, .16);
+}
+
+#showcase .showcase-system-stage-output {
+  border-color: rgba(126, 195, 178, .4);
+  background: rgba(37, 104, 91, .14);
+}
+
+#showcase .showcase-system-stage-index {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 156, 114, .62);
+  border-radius: 9px;
+  color: #ffab84;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+#showcase .showcase-system-stage-copy {
+  min-width: 0;
+}
+
+#showcase .showcase-system-stage-copy > span {
+  color: rgba(255, 253, 248, .58);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+#showcase .showcase-system-stage-copy h4 {
+  margin: 5px 0 13px;
+  color: #fffdf8;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+#showcase .showcase-system-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#showcase .showcase-system-projects span {
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  color: rgba(255, 253, 248, .82);
+  background: rgba(0, 0, 0, .16);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+#showcase .showcase-system-arrow {
+  display: grid;
+  place-items: center;
+  color: #ff8b63;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+#showcase .project-rail {
+  margin-top: 0;
+}
+
+#showcase .generated-work .work-card-role-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#showcase .generated-work .work-card-role-row > .tag {
+  width: fit-content;
+  flex: 0 0 auto;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border: 1px solid rgba(255, 255, 255, .38);
+  color: rgba(255, 255, 255, .95);
+  background: rgba(255, 255, 255, .08);
+  font-size: 10px;
+}
+
+#showcase .generated-work .work-card-system-role {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(255, 253, 248, .58);
+  font-size: 10px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#showcase .generated-work .work-card-system-role b {
+  margin-right: 5px;
+  color: #ff8b63;
+  font-weight: 900;
+}
+
+#showcase .generated-work .work-card-one-line {
+  display: -webkit-box;
+  min-height: 46px;
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: rgba(255, 253, 248, .78);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+@media (max-width: 1180px) {
+  #showcase .showcase-system-map {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  #showcase .showcase-heading {
+    align-items: flex-start;
+  }
+
+  #showcase .showcase-heading-copy h2 {
+    font-size: 38px;
+  }
+
+  #showcase .showcase-heading-copy p {
+    font-size: 15px;
+  }
+
+  #showcase .showcase-system-map {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  #showcase .showcase-system-flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #showcase .showcase-system-stage {
+    min-height: 0;
+  }
+
+  #showcase .showcase-system-arrow {
+    height: 20px;
+    transform: rotate(90deg);
+  }
+
+  #showcase .generated-work .work-card-role-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  #showcase .generated-work .work-card-system-role {
+    max-width: 100%;
+  }
+
+  #showcase .generated-work .work-card-one-line {
+    min-height: 0;
+    font-size: 13px;
+    -webkit-line-clamp: 3;
+  }
+}

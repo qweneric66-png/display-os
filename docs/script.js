@@ -5045,7 +5045,7 @@ const projectReviewCardCopy = [
     match: /跨境商品统一调度平台|跨境商品运营|商品发布|平台上线/i,
     title: "跨境商品统一调度平台",
     tag: "商品调度",
-    oneLine: "汇总多平台商品资料，按渠道规则生成发布内容，并跟踪到平台确认结果。",
+    oneLine: "把商品资料治理、人工确认、多平台发布和异常恢复串成可追踪的运营闭环。",
     intro: "商品按渠道生成发布内容，失败可定位到商品与步骤，修正后只重跑失败项。",
     keywords: ["渠道映射", "发布确认", "异常定位", "失败重跑"],
     deliverables: ["渠道发布表", "商品处理状态", "异常商品清单", "平台确认结果"]
@@ -5054,7 +5054,7 @@ const projectReviewCardCopy = [
     match: /Reddit 视觉RAG平台|Reddit RAG Training|Reddit.*知识块|RAG.*审核/i,
     title: "Reddit 视觉RAG平台",
     tag: "证据审核",
-    oneLine: "采集 Reddit 帖子与评论，整理为带来源、审核状态和引用边界的知识块。",
+    oneLine: "把社区帖子、图片与讨论整理为带来源、反证和审核状态的洞察知识库。",
     intro: "证据不足的内容先补证，争议内容交给人工审核，确认后才能进入可引用知识库。",
     keywords: ["来源保留", "人工审核", "知识块", "失败回归"],
     deliverables: ["审核知识块", "来源记录", "待补证清单", "失败样本"]
@@ -5063,16 +5063,16 @@ const projectReviewCardCopy = [
     match: /LEX建模|SolidWorks 工程自动化|材料属性.*参考图|建模任务/i,
     title: "LEX建模｜AI + SolidWorks 工程自动化平台",
     tag: "工程建模",
-    oneLine: "把材料参数和参考图转成可审核的建模任务，驱动 SolidWorks 生成并验收模型。",
+    oneLine: "把草图与自然语言编译为可审核工程规格，再驱动 SolidWorks 建模与验收。",
     intro: "参数冲突先阻断，模型需通过重建、位置、截图和文件保存检查。",
     keywords: ["参数审核", "建模执行", "冲突阻断", "结果验收"],
     deliverables: ["建模任务", "SolidWorks 模型", "验收截图", "失败记录"]
   },
   {
     match: /亚马逊评论采集平台|Amazon 评论|评论采集|星级评论|Review/i,
-    title: "亚马逊评论采集平台",
-    tag: "评论采集",
-    oneLine: "把逐页复制 Amazon 评论，整理成可分类、可回查的评论数据采集流程。",
+    title: "Amazon 评论洞察平台",
+    tag: "评论证据",
+    oneLine: "把 Amazon 评论按商品与星级采集归档，为需求洞察提供可回查的原始证据。",
     intro:
       "面向电商运营和用户反馈分析人员，解决评论散落在商品页面、星级样本难分类、复制结果无法复查的问题。系统从商品或评论页读取评论内容，按星级、商品和采集批次整理为 Markdown 或数据文件，并保留采集来源、失败页面和异常样本，方便后续做差评归因、卖点提炼和选品判断。",
     keywords: ["评论采集", "星级分类", "文本整理", "失败样本", "Markdown 输出"],
@@ -5080,9 +5080,9 @@ const projectReviewCardCopy = [
   },
   {
     match: /跨境电商选品平台|选品平台|选品智能体|商品机会判断|智能体辅助选品/i,
-    title: "跨境电商选品平台",
-    tag: "选品任务",
-    oneLine: "把人工选类目和分散跑脚本，整理成可控的选品任务控制台。",
+    title: "跨境选品智能体平台",
+    tag: "机会决策",
+    oneLine: "把跨平台候选、筛选理由与供应商匹配组织成可暂停、可复查的选品任务。",
     intro:
       "面向跨境电商选品负责人和商品数据分析人员，解决类目范围容易误选、任务状态分散、失败记录难回查的问题。系统按站点、目标网站、类目层级或 Excel 输入创建任务，通过控制台触发采集、记录进度、暂停、断点续跑和结果下载，最终沉淀选品结果文件、任务记录和异常样本。",
     keywords: ["类目边界", "任务编排", "断点续跑", "失败重跑", "结果导出"],
@@ -5092,13 +5092,31 @@ const projectReviewCardCopy = [
     match: /PDD 店铺商品数据自动采集平台|PDD 店铺|拼多多|SKU|OCR 价格/i,
     title: "PDD 店铺商品采集平台",
     tag: "商品采集",
-    oneLine: "采集 PDD 店铺与商品信息，整理 SKU、价格和图片，输出可复查的 Excel 商品表。",
+    oneLine: "把动态商品页转成可复核的 SKU、价格、图片与 Excel 供给数据。",
     intro:
       "登录失效、价格冲突或商品识别异常时暂停并保留截图，确认后从中断位置继续。",
     keywords: ["商品采集", "SKU 解析", "价格复核", "Excel 导出"],
     deliverables: ["商品 Excel 表", "SKU 采集记录", "OCR 截图证据", "任务日志", "异常恢复记录"]
   }
 ];
+
+const showcaseSystemRoles = [
+  { match: /PDD 店铺商品采集平台/i, stage: "01", stageLabel: "市场证据", role: "供给数据入口" },
+  { match: /Amazon 评论洞察平台|亚马逊评论采集平台/i, stage: "01", stageLabel: "市场证据", role: "评论证据入口" },
+  { match: /Reddit 视觉RAG平台/i, stage: "01", stageLabel: "市场证据", role: "社区洞察入口" },
+  { match: /跨境选品智能体平台|跨境电商选品平台/i, stage: "02", stageLabel: "机会决策", role: "候选收敛中枢" },
+  { match: /跨境商品统一调度平台/i, stage: "03", stageLabel: "业务交付", role: "商业运营路径" },
+  { match: /LEX建模|SolidWorks 工程自动化/i, stage: "03", stageLabel: "工程交付", role: "产品工程路径" }
+];
+
+function getShowcaseSystemRole(work) {
+  const source = `${work?.title || ""} ${work?.oneLine || ""} ${work?.tag || ""}`;
+  return showcaseSystemRoles.find((item) => item.match.test(source)) || {
+    stage: "--",
+    stageLabel: "项目能力",
+    role: "独立能力模块"
+  };
+}
 
 function normalizeWorkCardCopy(work) {
   const text = [
@@ -5181,6 +5199,7 @@ function deriveShowcaseDataOutcome(normalized, portfolio) {
 
 function buildShowcaseCardViewModel(work) {
   const normalized = normalizeWorkCardCopy(work || {});
+  const systemRole = getShowcaseSystemRole(normalized);
   const visibility = normalized.visibility === "hidden" ? "hidden" : "visible";
   const portfolio = normalized.portfolio && typeof normalized.portfolio === "object" ? normalized.portfolio : {};
   const originalResistance = compactShowcaseCardText(
@@ -5209,7 +5228,9 @@ function buildShowcaseCardViewModel(work) {
     76,
     "可查看、可复查、可交付的项目结果"
   ).replace(/…$/, "");
-  const oneLineValue = `把${compactShowcaseCardText(oldProblemForValue, 48)}，转变为${visibleResultForValue}。`;
+  const oneLineValue = normalized.oneLine
+    ? compactShowcaseCardText(normalized.oneLine, 58)
+    : `把${compactShowcaseCardText(oldProblemForValue, 48)}，转变为${visibleResultForValue}。`;
   const isPlaceholderCapability = (value) => /^(?:核心)?(?:优势|亮点|能力|特点)\s*[A-Z一二三四五六七八九十\d]*$/i.test(String(value || "").trim());
   const capabilities = Array.from(new Set([
     ...(Array.isArray(normalized.keywords) ? normalized.keywords : []),
@@ -5231,7 +5252,10 @@ function buildShowcaseCardViewModel(work) {
     featuredShowcase: Boolean(normalized.featuredShowcase),
     hideCardActions: Boolean(normalized.hideCardActions),
     visibility,
-    visibilityLabel: visibility === "hidden" ? "已隐藏" : "已展示"
+    visibilityLabel: visibility === "hidden" ? "已隐藏" : "已展示",
+    systemStage: systemRole.stage,
+    systemStageLabel: systemRole.stageLabel,
+    systemRole: systemRole.role
   };
 }
 
@@ -5397,7 +5421,7 @@ function renderWorkCard(work) {
           aria-expanded="false"
           data-work-card-modal-open="intro"
         >
-          <span>查看项目详情</span>
+          <span>项目详情</span>
           <span class="work-card-tab-arrow" aria-hidden="true">↗</span>
         </button>
       `;
@@ -5428,10 +5452,16 @@ function renderWorkCard(work) {
       ${actions}
       ${cover}
       <div class="work-card-info">
-        <span class="tag">${escapeHtml(view.tag)}</span>
+        <div class="work-card-role-row">
+          <span class="tag">${escapeHtml(view.tag)}</span>
+          <span class="work-card-system-role"><b>${escapeHtml(view.systemStage)}</b>${escapeHtml(view.systemStageLabel)} · ${escapeHtml(view.systemRole)}</span>
+        </div>
         <span class="work-card-project-label">项目名称</span>
-        <h3>${escapeHtml(view.title)}</h3>
-        <div class="work-card-tabs" role="group" aria-label="打开项目卡片信息">${cardTabHtml}</div>
+        <div class="work-card-title-row">
+          <h3>${escapeHtml(view.title)}</h3>
+          <div class="work-card-tabs" role="group" aria-label="打开项目卡片信息">${cardTabHtml}</div>
+        </div>
+        <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
       </div>
       ${view.visibility === "hidden" ? `<span class="work-card-status">${escapeHtml(view.visibilityLabel)}</span>` : ""}
       <dialog class="showcase-card-modal" id="${modalId}" data-work-card-modal aria-labelledby="${panelPrefix}-modal-title">
