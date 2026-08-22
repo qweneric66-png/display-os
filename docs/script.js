@@ -548,6 +548,11 @@ const sourceDetails = document.querySelector("#sourceDetails");
 const projectPathInput = document.querySelector("#projectPath");
 const projectHistoryMenu = document.querySelector("#projectHistoryMenu");
 const toggleProjectHistory = document.querySelector("#toggleProjectHistory");
+const PROJECT_HISTORY_CACHE_TTL = 15000;
+let projectHistoryDraftsCache = [];
+let projectHistoryCacheUpdatedAt = 0;
+let projectHistoryLoadPromise = null;
+let projectHistoryRenderVersion = 0;
 const fileInput = document.querySelector("#projectFile");
 const projectImagesInput = document.querySelector("#projectImages");
 const inputImageDrop = document.querySelector("#inputImageDrop");
@@ -3736,8 +3741,8 @@ async function getRecoveredProjectDrafts() {
     if (response.ok) {
       const data = await response.json();
      const records = Array.isArray(data.records) ? data.records : [];
-      for (const record of records) {
-        if (!record?.key) continue;
+      const hydratedRecords = await Promise.all(records.map(async (record) => {
+        if (!record?.key) return null;
         let hydratedRecord = record;
         if (legacyGeneratedProjectTitles.has(String(record.title || "").trim())) {
           try {
@@ -3748,6 +3753,11 @@ async function getRecoveredProjectDrafts() {
             // 列表接口仍可提供项目路径和保存时间，详情读取失败时保留列表标题。
           }
         }
+        return { record, hydratedRecord };
+      }));
+      for (const item of hydratedRecords) {
+        if (!item) continue;
+        const { record, hydratedRecord } = item;
         recovered.push({
           pathKey: "record:" + (hydratedRecord.key || record.key),
           path: hydratedRecord.projectPath || record.projectPath || "",
@@ -3784,23 +3794,25 @@ async function getRecoveredProjectDrafts() {
 }
 
 function mergeProjectHistory(localDrafts, recoveredDrafts) {
-  const seen = new Set();
-  const merged = [];
+  const mergedByIdentity = new Map();
   for (const draft of [...recoveredDrafts, ...localDrafts]) {
     const stableId = String(draft?.stableId || draft?.projectId || draft?.recordKey || "")
       .trim()
       .toLowerCase();
     const normalizedPath = normalizeProjectPath(draft.path);
-    const identity = stableId
-      ? `stable:${stableId}`
-      : normalizedPath
-        ? `path:${normalizedPath}`
+    const identity = normalizedPath
+      ? `path:${normalizedPath}`
+      : stableId
+        ? `stable:${stableId}`
       : `source:${draft.sourceType || "local"}:${String(draft.pathKey || "").toLowerCase()}`;
-    if (!identity || seen.has(identity)) continue;
-    seen.add(identity);
-    merged.push(draft);
+    if (!identity) continue;
+    const existing = mergedByIdentity.get(identity);
+    if (!existing || new Date(draft.updatedAt || 0).getTime() > new Date(existing.updatedAt || 0).getTime()) {
+      mergedByIdentity.set(identity, draft);
+    }
   }
-  return merged;
+  return [...mergedByIdentity.values()]
+    .sort((a, b) => new Date(b.updatedAt || 0).getTime() - new Date(a.updatedAt || 0).getTime());
 }
 
 function formatProjectUpdatedAt(value) {
@@ -3809,16 +3821,43 @@ function formatProjectUpdatedAt(value) {
   return `最近保存 ${date.toLocaleString("zh-CN", { hour12: false })}`;
 }
 
-async function renderProjectHistoryOptions() {
+function invalidateProjectHistoryCache() {
+  projectHistoryCacheUpdatedAt = 0;
+}
+
+async function getProjectHistoryDrafts({ force = false } = {}) {
+  const cacheIsFresh = projectHistoryDraftsCache.length
+    && Date.now() - projectHistoryCacheUpdatedAt < PROJECT_HISTORY_CACHE_TTL;
+  if (!force && cacheIsFresh) return projectHistoryDraftsCache;
+  if (!force && projectHistoryLoadPromise) return projectHistoryLoadPromise;
+  const loadPromise = Promise.all([getAllProjectDrafts(), getRecoveredProjectDrafts()])
+    .then(([localDrafts, recoveredDrafts]) => {
+      projectHistoryDraftsCache = mergeProjectHistory(localDrafts, recoveredDrafts);
+      projectHistoryCacheUpdatedAt = Date.now();
+      return projectHistoryDraftsCache;
+    })
+    .finally(() => {
+      if (projectHistoryLoadPromise === loadPromise) projectHistoryLoadPromise = null;
+    });
+  projectHistoryLoadPromise = loadPromise;
+  return loadPromise;
+}
+
+async function renderProjectHistoryOptions({ force = false, query = "" } = {}) {
   if (!projectHistoryMenu) return;
-  const localDrafts = await getAllProjectDrafts();
-  const recoveredDrafts = await getRecoveredProjectDrafts();
-  const drafts = mergeProjectHistory(localDrafts, recoveredDrafts);
+  const renderVersion = ++projectHistoryRenderVersion;
+  const allDrafts = await getProjectHistoryDrafts({ force });
+  if (renderVersion !== projectHistoryRenderVersion) return;
+  const normalizedQuery = String(query || "").trim().toLowerCase();
+  const drafts = normalizedQuery
+    ? allDrafts.filter((draft) => [draft.title, draft.path]
+      .some((value) => String(value || "").toLowerCase().includes(normalizedQuery)))
+    : allDrafts;
   const currentKey = normalizeProjectPath(projectPathInput.value);
   const currentTitle = String(titleInput?.value || "").trim().toLowerCase();
   const currentPathMatches = drafts.filter((draft) => normalizeProjectPath(draft.path) === currentKey).length;
   if (!drafts.length) {
-    projectHistoryMenu.innerHTML = `<div class="project-history-empty">暂无历史项目</div>`;
+    projectHistoryMenu.innerHTML = `<div class="project-history-empty">${normalizedQuery ? "未找到匹配项目" : "暂无历史项目"}</div>`;
     return;
   }
   projectHistoryMenu.innerHTML = drafts
@@ -4184,7 +4223,9 @@ async function saveProjectDraft() {
       // localStorage fallback already contains the same draft.
     }
   }
-  await renderProjectHistoryOptions();
+  if (projectHistoryMenu && !projectHistoryMenu.hidden) {
+    await renderProjectHistoryOptions({ query: projectPathInput.value });
+  }
 }
 
 function scheduleProjectDraftSave() {
@@ -6945,8 +6986,13 @@ projectPathInput.addEventListener("change", async () => {
 });
 
 function openProjectHistoryMenu() {
-  renderProjectHistoryOptions().then(() => {
-    if (projectHistoryMenu) projectHistoryMenu.hidden = false;
+  if (!projectHistoryMenu) return;
+  projectHistoryMenu.hidden = false;
+  if (!projectHistoryDraftsCache.length) {
+    projectHistoryMenu.innerHTML = `<div class="project-history-empty">正在载入项目…</div>`;
+  }
+  renderProjectHistoryOptions({ query: projectPathInput.value }).catch(() => {
+    projectHistoryMenu.innerHTML = `<div class="project-history-empty">项目列表载入失败，请重试</div>`;
   });
 }
 
@@ -6995,7 +7041,8 @@ projectHistoryMenu?.addEventListener("click", async (event) => {
       } else {
         setStatus("项目记录已删除，项目目录资料未删除", "ok");
       }
-      await renderProjectHistoryOptions();
+      invalidateProjectHistoryCache();
+      await renderProjectHistoryOptions({ force: true, query: projectPathInput.value });
     } catch (error) {
       deleteButton.disabled = false;
       setStatus(`删除失败：${error.message || "请稍后重试"}`, "error");
@@ -7034,6 +7081,9 @@ projectPathInput.addEventListener("input", () => {
     titleInput.value = "";
   }
   renderInputReadiness();
+  if (projectHistoryMenu && !projectHistoryMenu.hidden && projectHistoryDraftsCache.length) {
+    renderProjectHistoryOptions({ query: projectPathInput.value }).catch(() => {});
+  }
 });
 titleInput.addEventListener("input", () => {
   scheduleProjectDraftSave();
