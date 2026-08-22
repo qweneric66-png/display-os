@@ -975,10 +975,14 @@ function setupPagePager() {
 }
 
 function restorePageFromUrlHash() {
-  if (!isPagePagerEnabled()) return;
   const hashId = window.location.hash.slice(1);
   if (!pageSectionIds.includes(hashId)) return;
-  activatePage(hashId, { updateHash: false, immediate: true });
+  if (isPagePagerEnabled()) {
+    activatePage(hashId, { updateHash: false, immediate: true });
+    return;
+  }
+  const targetSection = pageSections[pageSectionIds.indexOf(hashId)];
+  window.requestAnimationFrame(() => targetSection?.scrollIntoView({ behavior: "auto", block: "start" }));
 }
 
 const imageDbName = "display-os-image-store";
@@ -5131,9 +5135,87 @@ function normalizeWorkCardCopy(work) {
   };
 }
 
+function compactShowcaseCardText(value, limit = 140, fallback = "待补充") {
+  const cleaned = String(value || "")
+    .replace(/(?:[A-Za-z]:)?[\\/][^\s，。；：]+/g, "")
+    .replace(/\b(?:source|output|report|template|attempt|checked|success|failed|error_detail|task_id|job_id|uuid)\b\s*[:：]?/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!cleaned) return fallback;
+  if (cleaned.length <= limit) return cleaned;
+  return `${cleaned.slice(0, limit).replace(/[，、；：\s]+$/g, "")}…`;
+}
+
+function pickShowcasePortfolioDecision(portfolio) {
+  const decisions = Array.isArray(portfolio?.keyDecisions) ? portfolio.keyDecisions : [];
+  const decisionText = (item) => `${item?.title || ""}${item?.decision || ""}${item?.reason || ""}`;
+  return decisions.find((item) => /异常节点|业务终态|平台结果|结果必须|人工确认|暂停/.test(decisionText(item)))
+    || decisions.find((item) => /边界|确认/.test(decisionText(item)))
+    || decisions[0]
+    || null;
+}
+
+function deriveShowcaseProblemType(normalized, portfolio) {
+  const text = [
+    normalized?.title,
+    normalized?.tag,
+    ...(Array.isArray(normalized?.keywords) ? normalized.keywords : []),
+    portfolio?.hero?.category,
+    ...(Array.isArray(portfolio?.hero?.tags) ? portfolio.hero.tags : []),
+    ...(Array.isArray(portfolio?.problems) ? portfolio.problems : [])
+  ].filter(Boolean).join(" ");
+  const matches = [
+    [/SolidWorks|CAD|建模|材料参数|模型验收/i, "工程结果验收"],
+    [/RAG|知识库|引用|评论|审核|证据治理/i, "证据治理与复核"],
+    [/发布|上架|平台确认|渠道规则|商品发布/i, "平台交付可靠性"],
+    [/商品|SKU|OCR|价格|采集|Excel|评论数据/i, "采集与数据交付"],
+    [/登录|验证码|暂停|断点|失败|恢复|异常/i, "流程可靠性"]
+  ];
+  return matches.find(([pattern]) => pattern.test(text))?.[1] || "业务流程优化";
+}
+
+function deriveShowcaseDataOutcome(normalized, portfolio) {
+  const result = (Array.isArray(portfolio?.results) ? portfolio.results : [])
+    .find((item) => /业务交付|可复查|成果/i.test(String(item?.label || ""))) || portfolio?.results?.[0];
+  const values = [
+    ...(Array.isArray(portfolio?.solution?.outputs) ? portfolio.solution.outputs : []),
+    ...(result?.value ? String(result.value).split(/[、,，；;]/) : []),
+    ...(Array.isArray(normalized?.reviewDeliverables) ? normalized.reviewDeliverables : [])
+  ].map((item) => compactShowcaseCardText(item, 34, "")).filter(Boolean);
+  return Array.from(new Set(values)).slice(0, 3).join(" / ") || compactShowcaseCardText(normalized?.value, 72);
+}
+
 function buildShowcaseCardViewModel(work) {
   const normalized = normalizeWorkCardCopy(work || {});
   const visibility = normalized.visibility === "hidden" ? "hidden" : "visible";
+  const portfolio = normalized.portfolio && typeof normalized.portfolio === "object" ? normalized.portfolio : {};
+  const originalResistance = compactShowcaseCardText(
+    portfolio.problems?.[0] || portfolio.background?.oldFlow || normalized.summary || normalized.oneLine,
+    150,
+    "项目原有流程缺少可复查的交付边界"
+  );
+  const decision = pickShowcasePortfolioDecision(portfolio);
+  const keyJudgment = compactShowcaseCardText(
+    decision ? `${decision.title || "关键判断"}：${decision.decision || decision.reason || ""}` : portfolio.solution?.judgment?.[0] || normalized.oneLine,
+    160,
+    "把不确定节点纳入人工确认和证据复查"
+  );
+  const verifiableResult = compactShowcaseCardText(
+    portfolio.results?.[0]?.value || portfolio.solution?.outputs?.join("、") || normalized.summary || normalized.value,
+    150,
+    "已形成可复查的项目结果"
+  );
+  const oldProblemForValue = compactShowcaseCardText(
+    originalResistance.replace(/^(?:原流程|旧流程|原来的问题)\s*(?:受|是|为)?/i, ""),
+    42,
+    "流程结果难以复查"
+  ).replace(/…$/, "");
+  const visibleResultForValue = compactShowcaseCardText(
+    normalized.summary || normalized.oneLine || portfolio.hero?.summary || portfolio.solution?.overview,
+    76,
+    "可查看、可复查、可交付的项目结果"
+  ).replace(/…$/, "");
+  const oneLineValue = `把${compactShowcaseCardText(oldProblemForValue, 48)}，转变为${visibleResultForValue}。`;
   const isPlaceholderCapability = (value) => /^(?:核心)?(?:优势|亮点|能力|特点)\s*[A-Z一二三四五六七八九十\d]*$/i.test(String(value || "").trim());
   const capabilities = Array.from(new Set([
     ...(Array.isArray(normalized.keywords) ? normalized.keywords : []),
@@ -5143,8 +5225,13 @@ function buildShowcaseCardViewModel(work) {
     id: String(normalized.id || ""),
     title: String(normalized.title || "未命名项目").trim(),
     tag: String(normalized.tag || "项目展示").trim(),
-    oneLine: String(normalized.oneLine || normalized.summary || "").trim(),
+    oneLine: oneLineValue,
     value: String(normalized.value || "待补充").trim(),
+    originalResistance,
+    keyJudgment,
+    verifiableResult,
+    dataOutcome: deriveShowcaseDataOutcome(normalized, portfolio),
+    problemType: deriveShowcaseProblemType(normalized, portfolio),
     capabilities,
     cover: String(normalized.cover || "").trim(),
     featuredShowcase: Boolean(normalized.featuredShowcase),
@@ -5152,6 +5239,82 @@ function buildShowcaseCardViewModel(work) {
     visibility,
     visibilityLabel: visibility === "hidden" ? "已隐藏" : "已展示"
   };
+}
+
+function splitShowcaseCardValues(value) {
+  return Array.from(new Set(String(value || "暂无记录")
+    .split(/\s*[\/｜|、,，]\s*/)
+    .map((item) => item.trim())
+    .filter(Boolean))).slice(0, 8);
+}
+
+function renderShowcaseCardValueChips(value) {
+  return splitShowcaseCardValues(value)
+    .map((item) => `<span class="showcase-modal-chip">${escapeHtml(item)}</span>`)
+    .join("");
+}
+
+function setShowcaseCardModalTab(modal, tabKey, { focus = false } = {}) {
+  const tabs = Array.from(modal?.querySelectorAll("[data-work-card-modal-tab]") || []);
+  const panels = Array.from(modal?.querySelectorAll("[data-work-card-modal-panel]") || []);
+  const activeTab = tabs.find((tab) => tab.dataset.workCardModalTab === tabKey) || tabs[0];
+  if (!activeTab) return;
+  const activeKey = activeTab.dataset.workCardModalTab;
+  tabs.forEach((tab) => {
+    const selected = tab === activeTab;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  });
+  panels.forEach((panel) => {
+    panel.hidden = panel.dataset.workCardModalPanel !== activeKey;
+  });
+  modal.dataset.activeTab = activeKey;
+  const status = modal.querySelector("[data-work-card-modal-state]");
+  if (status) status.textContent = `当前查看：${activeTab.textContent.trim()}`;
+  if (focus) activeTab.focus({ preventScroll: true });
+}
+
+function restoreShowcaseCardModalFocus(modal) {
+  document.body.classList.remove("showcase-modal-active");
+  const trigger = modal?._showcaseLastTrigger;
+  modal._showcaseLastTrigger = null;
+  modal?.querySelectorAll("[data-work-card-modal-open]").forEach((button) => button.setAttribute("aria-expanded", "false"));
+  trigger?.focus?.({ preventScroll: true });
+}
+
+function closeShowcaseCardModal(modal) {
+  if (!modal) return;
+  if (modal.open && typeof modal.close === "function") {
+    modal.close();
+  } else {
+    modal.removeAttribute("open");
+    restoreShowcaseCardModalFocus(modal);
+  }
+}
+
+function openShowcaseCardModal(card, tabKey) {
+  const modal = card?.querySelector("[data-work-card-modal]");
+  if (!modal) return;
+  const trigger = Array.from(card.querySelectorAll("[data-work-card-modal-open]")).find((button) => button.dataset.workCardModalOpen === tabKey);
+  if (!trigger) return;
+  if (!modal._showcaseCloseBound) {
+    modal.addEventListener("close", () => restoreShowcaseCardModalFocus(modal));
+    modal.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeShowcaseCardModal(modal);
+    });
+    modal._showcaseCloseBound = true;
+  }
+  modal._showcaseLastTrigger = trigger;
+  card.querySelectorAll("[data-work-card-modal-open]").forEach((button) => button.setAttribute("aria-expanded", String(button === trigger)));
+  setShowcaseCardModalTab(modal, tabKey);
+  document.body.classList.add("showcase-modal-active");
+  if (typeof modal.showModal === "function") {
+    if (!modal.open) modal.showModal();
+  } else {
+    modal.setAttribute("open", "");
+  }
+  modal.querySelector(`[data-work-card-modal-tab="${tabKey}"]`)?.focus({ preventScroll: true });
 }
 
 function renderWorkCard(work) {
@@ -5165,21 +5328,138 @@ function renderWorkCard(work) {
   const cover = view.cover
     ? `<img class="work-card-cover" src="${view.cover}" alt="${escapeHtml(view.title)}" />`
     : `<div class="work-card-cover empty">项目展示</div>`;
-  const capabilities = view.capabilities.length
-    ? `<div class="work-card-capabilities" aria-label="核心能力">${view.capabilities.map((item) => `<span class="work-card-capability">${escapeHtml(item)}</span>`).join("")}</div>`
-    : "";
+  const cardFields = [
+    ["一句话价值", view.oneLine, "value"],
+    ["原来的阻力", view.originalResistance, "resistance"],
+    ["我的关键判断", view.keyJudgment, "judgment"],
+    ["可验证结果", view.verifiableResult, "result"]
+  ].map(([label, value, name]) => `
+        <div class="work-card-field work-card-field-${name}">
+          <span class="work-card-field-label">${label}</span>
+          <p>${escapeHtml(value)}</p>
+        </div>
+      `).join("");
+  const domKey = String(view.id || view.title || "project")
+    .replace(/[^a-zA-Z0-9_-]/g, "-")
+    .replace(/^-+|-+$/g, "") || "project";
+  const panelPrefix = `work-card-panel-${domKey}`;
+  const modalTabDefinitions = [
+    {
+      key: "intro",
+      label: "项目简介",
+      content: `
+        <div class="showcase-modal-panel-heading">
+          <span class="showcase-modal-panel-index">01</span>
+          <div>
+            <span class="showcase-modal-panel-kicker">项目简介</span>
+            <h5>这个项目解决了什么问题？</h5>
+          </div>
+        </div>
+        <div class="showcase-modal-fields">${cardFields}</div>
+      `
+    },
+    {
+      key: "outcome",
+      label: "成果数据",
+      content: `
+        <div class="showcase-modal-result-card">
+          <span class="showcase-modal-panel-index">02</span>
+          <div class="showcase-modal-result-copy">
+            <span class="showcase-modal-panel-kicker">可验证交付物</span>
+            <strong>${escapeHtml(view.dataOutcome)}</strong>
+            <p>当前项目已经留下的结果与交付对象。</p>
+          </div>
+        </div>
+        <div class="showcase-modal-chip-list" aria-label="成果数据分类">
+          ${renderShowcaseCardValueChips(view.dataOutcome)}
+        </div>
+      `
+    },
+    {
+      key: "problem",
+      label: "问题类型",
+      content: `
+        <div class="showcase-modal-result-card showcase-modal-problem-card">
+          <span class="showcase-modal-panel-index">03</span>
+          <div class="showcase-modal-result-copy">
+            <span class="showcase-modal-panel-kicker">业务问题分类</span>
+            <strong>${escapeHtml(view.problemType)}</strong>
+            <p>帮助读者快速判断这个项目主要解决哪类业务问题。</p>
+          </div>
+        </div>
+        <div class="showcase-modal-chip-list" aria-label="问题类型分类">
+          ${renderShowcaseCardValueChips(view.problemType)}
+        </div>
+      `
+    }
+  ];
+  const modalId = `${panelPrefix}-dialog`;
+  const cardTabHtml = modalTabDefinitions.map((tab) => `
+        <button
+          class="work-card-tab"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="${modalId}"
+          aria-expanded="false"
+          data-work-card-modal-open="${tab.key}"
+        >${tab.label}</button>
+      `).join("");
+  const modalTabHtml = modalTabDefinitions.map((tab, index) => `
+        <button
+          class="showcase-modal-tab"
+          type="button"
+          role="tab"
+          id="${panelPrefix}-modal-tab-${tab.key}"
+          aria-controls="${panelPrefix}-modal-panel-${tab.key}"
+          aria-selected="${index === 0 ? "true" : "false"}"
+          tabindex="${index === 0 ? "0" : "-1"}"
+          data-work-card-modal-tab="${tab.key}"
+        >${tab.label}</button>
+      `).join("");
+  const modalPanelHtml = modalTabDefinitions.map((tab, index) => `
+        <section
+          class="showcase-modal-panel"
+          id="${panelPrefix}-modal-panel-${tab.key}"
+          role="tabpanel"
+          aria-labelledby="${panelPrefix}-modal-tab-${tab.key}"
+          data-work-card-modal-panel="${tab.key}"
+          ${index === 0 ? "" : "hidden"}
+        >${tab.content}</section>
+      `).join("");
   return `
     <article class="project-card generated-work${view.featuredShowcase ? " featured-showcase" : ""}" data-work-id="${escapeHtml(view.id)}">
       ${actions}
       ${cover}
       <div class="work-card-info">
         <span class="tag">${escapeHtml(view.tag)}</span>
+        <span class="work-card-project-label">项目名称</span>
         <h3>${escapeHtml(view.title)}</h3>
-        <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
-        ${capabilities}
-        <a class="detail-link work-card-detail-link" href="project.html?id=${encodeURIComponent(view.id)}" target="_blank" rel="noopener">查看作品详情 ↗</a>
+        <div class="work-card-tabs" role="group" aria-label="打开项目卡片信息">${cardTabHtml}</div>
       </div>
       ${view.visibility === "hidden" ? `<span class="work-card-status">${escapeHtml(view.visibilityLabel)}</span>` : ""}
+      <dialog class="showcase-card-modal" id="${modalId}" data-work-card-modal aria-labelledby="${panelPrefix}-modal-title">
+        <div class="showcase-card-modal-frame">
+          <header class="showcase-card-modal-header">
+            <div class="showcase-card-modal-heading">
+              <span class="showcase-modal-eyebrow">项目卡片 · 信息详情</span>
+              <h4 id="${panelPrefix}-modal-title">${escapeHtml(view.title)}</h4>
+              <p>选择信息维度，快速查看这个项目的价值、结果与问题边界。</p>
+            </div>
+            <button class="showcase-card-modal-close" type="button" data-work-card-modal-close aria-label="关闭项目详情">×</button>
+          </header>
+          <div class="showcase-modal-context">
+            <span class="showcase-modal-context-index">项目</span>
+            <strong>${escapeHtml(view.title)}</strong>
+            <span class="showcase-modal-context-tag">${escapeHtml(view.tag)}</span>
+          </div>
+          <div class="showcase-modal-tabs" role="tablist" aria-label="项目详情信息切换">${modalTabHtml}</div>
+          <div class="showcase-modal-panels">${modalPanelHtml}</div>
+          <footer class="showcase-card-modal-footer">
+            <span data-work-card-modal-state>当前查看：项目简介</span>
+            <button class="showcase-card-modal-done" type="button" data-work-card-modal-close>完成查看</button>
+          </footer>
+        </div>
+      </dialog>
     </article>
   `;
 }
@@ -5222,10 +5502,13 @@ async function syncRestoredShowcaseProjects() {
       result,
       restoredImages
     );
+    const serverPortfolio = project.portfolio || project.showcase?.portfolio;
     const restoredWork = {
       ...(existing || {}),
       ...generated,
-      portfolio: mergePortfolioSnapshot(existing?.portfolio, generated.portfolio),
+      portfolio: serverPortfolio && typeof serverPortfolio === "object"
+        ? serverPortfolio
+        : mergePortfolioSnapshot(existing?.portfolio, generated.portfolio),
       visibility: existing?.visibility || project.visibility || generated.visibility
     };
     try {
@@ -6809,6 +7092,27 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("click", async (event) => {
+  const workCardModalOpen = event.target.closest("[data-work-card-modal-open]");
+  if (workCardModalOpen) {
+    const card = workCardModalOpen.closest(".generated-work");
+    if (card) openShowcaseCardModal(card, workCardModalOpen.dataset.workCardModalOpen);
+    return;
+  }
+  const workCardModalTab = event.target.closest("[data-work-card-modal-tab]");
+  if (workCardModalTab) {
+    const modal = workCardModalTab.closest("[data-work-card-modal]");
+    if (modal) setShowcaseCardModalTab(modal, workCardModalTab.dataset.workCardModalTab, { focus: true });
+    return;
+  }
+  const workCardModalClose = event.target.closest("[data-work-card-modal-close]");
+  if (workCardModalClose) {
+    closeShowcaseCardModal(workCardModalClose.closest("[data-work-card-modal]"));
+    return;
+  }
+  if (event.target.matches?.("dialog[data-work-card-modal]")) {
+    closeShowcaseCardModal(event.target);
+    return;
+  }
   const addImageButton = event.target.closest("[data-add-image-scope]");
   if (addImageButton) {
     const scope = addImageButton.dataset.addImageScope;
@@ -6921,6 +7225,32 @@ document.addEventListener("click", async (event) => {
   if (!button) return;
   const target = button.closest(`.${button.dataset.copyTarget}`);
   await copyText(getCopyTextFromElement(target));
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    const openShowcaseModal = document.querySelector("dialog[data-work-card-modal][open]");
+    if (openShowcaseModal) {
+      event.preventDefault();
+      closeShowcaseCardModal(openShowcaseModal);
+      return;
+    }
+  }
+  const currentTab = event.target.closest?.("[data-work-card-modal-tab]");
+  if (!currentTab) return;
+  const modal = currentTab.closest("[data-work-card-modal]");
+  if (!modal) return;
+  const tabs = Array.from(modal.querySelectorAll("[data-work-card-modal-tab]"));
+  const currentIndex = tabs.indexOf(currentTab);
+  if (currentIndex < 0) return;
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (currentIndex + 1) % tabs.length;
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = tabs.length - 1;
+  if (nextIndex === currentIndex) return;
+  event.preventDefault();
+  setShowcaseCardModalTab(modal, tabs[nextIndex].dataset.workCardModalTab, { focus: true });
 });
 
 function setShowcaseHidden(hidden) {
