@@ -576,7 +576,6 @@ const pageSectionLabels = {
 const pagePagerState = {
   currentIndex: 0,
   transitionLocked: false,
-  wheelAccumulator: 0,
   touchStartY: null,
   eventsBound: false,
   enabled: false
@@ -802,7 +801,6 @@ function activatePage(target, { updateHash = true, immediate = false } = {}) {
   if (pagePagerState.transitionLocked && !immediate) return;
   const changed = nextIndex !== pagePagerState.currentIndex;
   pagePagerState.currentIndex = nextIndex;
-  pagePagerState.wheelAccumulator = 0;
   updatePagePagerUI();
   if (updateHash) updatePageHash(pageSectionIds[nextIndex]);
   if (!changed) return;
@@ -812,7 +810,6 @@ function activatePage(target, { updateHash = true, immediate = false } = {}) {
   if (pagePagerState.transitionLocked) {
     window.setTimeout(() => {
       pagePagerState.transitionLocked = false;
-      pagePagerState.wheelAccumulator = 0;
       document.body.classList.remove("is-page-transitioning");
     }, 720);
   }
@@ -882,22 +879,6 @@ function navigateByPageStep(direction) {
   activatePage(nextIndex);
 }
 
-function handleMethodologyWheel(event) {
-  if (!isPagePagerEnabled() || !isMethodologyPageOpen()) return false;
-  if (innerScrollCanConsume(event.target, event.deltaY)) return true;
-  event.preventDefault();
-  if (pagePagerState.transitionLocked) return true;
-  pagePagerState.wheelAccumulator += event.deltaY;
-  if (Math.abs(pagePagerState.wheelAccumulator) < 38) return true;
-  const direction = pagePagerState.wheelAccumulator > 0 ? 1 : -1;
-  pagePagerState.wheelAccumulator = 0;
-  if (direction < 0) {
-    closeMethodologyPage();
-    activatePage("showcase", { immediate: true });
-  }
-  return true;
-}
-
 function setupPagePagerEvents() {
   if (pagePagerState.eventsBound) return;
   pagePagerState.eventsBound = true;
@@ -915,24 +896,6 @@ function setupPagePagerEvents() {
     event.preventDefault();
     activatePage(target);
   });
-
-  document.addEventListener(
-    "wheel",
-    (event) => {
-      if (event.ctrlKey || Math.abs(event.deltaY) < 1 || hasBlockingOverlayOpen()) return;
-      if (handleMethodologyWheel(event)) return;
-      if (!isPagePagerEnabled()) return;
-      if (innerScrollCanConsume(event.target, event.deltaY)) return;
-      event.preventDefault();
-      if (pagePagerState.transitionLocked) return;
-      pagePagerState.wheelAccumulator += event.deltaY;
-      if (Math.abs(pagePagerState.wheelAccumulator) < 38) return;
-      const direction = pagePagerState.wheelAccumulator > 0 ? 1 : -1;
-      pagePagerState.wheelAccumulator = 0;
-      navigateByPageStep(direction);
-    },
-    { passive: false }
-  );
 
   document.addEventListener("keydown", (event) => {
     if (!isPagePagerEnabled()) return;
@@ -999,7 +962,6 @@ function setPagePagerEnabled(enabled) {
       link.removeAttribute("aria-current");
     });
     pagePagerState.transitionLocked = false;
-    pagePagerState.wheelAccumulator = 0;
     document.body.classList.remove("is-page-transitioning");
   }
 }
@@ -5571,13 +5533,11 @@ function renderWorkCard(work) {
       <div class="work-card-info">
         <div class="work-card-role-row">
           <span class="tag">${escapeHtml(view.tag)}</span>
-          <span class="work-card-system-role"><b>${escapeHtml(view.systemStage)}</b>${escapeHtml(view.systemStageLabel)} · ${escapeHtml(view.systemRole)}</span>
         </div>
-        <div class="work-card-title-row">
-          <h3>${escapeHtml(view.title)}</h3>
-          <div class="work-card-tabs" role="group" aria-label="打开项目卡片信息">${cardTabHtml}</div>
+        <div class="work-card-action-row">
+          <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
+          <div class="work-card-tabs" role="group" aria-label="打开项目详情">${cardTabHtml}</div>
         </div>
-        <p class="work-card-one-line">${escapeHtml(view.oneLine)}</p>
       </div>
       ${view.visibility === "hidden" ? `<span class="work-card-status">${escapeHtml(view.visibilityLabel)}</span>` : ""}
       <dialog class="showcase-card-modal" id="${modalId}" data-work-card-modal aria-labelledby="${panelPrefix}-modal-title">
@@ -6048,6 +6008,15 @@ function getLandingProjectImages() {
   return cleanImages(imageStore.panels?.landing);
 }
 
+function getLandingProjectImageViewModel(image, index) {
+  return {
+    id: image.id,
+    src: image.src,
+    alt: `项目截图 ${index + 1}`,
+    order: index + 1
+  };
+}
+
 function renderLandingProjectImages() {
   const section = document.querySelector("#landingProjectMedia");
   const container = document.querySelector("#landingProjectImages");
@@ -6055,21 +6024,20 @@ function renderLandingProjectImages() {
   const images = getLandingProjectImages();
   section.classList.toggle("is-empty", images.length === 0);
   container.innerHTML = images.length ? images
-    .map((image, index) => `
-      <figure class="landing-project-image" data-landing-image-id="${escapeHtml(image.id)}">
-        <img src="${image.src}" alt="${escapeHtml(image.title || `项目截图 ${index + 1}`)}" />
-        <figcaption>
-          <strong class="landing-image-title">${escapeHtml(image.title || `截图 ${String(index + 1).padStart(2, "0")}`)}</strong>
-          <textarea class="landing-image-description" rows="2" data-landing-image-field="description" aria-label="截图 ${index + 1} 描述" disabled>${escapeHtml(image.description || "说明这张截图展示的任务、结果或验证证据。")}</textarea>
-          <div class="landing-image-actions" aria-label="截图操作">
-            <button type="button" data-move-landing-image="up" ${index === 0 ? "disabled" : ""}>前移</button>
-            <button type="button" data-move-landing-image="down" ${index === images.length - 1 ? "disabled" : ""}>后移</button>
-            <label>替换<input type="file" accept="image/*" data-replace-landing-image="${escapeHtml(image.id)}" aria-label="替换截图 ${index + 1}"></label>
-            <button type="button" data-remove-image="${escapeHtml(image.id)}" data-image-scope="landing">删除</button>
-          </div>
-        </figcaption>
+    .map((image, index) => {
+      const viewModel = getLandingProjectImageViewModel(image, index);
+      return `
+      <figure class="landing-project-image" data-landing-image-id="${escapeHtml(viewModel.id)}">
+        <img src="${viewModel.src}" alt="${escapeHtml(viewModel.alt)}" loading="lazy" />
+        <div class="landing-image-actions" aria-label="截图操作">
+          <button type="button" data-move-landing-image="up" ${index === 0 ? "disabled" : ""}>前移</button>
+          <button type="button" data-move-landing-image="down" ${index === images.length - 1 ? "disabled" : ""}>后移</button>
+          <label>替换<input type="file" accept="image/*" data-replace-landing-image="${escapeHtml(viewModel.id)}" aria-label="替换截图 ${viewModel.order}"></label>
+          <button type="button" data-remove-image="${escapeHtml(viewModel.id)}" data-image-scope="landing">删除</button>
+        </div>
       </figure>
-    `)
+    `;
+    })
     .join("") : `
       <button class="landing-image-empty" type="button" data-add-image-scope="landing">
         <strong>粘贴或上传项目截图</strong>
@@ -6083,7 +6051,8 @@ function syncLandingImageMetadataFromDom() {
   document.querySelectorAll("[data-landing-image-id]").forEach((card) => {
     const image = images.find((item) => item.id === card.dataset.landingImageId);
     if (!image) return;
-    image.description = card.querySelector('[data-landing-image-field="description"]')?.value.trim() || "";
+    const descriptionField = card.querySelector('[data-landing-image-field="description"]');
+    if (descriptionField) image.description = descriptionField.value.trim();
   });
 }
 

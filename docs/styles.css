@@ -2196,10 +2196,12 @@ textarea:focus {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 18px;
+  justify-items: start;
 }
 
 .landing-project-image {
   min-width: 0;
+  width: min(100%, 720px);
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2211,9 +2213,13 @@ textarea:focus {
   display: block;
   width: 100%;
   height: auto;
-  max-height: none;
+  max-height: 420px;
   object-fit: contain;
   background: #f7f3ea;
+}
+
+.landing-project-image > .landing-image-actions {
+  padding: 10px 12px;
 }
 
 .landing-project-image figcaption {
@@ -5048,7 +5054,7 @@ details p {
   }
 }
 
-/* Desktop section pager: one wheel gesture advances one fixed product area. */
+/* Desktop section pager: sections switch through explicit navigation controls. */
 html.page-pager-enabled {
   overflow: hidden;
   scroll-behavior: auto;
@@ -11324,6 +11330,57 @@ body.showcase-modal-active {
   }
 }
 
+/* 项目名称已包含在封面中：卡片正文只保留价值说明和详情入口。 */
+#showcase .generated-work .work-card-detail-row {
+  display: flex;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+#showcase .generated-work .work-card-detail-row .work-card-tabs {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+}
+
+#showcase .generated-work .work-card-detail-row .work-card-tab {
+  width: auto;
+  min-width: 92px;
+  min-height: 30px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+#showcase .generated-work .work-card-one-line,
+body.page-pager-enabled #showcase .showcase-project-unit .work-card-info .work-card-one-line,
+body.page-pager-enabled #showcase .work-card-info .work-card-one-line,
+body.page-pager-enabled #showcase .work-card-one-line {
+  display: -webkit-box !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  margin: 2px 0 0 !important;
+  overflow: hidden;
+  color: rgba(255, 253, 248, .9) !important;
+  font-size: clamp(15px, 1.3vw, 18px) !important;
+  font-weight: 600;
+  line-height: 1.45 !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2 !important;
+}
+
+@media (max-width: 560px) {
+  #showcase .generated-work .work-card-detail-row .work-card-tab {
+    min-width: 82px;
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+
+  #showcase .generated-work .work-card-one-line,
+  body.page-pager-enabled #showcase .showcase-project-unit .work-card-info .work-card-one-line {
+    font-size: 15px !important;
+  }
+}
+
 /* 2026-08-22：项目详情按当前项目证据展示，移除重复框架文案并扩大阅读区。 */
 #showcase .showcase-card-modal {
   width: min(1040px, calc(100vw - 48px));
@@ -11705,5 +11762,93 @@ body.page-pager-enabled .nav-methodology-button.is-current {
 
   #showcase .showcase-system-stage {
     min-height: 0;
+  }
+}
+
+/* 2026-08-22：项目卡片底部只保留定位、价值说明和详情入口，避免信息与按钮相互挤压。 */
+#showcase .generated-work .work-card-info,
+body.page-pager-enabled #showcase .showcase-project-unit .work-card-info {
+  display: grid !important;
+  height: auto !important;
+  min-height: 104px !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 11px 14px 14px !important;
+  overflow: visible !important;
+}
+
+#showcase .generated-work .work-card-role-row {
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#showcase .generated-work .work-card-system-role {
+  min-width: 0;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#showcase .generated-work .work-card-action-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+
+#showcase .generated-work .work-card-action-row .work-card-one-line,
+body.page-pager-enabled #showcase .showcase-project-unit .work-card-action-row .work-card-one-line {
+  min-width: 0 !important;
+  margin: 0 !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+#showcase .generated-work .work-card-action-row .work-card-tabs {
+  width: auto;
+  margin: 0;
+  align-self: center;
+}
+
+#showcase .generated-work .work-card-action-row .work-card-tab {
+  width: auto;
+  min-width: 92px;
+  min-height: 34px;
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  #showcase .generated-work .work-card-info,
+  body.page-pager-enabled #showcase .showcase-project-unit .work-card-info {
+    min-height: 132px !important;
+    gap: 9px !important;
+    padding: 10px 12px 13px !important;
+  }
+
+  #showcase .generated-work .work-card-role-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  #showcase .generated-work .work-card-system-role {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  #showcase .generated-work .work-card-action-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+  }
+
+  #showcase .generated-work .work-card-action-row .work-card-tab {
+    min-width: 82px;
+    min-height: 32px;
+    padding: 6px 9px;
   }
 }
