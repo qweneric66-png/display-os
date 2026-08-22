@@ -10732,6 +10732,7 @@ body.showcase-modal-active {
 
 #showcase .showcase-system-map {
   display: grid;
+  flex: 0 0 auto;
   grid-template-columns: minmax(250px, .72fr) minmax(0, 2fr);
   gap: clamp(22px, 2.6vw, 38px);
   margin-bottom: 24px;
@@ -10893,7 +10894,7 @@ body.showcase-modal-active {
 }
 
 #showcase .generated-work .work-card-one-line {
-  display: -webkit-box;
+  display: -webkit-box !important;
   min-height: 46px;
   margin: 2px 0 0;
   overflow: hidden;

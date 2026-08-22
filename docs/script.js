@@ -5101,17 +5101,18 @@ const projectReviewCardCopy = [
 ];
 
 const showcaseSystemRoles = [
-  { match: /PDD 店铺商品采集平台/i, stage: "01", stageLabel: "市场证据", role: "供给数据入口" },
-  { match: /Amazon 评论洞察平台|亚马逊评论采集平台/i, stage: "01", stageLabel: "市场证据", role: "评论证据入口" },
-  { match: /Reddit 视觉RAG平台/i, stage: "01", stageLabel: "市场证据", role: "社区洞察入口" },
-  { match: /跨境选品智能体平台|跨境电商选品平台/i, stage: "02", stageLabel: "机会决策", role: "候选收敛中枢" },
-  { match: /跨境商品统一调度平台/i, stage: "03", stageLabel: "业务交付", role: "商业运营路径" },
-  { match: /LEX建模|SolidWorks 工程自动化/i, stage: "03", stageLabel: "工程交付", role: "产品工程路径" }
+  { match: /PDD 店铺商品采集平台/i, order: 1, stage: "01", stageLabel: "市场证据", role: "供给数据入口" },
+  { match: /Amazon 评论洞察平台|亚马逊评论采集平台/i, order: 2, stage: "01", stageLabel: "市场证据", role: "评论证据入口" },
+  { match: /Reddit 视觉RAG平台/i, order: 3, stage: "01", stageLabel: "市场证据", role: "社区洞察入口" },
+  { match: /跨境选品智能体平台|跨境电商选品平台/i, order: 4, stage: "02", stageLabel: "机会决策", role: "候选收敛中枢" },
+  { match: /跨境商品统一调度平台/i, order: 5, stage: "03", stageLabel: "业务交付", role: "商业运营路径" },
+  { match: /LEX建模|SolidWorks 工程自动化/i, order: 6, stage: "03", stageLabel: "工程交付", role: "产品工程路径" }
 ];
 
 function getShowcaseSystemRole(work) {
   const source = `${work?.title || ""} ${work?.oneLine || ""} ${work?.tag || ""}`;
   return showcaseSystemRoles.find((item) => item.match.test(source)) || {
+    order: 999,
     stage: "--",
     stageLabel: "项目能力",
     role: "独立能力模块"
@@ -5456,7 +5457,6 @@ function renderWorkCard(work) {
           <span class="tag">${escapeHtml(view.tag)}</span>
           <span class="work-card-system-role"><b>${escapeHtml(view.systemStage)}</b>${escapeHtml(view.systemStageLabel)} · ${escapeHtml(view.systemRole)}</span>
         </div>
-        <span class="work-card-project-label">项目名称</span>
         <div class="work-card-title-row">
           <h3>${escapeHtml(view.title)}</h3>
           <div class="work-card-tabs" role="group" aria-label="打开项目卡片信息">${cardTabHtml}</div>
@@ -5552,6 +5552,8 @@ async function syncRestoredShowcaseProjects() {
 }
 
 function getShowcaseSortOrder(work) {
+  const systemOrder = getShowcaseSystemRole(normalizeWorkCardCopy(work || {})).order;
+  if (Number.isFinite(systemOrder) && systemOrder < 999) return systemOrder;
   const displayOrder = Number(work.displayOrder);
   if (Number.isFinite(displayOrder) && displayOrder < 999) return displayOrder;
   const projectPath = normalizeProjectPath(work?.projectPath || work?.id || "");
