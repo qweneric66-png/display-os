@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Display OS | 项目展示与 Idea 售卖系统</title>
+    <link rel="stylesheet" href="./styles.css?v=559c445e5f44" />
+  </head>
+  <body class="compact-kpi-mode">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Display OS 首页">
+        <span class="brand-mark">D</span>
+        <span>Display OS</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#capabilities">个人能力</a>
+        <a href="#analysis">项目拆解</a>
+        <a href="#showcase">落地展示</a>
+        <a href="#market" hidden aria-hidden="true" tabindex="-1">Idea 售价</a>
+        <button class="nav-methodology-button" id="openMethodology" type="button">关键工程实践</button>
+      </nav>
+      <div class="topbar-actions" aria-label="项目发布操作">
+        <div class="topbar-publish-actions">
+          <button class="primary-button compact" id="syncGithub" type="button" title="把已保存的公开项目同步到 GitHub Pages">同步 GitHub</button>
+        </div>
+        <span class="topbar-publish-status" id="publishSyncStatus" data-tone="neutral" role="status" aria-live="polite">待同步</span>
+        <button class="ghost-button" id="loadDemo" type="button">载入精选项目</button>
+      </div>
+    </header>
+
+    <main id="pageMain">
+      <section class="hero" id="home">
+        <div class="hero-media" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="signal signal-a"></div>
+          <div class="signal signal-b"></div>
+          <div class="signal signal-c"></div>
+        </div>
+        <div class="hero-content">
+          <h1>项目资产工作台</h1>
+          <div class="hero-actions">
+            <a class="primary-button" href="#capabilities">查看个人能力</a>
+            <a class="text-link" href="#analysis">开始拆解项目</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="capabilities" id="capabilities">
+        <div class="capability-shell capability-system-shell">
+          <header class="capability-system-hero">
+            <p class="eyebrow">AI Product System Design</p>
+            <h2>把概率性的 AI，做成可交付的业务系统</h2>
+          </header>
+
+          <section class="capability-gate" aria-label="AI 任务前置判断">
+            <div class="capability-gate-question">
+              <strong>前置判断</strong>
+              <span>什么任务值得交给 AI？</span>
+            </div>
+            <p class="capability-gate-criteria">
+              <span>高重复</span><span>判断量大</span><span>输出可验证</span><span>错误成本可控</span>
+            </p>
+            <p class="capability-gate-boundary">AI / 规则 / 人工共同确定边界</p>
+          </section>
+
+          <section class="capability-method-board" aria-label="AI 产品设计原则与系统实现">
+            <div class="capability-selector-column">
+              <header class="capability-layer-heading">
+                <span>原则</span>
+                <h3 id="capabilityPrincipleTitle">AI 产品设计原则</h3>
+              </header>
+              <div class="capability-method-tabs" role="tablist" aria-labelledby="capabilityPrincipleTitle" aria-orientation="vertical">
+                <button class="capability-method-tab is-active" id="capabilityMethodTab1" type="button" role="tab" aria-selected="true" aria-controls="capabilityMethodPanel1" data-capability-target="capabilityMethodPanel1">
+                  <span class="capability-card-number">01</span>
+                  <span class="capability-method-copy">
+                    <strong>定义业务完成标准</strong>
+                  </span>
+                </button>
+                <button class="capability-method-tab" id="capabilityMethodTab2" type="button" role="tab" aria-selected="false" aria-controls="capabilityMethodPanel2" tabindex="-1" data-capability-target="capabilityMethodPanel2">
+                  <span class="capability-card-number">02</span>
+                  <span class="capability-method-copy">
+                    <strong>失败任务恢复</strong>
+                  </span>
+                </button>
+                <button class="capability-method-tab" id="capabilityMethodTab3" type="button" role="tab" aria-selected="false" aria-controls="capabilityMethodPanel3" tabindex="-1" data-capability-target="capabilityMethodPanel3">
+                  <span class="capability-card-number">03</span>
+                  <span class="capability-method-copy">
+                    <strong>AI 结果校验与人工复核</strong>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="capability-detail-column">
+              <header class="capability-layer-heading is-accent">
+                <span>系统实现</span>
+                <h3 id="capabilityPracticeTitle">当前实现</h3>
+              </header>
+              <div class="capability-method-panels" aria-labelledby="capabilityPracticeTitle">
+                <article class="capability-method-panel is-active" id="capabilityMethodPanel1" role="tabpanel" aria-labelledby="capabilityMethodTab1" tabindex="0">
+                  <h4>业务结果校验</h4>
+                  <ol>
+                    <li>模型输出</li>
+                    <li>写入业务对象</li>
+                    <li>回查实际结果</li>
+                    <li>核验关键字段</li>
+                    <li>确认业务完成</li>
+                  </ol>
+                  <p><strong>完成标准：</strong>接口成功 → 业务结果通过校验</p>
+                </article>
+                <article class="capability-method-panel" id="capabilityMethodPanel2" role="tabpanel" aria-labelledby="capabilityMethodTab2" tabindex="0" hidden>
+                  <h4>失败任务恢复</h4>
+                  <ol>
+                    <li>记录任务状态</li>
+                    <li>定位失败对象 / 阶段</li>
+                    <li>保留已完成结果</li>
+                    <li>仅重试失败部分</li>
+                    <li>继续执行</li>
+                  </ol>
+                  <p><strong>恢复范围：</strong>失败对象 / 阶段，不整批重跑</p>
+                </article>
+                <article class="capability-method-panel" id="capabilityMethodPanel3" role="tabpanel" aria-labelledby="capabilityMethodTab3" tabindex="0" hidden>
+                  <h4>AI 结果校验与风险分级</h4>
+                  <ol>
+                    <li>AI 初步判断</li>
+                    <li>规则校验</li>
+                    <li>风险分级</li>
+                    <li>人工复核</li>
+                    <li>结果回流</li>
+                    <li>确认后执行</li>
+                  </ol>
+                  <p><strong>执行边界：</strong>高风险 AI 结果必须人工复核</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="capability-proof-panel" aria-labelledby="capabilityMetricsTitle">
+            <div class="capability-proof-main">
+              <header class="capability-proof-heading">
+                <p>可复算业务价值</p>
+                <h3 id="capabilityMetricsTitle">效率与人工节省</h3>
+              </header>
+              <div class="capability-value-cases" aria-label="三个项目的效率与人工节省对比">
+                <article class="capability-value-case">
+                  <p class="capability-value-tag">PDD 商品采集 <span>同工作量测算</span></p>
+                  <h4><strong>约 5.1 小时</strong><span>每 100 个 SKU 节省人工</span></h4>
+                  <p class="capability-value-comparison"><span>人工平均 5.9 小时</span><b>→</b><span>系统平均 0.8 小时</span></p>
+                  <p class="capability-value-result">每人工小时：20 → 138 个 SKU（约 6.9 倍）</p>
+                </article>
+                <article class="capability-value-case">
+                  <p class="capability-value-tag">AI + SolidWorks <span>历史项目估算</span></p>
+                  <h4><strong>约 1 小时</strong><span>每个有效 CAD 节省人工</span></h4>
+                  <p class="capability-value-comparison"><span>人工约 1.5 小时</span><b>→</b><span>AI + 工程师协作约 0.5 小时</span></p>
+                  <p class="capability-value-result">工程师日产能：约 5 → 16 个 / 人日（约 3 倍）</p>
+                </article>
+                <article class="capability-value-case">
+                  <p class="capability-value-tag">跨境商品统一调度平台 <span>历史样本估算</span></p>
+                  <h4><strong>约减少 98%</strong><span>每批 1,100 个 SKU 人工时间</span></h4>
+                  <p class="capability-value-comparison"><span>人工约 37 小时</span><b>→</b><span>自动处理约 42 分钟</span></p>
+                  <p class="capability-value-result">处理效率：约 30 → 1,600 个/小时（约提升 54 倍）</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <ul class="capability-skill-tags" aria-label="核心能力标签">
+            <li>
+              <span class="capability-skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+              </span>
+              <strong>AI 应用落地</strong>
+            </li>
+            <li>
+              <span class="capability-skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg>
+              </span>
+              <strong>AI / Agent 效果评测</strong>
+            </li>
+            <li>
+              <span class="capability-skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="8" r="3"></circle><path d="M6 20v-2c0-3 2.7-5 6-5s6 2 6 5v2M18.5 7.5l1 1 2-2"></path></svg>
+              </span>
+              <strong>Human-in-the-loop（人工复核）</strong>
+            </li>
+            <li>
+              <span class="capability-skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4" width="5" height="5" rx="1"></rect><rect x="16" y="4" width="5" height="5" rx="1"></rect><rect x="9.5" y="15" width="5" height="5" rx="1"></rect><path d="M8 6.5h8M5.5 9v3.5H12V15M18.5 9v3.5H12"></path></svg>
+              </span>
+              <strong>工作流与浏览器自动化</strong>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="workspace" id="analysis">
+        <div class="section-heading analysis-heading">
+          <div>
+            <h2>项目分析</h2>
+          </div>
+          <ol class="analysis-steps" aria-label="项目分析流程">
+            <li class="is-active"><span>1</span>选择项目</li>
+            <li><span>2</span>核对资料</li>
+            <li><span>3</span>生成分析</li>
+            <li><span>4</span>审阅结论</li>
+          </ol>
+        </div>
+        <div class="analysis-grid">
+          <form class="input-panel" id="analysisForm">
+            <div class="input-panel-header">
+                <h3>当前项目</h3>
+                <span class="workflow-state is-pending visually-hidden" id="inputPanelState">待选择</span>
+            </div>
+
+            <section class="input-section">
+              <div class="section-label-row">
+                <label for="projectPath">项目来源</label>
+              </div>
+              <div class="inline-field">
+                <div class="project-path-wrap required-control">
+                  <input id="projectPath" name="projectPath" autocomplete="off" placeholder="项目目录" />
+                  <span class="inline-required" aria-hidden="true">必填</span>
+                  <button class="history-toggle" id="toggleProjectHistory" type="button" aria-label="选择历史项目">⌄</button>
+                  <div class="project-history-menu" id="projectHistoryMenu" hidden></div>
+                </div>
+                <div class="project-source-actions" aria-label="项目操作">
+                  <button class="ghost-button" id="newProject" type="button">新建</button>
+                  <button class="primary-button compact" id="saveProject" type="button">保存项目</button>
+                  <button class="ghost-button" id="readProject" type="button">读取项目</button>
+                </div>
+              </div>
+              <p class="api-status visually-hidden" id="apiStatus" role="status" aria-live="polite">请选择项目目录或新建分析</p>
+            </section>
+
+            <section class="input-section">
+              <div class="section-label-row">
+                <label for="projectTitle">项目名称</label>
+              </div>
+              <div class="required-control project-title-control">
+                <input id="projectTitle" name="projectTitle" placeholder="例如：PDD 店铺商品数据自动采集平台" />
+                <span class="inline-required" aria-hidden="true">必填</span>
+              </div>
+            </section>
+
+            <textarea id="projectSource" name="projectSource" hidden></textarea>
+
+            <section class="input-section material-section">
+              <div class="section-label-row">
+                <label>项目封面图</label>
+                <span class="field-badge is-optional">可选</span>
+              </div>
+              <div class="image-drop-zone paste-image-zone" id="inputImageDrop" data-image-scope="input" tabindex="0">
+                <input id="projectImages" type="file" accept="image/*" multiple />
+                <span class="upload-symbol" aria-hidden="true">＋</span>
+                <strong>上传图片或粘贴截图</strong>
+              </div>
+              <div class="image-strip" id="inputImagePreview"></div>
+            </section>
+
+            <section class="input-section material-section">
+              <div class="section-label-row">
+                <label>补充项目材料</label>
+                <span class="field-badge is-optional">可选</span>
+              </div>
+              <div class="material-upload-row">
+                <label class="file-drop" for="projectFile">
+                  <input id="projectFile" type="file" accept=".txt,.md,.srt,.vtt" />
+                  <span>上传文本材料</span>
+                </label>
+                <span class="file-status visually-hidden" id="fileStatus" aria-live="polite">尚未添加补充材料</span>
+              </div>
+            </section>
+
+            <section class="preflight-card" aria-live="polite">
+              <div class="section-label-row">
+                <h4>生成前检查</h4>
+                <strong class="preflight-summary" id="preflightSummary">尚未就绪</strong>
+              </div>
+              <ul class="preflight-list" id="preflightList">
+                <li class="is-pending" id="sourceReadyCheck"><span class="check-icon">1</span><span><strong>项目目录</strong><small>等待读取</small></span></li>
+                <li class="is-pending" id="titleReadyCheck"><span class="check-icon">2</span><span><strong>项目名称</strong><small>等待填写</small></span></li>
+                <li class="is-optional" id="evidenceReadyCheck"><span class="check-icon">3</span><span><strong>补充材料</strong><small>可选，不影响生成</small></span></li>
+              </ul>
+            </section>
+
+            <div class="control-row">
+              <button class="primary-button" id="generateButton" type="submit" disabled>开始生成项目分析</button>
+            </div>
+          </form>
+
+          <aside class="output-panel" aria-live="polite">
+            <div class="output-tabs" role="tablist" aria-label="拆解结果">
+              <button class="tab active" type="button" data-tab="profile">画像</button>
+              <button class="tab" type="button" data-tab="audit" hidden>证据审计</button>
+              <button class="tab" type="button" data-tab="detail">详情</button>
+              <button class="tab" type="button" data-tab="diagram">流程图</button>
+              <button class="tab" type="button" data-tab="landing">落地页</button>
+              <button class="tab" type="button" data-tab="brief" hidden aria-hidden="true" tabindex="-1">简介</button>
+              <button class="tab" type="button" data-tab="promo">宣传</button>
+              <button class="tab" type="button" data-tab="value">业务价值</button>
+              <button class="tab" type="button" data-tab="idea" hidden aria-hidden="true" tabindex="-1">售价</button>
+            </div>
+            <div class="tab-edit-actions" aria-label="当前模块编辑工具">
+              <button class="ghost-button compact" id="editTab" type="button">编辑</button>
+              <button class="primary-button compact" id="saveTab" type="button">保存</button>
+            </div>
+            <div class="tab-panel active" id="profile">
+              <h3 id="profileTitle">项目画像</h3>
+              <div class="profile-details">
+                <p id="profilePositioning">待分析</p>
+                <h4>用户原来遇到的问题</h4>
+                <ul id="profileProblem">
+                  <li>待分析</li>
+                </ul>
+                <h4>谁在这条任务链上使用</h4>
+                <ul id="profileUsers">
+                  <li>待分析</li>
+                </ul>
+                <h4>用户任务主线</h4>
+                <ol id="profileWorkflow">
+                  <li>待分析</li>
+                </ol>
+                <h4>核心差异</h4>
+                <ul id="profileModules">
+                  <li>待分析</li>
+                </ul>
+                <h4>成熟度与项目边界</h4>
+                <ul id="profileDecisions">
+                  <li>待分析</li>
+                </ul>
+              </div>
+             </div>
+            <div class="tab-panel" id="audit" hidden>
+              <div class="read-summary" id="readSummary" aria-live="polite">
+                <span class="read-summary-state" id="readSummaryState">等待读取项目</span>
+                <strong id="readSummaryHeadline">待读取</strong>
+                <span id="readSummaryRisk">暂无异常</span>
+                <div class="read-summary-metrics" aria-label="项目资料摘要">
+                  <span><strong id="readSummaryFiles">0</strong><small>已读取资料</small></span>
+                  <span><strong id="readSummaryArtifacts">0</strong><small>待核验材料</small></span>
+                  <span><strong id="readSummaryGrowth">0</strong><small>关联复盘资料</small></span>
+                </div>
+              </div>
+              <div class="panel-title-row">
+                <div>
+                  <h3>证据审计</h3>
+                  <p id="auditHeadline">尚未读取项目目录，暂时没有可验证证据。</p>
+                </div>
+                <span class="audit-state is-risk" id="auditState">等待读取项目</span>
+              </div>
+              <div class="audit-mode"><span>当前分析方式</span><strong id="analysisMode">尚未读取项目</strong></div>
+              <div class="audit-stats" id="auditStats"></div>
+              <section class="audit-section">
+                <h4>已确认内容</h4>
+                <ul id="auditConfirmed"><li>请先读取项目。</li></ul>
+              </section>
+              <section class="audit-section audit-risk-section">
+                <h4>未验证与风险</h4>
+                <ul id="auditLimitations"><li>尚未建立文件证据链。</li></ul>
+              </section>
+              <section class="audit-next-action">
+                <span>下一步</span>
+                <strong id="auditNextAction">输入项目路径并点击“读取项目”。</strong>
+              </section>
+              <details class="audit-details">
+                <summary>查看证据来源与待解析交付物</summary>
+                <h4>证据台账</h4>
+                <div class="audit-evidence-list" id="auditEvidenceLedger"></div>
+                <h4>待解析交付物</h4>
+                <ul id="auditArtifacts"><li>暂无待解析交付物</li></ul>
+              </details>
+            </div>
+            <div class="tab-panel" id="detail">
+              <h3 id="detailTitle">完整项目介绍</h3>
+              <div class="detail-article" id="detailArticle"></div>
+            </div>
+            <div class="tab-panel" id="diagram">
+              <h3>运行机制与支撑关系</h3>
+              <div class="diagram-list" id="diagramList"></div>
+            </div>
+            <div class="tab-panel" id="landing">
+              <h3 id="landingTitle">PDD 店铺商品数据自动采集平台</h3>
+              <p id="landingText">一个把 PDD 店铺商品采集从脚本执行升级为可视化任务平台的项目，覆盖登录确认、商品列表、详情 SKU、OCR 价格识别、Excel 模板交付和任务审计。</p>
+              <ul id="landingBullets">
+                <li>把人工登录、页面跳转、视觉定位和 OCR 识别纳入可暂停、可恢复的任务流</li>
+                <li>通过 FastAPI、SQLite 队列和 JSONL 日志，把本地采集能力包装成可调用服务</li>
+                <li>可继续包装成电商数据采集执行包、工作台模板或简历项目案例</li>
+              </ul>
+              <section class="landing-project-media image-paste-zone" id="landingProjectMedia" data-paste-image-scope="landing" aria-label="项目截图与结果证据，可直接粘贴图片" tabindex="0">
+                <div class="landing-media-heading">
+                  <div>
+                    <h4>项目截图与结果证据</h4>
+                  </div>
+                  <button class="secondary-button landing-add-image" type="button" data-add-image-scope="landing">上传截图</button>
+                  <input class="image-scope-input" id="landingImagesInput" type="file" accept="image/*" multiple data-image-scope="landing" aria-label="上传落地页截图">
+                </div>
+                <div class="landing-project-images" id="landingProjectImages"></div>
+              </section>
+            </div>
+            <div class="tab-panel" id="brief" hidden>
+              <h3>项目简介</h3>
+              <p id="briefText">我围绕 PDD 店铺商品采集场景，设计了一个本地可视化任务平台，把登录确认、商品列表定位、详情 SKU 采集、OCR 价格识别和 Excel 模板导出串成可观察、可恢复、可审计的流程。</p>
+            </div>
+            <div class="tab-panel" id="promo">
+              <div class="panel-title-row">
+                <h3>宣传素材结构</h3>
+                <button class="primary-button compact-action" id="generateShowcase" type="button">生成展示</button>
+              </div>
+              <div class="promo-flow" id="promoFlow" aria-label="宣传表达逻辑图"></div>
+              <ol id="promoList" class="promo-structured-list"></ol>
+            </div>
+            <div class="tab-panel" id="value">
+              <div class="project-value-shell">
+                <div class="project-value-view">
+                  <header class="project-value-heading">
+                    <h3 id="projectValueHeadingTitle">业务价值</h3>
+                  </header>
+
+                  <section class="project-value-pdd-core" id="projectValuePddCore" aria-label="PDD 四项核心业务结果" hidden></section>
+                  <section class="project-value-reddit-core" id="projectValueRedditCore" aria-label="Reddit RAG 业务价值四项核心指标" hidden></section>
+                  <section class="project-value-sourcing-core" id="projectValueSourcingCore" aria-label="跨境选品业务价值四项核心指标" hidden></section>
+                  <section class="project-value-erp-core" id="projectValueErpCore" aria-label="ERP 四项核心业务结果" hidden></section>
+                  <section class="project-value-solidworks-core" id="projectValueSolidworksCore" aria-label="3D 工程自动化四项核心业务结果" hidden></section>
+                  <section class="project-value-amazon-core" id="projectValueAmazonCore" aria-label="Amazon 评论洞察业务价值四项核心指标" hidden></section>
+                  <section class="project-value-generic-core" id="projectValueGenericCore" aria-label="业务价值关键指标与业务步骤" hidden></section>
+                </div>
+
+                <section class="project-value-editor" aria-label="业务价值指标编辑">
+                  <div class="project-value-form-grid">
+                    <label><span>项目类型</span>
+                      <select data-project-value-field="projectType" disabled>
+                        <option value="generic">通用内部项目</option>
+                        <option value="pdd">PDD 商品采集</option>
+                        <option value="amazon">Amazon 评论洞察</option>
+                        <option value="reddit-rag">Reddit 视觉 RAG</option>
+                        <option value="sourcing">跨境选品</option>
+                        <option value="dispatcher">商品统一调度</option>
+                        <option value="solidworks">AI + SolidWorks</option>
+                      </select>
+                    </label>
+                    <label><span>观察开始</span><input type="date" data-project-value-field="period.start" disabled></label>
+                    <label><span>观察结束</span><input type="date" data-project-value-field="period.end" disabled></label>
+                    <label><span>观察月数</span><input type="number" min="0" step="0.1" data-project-value-field="period.months" disabled></label>
+                    <label><span>每月标准工时</span><input type="number" min="1" step="1" data-project-value-field="period.fteHours" disabled></label>
+                  </div>
+
+                  <div class="project-value-editor-block">
+                    <h4>八类业务指标</h4>
+                    <p class="project-value-editor-note">首页只显示效率、人效或单位成本、质量和业务采用；其余指标在详情中展示。</p>
+                    <div class="project-value-dimension-editor-list" id="projectValueDimensionEditorList"></div>
+                  </div>
+
+                  <div class="project-value-editor-block">
+                    <h4>项目投入</h4>
+                    <div class="project-value-form-grid is-four">
+                      <label><span>Pro 订阅分摊（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.subscription" disabled></label>
+                      <label><span>API 费用（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.api" disabled></label>
+                      <label><span>工程改造成本（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.engineering" disabled></label>
+                      <label><span>复核返工成本（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.review" disabled></label>
+                      <label><span>服务器成本（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.infrastructure" disabled></label>
+                      <label><span>软件授权（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.software" disabled></label>
+                      <label><span>维护成本（元）</span><input type="number" min="0" step="0.01" data-project-value-field="costs.maintenance" disabled></label>
+                      <label><span>成本可信度</span>
+                        <select data-project-value-field="costs.evidenceGrade" disabled>
+                          <option value="unknown">未知</option>
+                          <option value="estimate">估算</option>
+                          <option value="inferable">可推算</option>
+                          <option value="exact">精确</option>
+                        </select>
+                      </label>
+                      <label class="is-wide"><span>成本证据</span><input type="text" data-project-value-field="costs.evidence" placeholder="账单、订阅记录、工时或分摊依据" disabled></label>
+                    </div>
+                  </div>
+
+                  <div class="project-value-editor-block">
+                    <h4>可计入 ROI 的直接收益</h4>
+                    <p class="project-value-editor-note">释放工时和 FTE 等效容量不自动折算工资；只有实际降本、避免招聘或可归因利润进入 ROI。</p>
+                    <div class="project-value-form-grid is-four">
+                      <label><span>实际人工成本下降（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.laborReduction" disabled></label>
+                      <label><span>避免新增人力（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.avoidedHeadcount" disabled></label>
+                      <label><span>外包成本下降（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.outsourcingReduction" disabled></label>
+                      <label><span>返工成本下降（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.reworkReduction" disabled></label>
+                      <label><span>错误损失下降（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.errorReduction" disabled></label>
+                      <label><span>可归因贡献利润（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.contributionProfit" disabled></label>
+                      <label><span>其他直接收益（元）</span><input type="number" min="0" step="0.01" data-project-value-field="finance.other" disabled></label>
+                      <label><span>收益可信度</span>
+                        <select data-project-value-field="finance.evidenceGrade" disabled>
+                          <option value="unknown">未知</option>
+                          <option value="estimate">估算</option>
+                          <option value="inferable">可推算</option>
+                          <option value="exact">精确</option>
+                        </select>
+                      </label>
+                      <label class="is-wide"><span>收益证据</span><input type="text" data-project-value-field="finance.evidence" placeholder="工资、招聘计划、外包账单、损失或利润依据" disabled></label>
+                      <label class="is-wide"><span>归因说明</span><input type="text" data-project-value-field="finance.attribution" placeholder="说明哪些结果可归因于本项目，避免重复计算" disabled></label>
+                    </div>
+                  </div>
+
+                  <div class="project-value-editor-block">
+                    <div class="panel-title-row compact">
+                      <h4>任务记录</h4>
+                      <button class="secondary-button compact-action" id="projectValueAddTask" type="button" disabled>添加任务</button>
+                    </div>
+                    <div class="project-value-task-editor-list" id="projectValueTaskEditorList"></div>
+                  </div>
+
+                  <details class="project-value-process-editor">
+                    <summary>开发过程数据</summary>
+                    <div class="project-value-form-grid is-four">
+                      <label><span>Token</span><input type="number" min="0" step="1" data-project-value-field="process.tokens" disabled></label>
+                      <label><span>补丁动作</span><input type="number" min="0" step="1" data-project-value-field="process.patches" disabled></label>
+                      <label><span>完成事件</span><input type="number" min="0" step="1" data-project-value-field="process.completedEvents" disabled></label>
+                      <label><span>模型</span><input type="text" data-project-value-field="process.model" placeholder="未记录" disabled></label>
+                    </div>
+                  </details>
+                </section>
+              </div>
+            </div>
+            <div class="tab-panel" id="idea" hidden>
+              <div class="panel-title-row commercial-title-row">
+                <div>
+                  <span class="commercial-kicker">售价策略</span>
+                  <h3 id="paidIdeaName">PDD 可视化采集工作台交付包</h3>
+                </div>
+                <button class="primary-button compact-action" id="generatePricing" type="button">生成定价</button>
+              </div>
+              <div class="commercial-summary-grid">
+                <article class="is-primary">
+                  <span>主推售价</span>
+                  <strong id="paidIdeaPriceValue">¥1,999</strong>
+                  <small id="paidIdeaPrice">体验 ¥499｜标准 ¥1,999</small>
+                </article>
+                <article>
+                  <span>目标毛利</span>
+                  <strong id="paidIdeaMargin">70%–85%</strong>
+                </article>
+                <article>
+                  <span>直接边际成本</span>
+                  <strong id="paidIdeaMarginalCost">≤ ¥600/单</strong>
+                </article>
+                <article>
+                  <span>回本逻辑</span>
+                  <strong id="paidIdeaBreakEven">2–3 单</strong>
+                </article>
+              </div>
+              <div class="commercial-next-action is-primary">
+                <strong>下一步</strong>
+                <span id="paidIdeaNextAction">先用 ¥499 体验诊断成交 3 单，记录每单真实成本，再调整标准交付报价。</span>
+              </div>
+              <section class="commercial-box commercial-metrics-section">
+                <div class="panel-title-row compact">
+                  <h4>套餐价格</h4>
+                </div>
+                <div class="commercial-tier-list" id="paidIdeaTiers"></div>
+              </section>
+              <section class="commercial-box commercial-metrics-section">
+                <div class="panel-title-row compact">
+                  <h4>成本拆解</h4>
+                </div>
+                <div class="commercial-cost-grid" id="paidIdeaCosts"></div>
+              </section>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="showcase" id="showcase">
+        <div class="section-heading showcase-heading">
+          <div class="showcase-heading-copy">
+            <h2>从市场证据到产品交付</h2>
+          </div>
+          <div class="showcase-actions" aria-label="落地展示操作">
+            <button class="primary-button compact-action" id="openDemandAnalysis" type="button">需求</button>
+            <button class="ghost-button compact-action" id="toggleHiddenWorks" type="button" aria-pressed="false">显示隐藏项目</button>
+            <button class="ghost-button compact-action" id="hideShowcase" type="button">隐藏区域</button>
+          </div>
+        </div>
+        <section class="showcase-system-map" aria-labelledby="showcaseSystemTitle">
+          <header class="showcase-system-header">
+            <h3 id="showcaseSystemTitle">证据输入 → 机会决策 → 双路径交付</h3>
+          </header>
+          <div class="showcase-system-flow">
+            <article class="showcase-system-stage">
+              <div class="showcase-system-stage-index">01</div>
+              <div class="showcase-system-stage-copy">
+                <span>市场证据层</span>
+                <h4>看见商品、用户与场景</h4>
+                <div class="showcase-system-projects">
+                  <span>PDD 商品数据</span>
+                  <span>Amazon 评论</span>
+                  <span>Reddit 社区洞察</span>
+                </div>
+              </div>
+            </article>
+            <span class="showcase-system-arrow" aria-hidden="true">→</span>
+            <article class="showcase-system-stage showcase-system-stage-decision">
+              <div class="showcase-system-stage-index">02</div>
+              <div class="showcase-system-stage-copy">
+                <span>机会决策层</span>
+                <h4>筛选机会并保留判断依据</h4>
+                <div class="showcase-system-projects">
+                  <span>跨境选品智能体</span>
+                </div>
+              </div>
+            </article>
+            <span class="showcase-system-arrow" aria-hidden="true">→</span>
+            <article class="showcase-system-stage showcase-system-stage-output">
+              <div class="showcase-system-stage-index">03</div>
+              <div class="showcase-system-stage-copy">
+                <span>产品交付层</span>
+                <h4>形成可运营、可制造的结果</h4>
+                <div class="showcase-system-projects">
+                  <span>商品统一调度</span>
+                  <span>LEX 工程建模</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+        <div class="project-rail" id="projectRail"></div>
+        <section class="market inline-market showcase-pricing-template" id="market" aria-label="售价方案" hidden>
+          <div class="pricing-grid" id="pricingGrid"></div>
+        </section>
+        <button class="ghost-button showcase-restore" id="showShowcase" type="button" hidden>显示落地展示</button>
+      </section>
+    </main>
+
+    <div class="pricing-modal" id="pricingModal" hidden>
+      <div class="pricing-modal-backdrop" data-close-pricing></div>
+      <article class="pricing-modal-card" role="dialog" aria-modal="true" aria-labelledby="pricingModalTitle">
+        <button class="pricing-modal-close" type="button" data-close-pricing>×</button>
+        <div class="pricing-modal-hero">
+          <span class="discount-pill" id="pricingModalDiscount">节省50%</span>
+          <div class="pricing-modal-art" id="pricingModalArt">Display OS</div>
+        </div>
+        <div class="pricing-modal-body">
+          <h2 id="pricingModalTitle">付费模块</h2>
+          <p id="pricingModalDescription"></p>
+          <div class="modal-price-row">
+            <div>
+              <span>价格</span>
+              <strong id="pricingModalPrice">¥0</strong>
+              <s id="pricingModalCompare"></s>
+            </div>
+            <span class="save-pill" id="pricingModalSave">限时优惠</span>
+          </div>
+          <ul id="pricingModalItems"></ul>
+          <div class="modal-action-row">
+            <button class="primary-button wide" type="button">添加到购物车</button>
+            <button class="ghost-button wide" type="button">立即购买</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="demand-modal" id="demandModal" hidden>
+      <div class="demand-modal-backdrop" data-close-demand></div>
+      <article class="demand-modal-card" role="dialog" aria-modal="true" aria-labelledby="demandModalTitle">
+        <header class="demand-modal-header">
+          <div>
+            <p class="eyebrow">岗位匹配</p>
+            <h2 id="demandModalTitle">岗位 JD 匹配</h2>
+          </div>
+          <button class="pricing-modal-close" type="button" data-close-demand aria-label="关闭需求分析">×</button>
+        </header>
+
+        <div class="demand-modal-body">
+          <section class="demand-input-panel">
+            <label for="jobDemandInput">粘贴公司岗位 JD</label>
+            <textarea id="jobDemandInput" placeholder="粘贴岗位职责、任职要求、加分项等内容。"></textarea>
+            <div class="demand-action-row">
+              <button class="primary-button compact-action" id="analyzeJobDemand" type="button">分析</button>
+              <button class="ghost-button compact-action" id="fillDemandSample" type="button">示例</button>
+            </div>
+          </section>
+
+          <section class="demand-result-panel" id="demandEmptyState">
+            <h3>等待 JD 分析</h3>
+            <p class="demand-empty-message" id="demandEmptyStateMessage" aria-live="polite" hidden></p>
+          </section>
+
+          <section class="demand-result-panel" id="demandResult" hidden>
+            <div class="skill-link-card" id="demandSkillLink">
+              <span>分析框架</span>
+              <strong>证据校准 + 岗位匹配</strong>
+              <span class="demand-skill-sources" id="demandSkillSources">岗位技能待确认</span>
+              <p id="demandSkillStatus">准备加载证据链分析 Skill。</p>
+            </div>
+
+            <div class="demand-score-row">
+              <div>
+                <span>综合匹配度（证据校准）</span>
+                <strong id="demandMatchScore">0%</strong>
+                <span class="demand-analysis-mode" id="demandAnalysisMode">分析方式待确认</span>
+              </div>
+              <p id="demandScoreChange">暂无历史对比，本次结果会用于下次比较。</p>
+            </div>
+
+            <div class="demand-diagnosis" id="demandDiagnosis"></div>
+
+            <div class="demand-analysis-basis">
+              <div>
+                <span>本次分析依据</span>
+                <strong>JD + 全部项目展示 + 个人能力 + 关键工程实践</strong>
+              </div>
+              <ul id="demandAnalysisBasis"></ul>
+            </div>
+
+            <div class="demand-score-grid">
+              <article>
+                <span>关键词覆盖</span>
+                <strong id="keywordCoverageScore">0%</strong>
+                <p>JD 文字层面的能力覆盖。</p>
+              </article>
+              <article>
+                <span>真实经历匹配</span>
+                <strong id="experienceMatchScore">0%</strong>
+                <p>项目和简历证据能证明多少。</p>
+              </article>
+              <article>
+                <span>面试可验证度</span>
+                <strong id="interviewReadyScore">0%</strong>
+                <p>被深问时是否站得住。</p>
+              </article>
+            </div>
+
+            <div class="demand-summary-grid">
+              <article class="is-level-definition">
+                <h3>35K 级别岗位定义</h3>
+                <p id="targetRoleLevel"></p>
+              </article>
+              <article class="is-level-verdict">
+                <h3>当前级别判断</h3>
+                <p id="seniorityVerdict"></p>
+              </article>
+              <article>
+                <h3>岗位本质</h3>
+                <p id="roleEssence"></p>
+              </article>
+              <article>
+                <h3>硬性门槛</h3>
+                <ul id="demandNeedList"></ul>
+              </article>
+              <article>
+                <h3>可包装优势</h3>
+                <ul id="demandStrengthList"></ul>
+              </article>
+              <article>
+                <h3>硬缺口</h3>
+                <ul id="demandWeaknessList"></ul>
+              </article>
+              <article>
+                <h3>高级要求</h3>
+                <ul id="advancedNeedList"></ul>
+              </article>
+              <article>
+                <h3>加分项</h3>
+                <ul id="bonusNeedList"></ul>
+              </article>
+            </div>
+
+            <div class="demand-section">
+              <h3>简历证据映射</h3>
+              <div class="evidence-map" id="evidenceMap"></div>
+            </div>
+
+            <div>
+              <h3 class="demand-subtitle">项目升级建议</h3>
+              <div class="demand-project-list" id="demandProjectAdvice"></div>
+            </div>
+
+            <div class="demand-section">
+              <h3>面试追问风险</h3>
+              <div class="risk-question-list" id="riskQuestionList"></div>
+            </div>
+
+            <div class="demand-section">
+              <h3>项目组合策略</h3>
+              <div class="portfolio-strategy-list" id="portfolioStrategyList"></div>
+            </div>
+
+            <div class="truth-warning">
+              <h3>禁止虚构提醒</h3>
+              <p id="truthWarningText"></p>
+            </div>
+
+            <div class="resume-reference-panel" id="resumeReferencePanel" hidden>
+              <h3>简历项目介绍参考</h3>
+              <p>只有证据足够时才建议进入简历整理。以下只列关键板块和关键信息，不能替代你对真实经历、指标和上线范围的确认。</p>
+              <div id="resumeReferenceList"></div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </div>
+
+    <section class="methodology-page" id="methodologyPage" aria-labelledby="methodologyTitle" hidden>
+      <header class="methodology-topbar">
+        <div class="methodology-title-group"><div><span class="methodology-eyebrow">DECISION PLAYBOOK</span><h2 id="methodologyTitle">关键工程实践</h2></div><span class="methodology-topbar-badge">项目案例</span></div>
+        <button class="ghost-button methodology-close" id="closeMethodology" type="button">返回工作台</button>
+      </header>
+      <div class="methodology-shell">
+        <aside class="methodology-index" aria-label="关键工程实践目录">
+          <div class="methodology-index-heading"><span>8 项代表性项目决策</span></div>
+          <button class="methodology-index-button is-active" type="button" data-methodology-target="all"><span>00</span><strong>实践总览</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-1"><span>01</span><strong>业务结果验收</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-2"><span>02</span><strong>候选淘汰记录与续查</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-3"><span>03</span><strong>分析前完整性检查</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-4"><span>04</span><strong>AI 生成规格、工具执行</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-5"><span>05</span><strong>按业务对象恢复异常</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-6"><span>06</span><strong>按风险设置执行权限</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-7"><span>07</span><strong>同时核对正反证据</strong></button>
+          <button class="methodology-index-button" type="button" data-methodology-target="method-8"><span>08</span><strong>复盘转为规则与检查项</strong></button>
+        </aside>
+        <div class="methodology-content" id="methodologyContent" tabindex="-1">
+           <section class="methodology-hero-card" data-methodology-overview>
+             <div class="methodology-hero-copy"><h3>项目中的关键工程决策</h3></div>
+           </section>
+           <div class="methodology-overview-controls" data-methodology-overview>
+              <div><strong>先看 4 项代表性实践</strong></div>
+             <button class="methodology-reveal-button" type="button" data-methodology-reveal aria-expanded="false">查看全部 8 项工程实践 →</button>
+           </div>
+           <div class="methodology-grid">
+             <article class="methodology-card" id="method-1" data-methodology-card data-methodology-tier="core">
+              <header class="methodology-card-header"><div><span class="methodology-number">01</span><span class="methodology-status">结果验收</span></div><h3>业务结果验收</h3></header>
+              <p class="methodology-summary">以在线可售反推发布状态与回查链路。</p>
+              <div class="methodology-overview-proof"><strong>跨境 ERP 商品发布</strong><em>已落地</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>接口受理 ≠ 发布完成。</strong><small>只有审核通过并在线可售，才关闭任务。</small></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>文件或接口成功后，商品仍可能未上线或不可售。</p></div><div><span>调整</span><p>拆分提交、受理、审核、上线与可售，并保留阶段证据。</p></div><div><span>结果</span><p>异常可定位到具体商品和失败阶段。</p></div></div>
+                <div class="methodology-architecture"><span>状态重构</span><div><b>旧</b><i>文件生成 / 接口返回</i><strong>→ 技术成功</strong></div><div><b>新</b><i>提交 → 受理 → 审核 → 上线</i><strong>→ 在线可售</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>状态与回查机制已有项目证据；可售率提升尚无完整对照。</p></div><div><span>适用场景</span><p>履约、到账、内容发布、工程建模与数据同步。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-1">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-2" data-methodology-card data-methodology-tier="secondary">
+              <header class="methodology-card-header"><div><span class="methodology-number">02</span><span class="methodology-status">候选决策</span></div><h3>候选淘汰记录与续查</h3></header>
+              <p class="methodology-summary">记录否决原因，持续收敛候选空间。</p>
+              <div class="methodology-overview-proof"><strong>跨境选品 Agent</strong><em>已运行</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>人工否决是决策资产，不是操作噪声。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>淘汰候选在下一轮重复出现，人工判断无法积累。</p></div><div><span>调整</span><p>保存否决原因与搜索游标，按结构、价格和评论逐层筛选。</p></div><div><span>结果</span><p>支持阶段续查，避免从首屏重复搜索。</p></div></div>
+                <div class="methodology-architecture"><span>检索重构</span><div><b>旧</b><i>重新搜索</i><strong>→ 重复候选</strong></div><div><b>新</b><i>规则过滤 → 人工否决</i><strong>→ 记忆原因并续查</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>续查与阶段产物已有运行记录；候选有效率仍需统一标注。</p></div><div><span>适用场景</span><p>招聘筛选、供应商评估、内容审核与销售线索。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-2">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-3" data-methodology-card data-methodology-tier="secondary">
+              <header class="methodology-card-header"><div><span class="methodology-number">03</span><span class="methodology-status">分析准入</span></div><h3>分析前的数据完整性检查</h3></header>
+              <p class="methodology-summary">数据完整性不足时阻断正式分析。</p>
+              <div class="methodology-overview-proof"><strong>Amazon 评论洞察</strong><em>已实现</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>证据不足时，系统拒绝输出正式结论。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>程序完成不代表评论样本完整。</p></div><div><span>调整</span><p>采集后先识别登录、限流、验证码与数据缺口。</p></div><div><span>结果</span><p>证据不足时保存现场、标记缺口并阻断分析。</p></div></div>
+                <div class="methodology-architecture"><span>准入门禁</span><div><b>完整</b><i>采集 → 完整性校验</i><strong>→ 允许分析</strong></div><div><b>不足</b><i>保存现场 → 标记缺口</i><strong>→ 暂停 / 转人工</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>门禁与警告已有实现记录；评论覆盖仍受平台可见范围限制。</p></div><div><span>适用场景</span><p>RAG、OCR、财务审核、市场研究与图纸解析。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-3">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-4" data-methodology-card data-methodology-tier="secondary">
+              <header class="methodology-card-header"><div><span class="methodology-number">04</span><span class="methodology-status">工程执行</span></div><h3>AI 生成规格、确定性工具执行</h3></header>
+              <p class="methodology-summary">AI生成可审查规格，确定性工具负责执行。</p>
+              <div class="methodology-overview-proof"><strong>AI 辅助工程设计工作台</strong><em>已实现</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>模型不直接操作 SolidWorks，先交付可审查规格。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>草图存在尺寸缺失与关系歧义，直接执行难以定位责任。</p></div><div><span>调整</span><p>拆分语义规格与执行任务，增加规则校验和人工确认。</p></div><div><span>结果</span><p>失败可定位到输入、规格、命令或现场环境。</p></div></div>
+                <div class="methodology-architecture methodology-architecture--pipeline"><span>双层契约</span><div><b>语义规格</b><i>草图 / 图片 / 语言</i><strong>→ 可审查工程规格</strong></div><div><b>执行任务</b><i>规则校验 / 人工确认</i><strong>→ SolidWorks 建模</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>规格与执行任务已有实现；复杂装配成功率仍需样本评测。</p></div><div><span>适用场景</span><p>CAD、财务记账、数据库修改、商品发布与工业控制。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-4">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-5" data-methodology-card data-methodology-tier="core">
+              <header class="methodology-card-header"><div><span class="methodology-number">05</span><span class="methodology-status">异常处理</span></div><h3>按业务对象定位和恢复异常</h3></header>
+              <p class="methodology-summary">按影响、责任与恢复路径组织异常。</p>
+              <div class="methodology-overview-proof"><strong>跨境 ERP 异常中心</strong><em>1,438 已解决 · 38 种根因 · 6 套方案</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>异常中心服务业务恢复，而非日志展示。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>错误码无法说明影响对象、严重程度与处理责任。</p></div><div><span>调整</span><p>按对象、阶段、影响、资格、责任与动作组织异常。</p></div><div><span>结果</span><p>1,438 个异常对象已解决；识别 16 个异常大类、归因为 38 种标准根因；沉淀 6 套处置方案，187 个对象完成方案确认。</p></div></div>
+                <div class="methodology-architecture"><span>对象模型</span><div><b>定位</b><i>受影响商品 + 失败阶段</i><strong>→ 判断影响与资格</strong></div><div><b>恢复</b><i>责任人 + 修复动作</i><strong>→ 从失败阶段续跑</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>截至 2026-08-22；“已解决”按当前状态统计，另有 193 个对象留有平台验真通过记录；方案确认不等于方案执行，已归档未计入成功。</p></div><div><span>适用场景</span><p>审批流、批量任务、数据治理、内容审核与供应链。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-5">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-6" data-methodology-card data-methodology-tier="core">
+              <header class="methodology-card-header"><div><span class="methodology-number">06</span><span class="methodology-status">执行权限</span></div><h3>按风险设置自动执行与人工审批</h3></header>
+              <p class="methodology-summary">按证据强度与可恢复能力逐级开放权限。</p>
+              <div class="methodology-overview-proof"><strong>ERP × 选品 × RAG × 工程设计</strong><em>分级规则已形成</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>AI 权限由单步风险决定，不由平均准确率决定。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>单一准确率无法衡量错误损失与自动执行资格。</p></div><div><span>调整</span><p>按风险、证据、失败样本与回滚能力分级评测。</p></div><div><span>结果</span><p>高风险字段保留人工确认，低风险场景逐级开放。</p></div></div>
+                <div class="methodology-permission-ladder" aria-label="AI权限随证据升级"><span>离线只读</span><i>→</i><span>在线影子</span><i>→</i><span>人工确认</span><i>→</i><span>受限自动</span><i>→</i><strong>业务回查</strong></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>分阶段机制已形成；接受率、拒绝率与回滚率仍需积累。</p></div><div><span>适用场景</span><p>业务写入、财务处理、平台发布与专业工具执行。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-6">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-7" data-methodology-card data-methodology-tier="secondary">
+              <header class="methodology-card-header"><div><span class="methodology-number">07</span><span class="methodology-status">用户洞察</span></div><h3>同时保留支持和反对证据</h3></header>
+              <p class="methodology-summary">以支持证据、反对证据和适用边界约束主张。</p>
+              <div class="methodology-overview-proof"><strong>Reddit 用户洞察与 RAG</strong><em>待补评测</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>高频声音不等于普遍需求，主张必须经受反证。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>普通 RAG 容易把相似帖子总结为用户共识。</p></div><div><span>调整</span><p>主张同时保留支持、反对、人群、场景与证据强度。</p></div><div><span>设计结果</span><p>存在冲突时，结论降级为场景假设或待验证机会。</p></div></div>
+                <div class="methodology-architecture"><span>主张单元</span><div><b>证据</b><i>支持 + 反对</i><strong>→ 判断强度</strong></div><div><b>边界</b><i>人群 + 场景 + 冲突</i><strong>→ 假设 / 待验证</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>当前属于方法设计；反例样本与人工一致率仍需补齐。</p></div><div><span>适用场景</span><p>市场研究、需求优先级、舆情、竞品与战略分析。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-7">案例 →</button>
+            </article>
+             <article class="methodology-card" id="method-8" data-methodology-card data-methodology-tier="core">
+              <header class="methodology-card-header"><div><span class="methodology-number">08</span><span class="methodology-status">工程协作</span></div><h3>将项目复盘转为规则和检查项</h3></header>
+              <p class="methodology-summary">将项目复盘转为可执行规则与验收门禁。</p>
+              <div class="methodology-overview-proof"><strong>跨项目 AI 协作基础设施</strong><em>持续复用</em></div>
+              <div class="methodology-case-detail">
+                <blockquote class="methodology-judgment"><span>关键决策</span><strong>对话只有转化为规则与验收标准，才能被复用。</strong></blockquote>
+                <div class="methodology-story"><div><span>问题</span><p>上下文丢失、双机差异与版本覆盖导致重复犯错。</p></div><div><span>调整</span><p>分离项目事实、个人判断、通用规则与验证证据。</p></div><div><span>结果</span><p>归档、成长档案、Skill 与交付门禁形成分层机制。</p></div></div>
+                <div class="methodology-architecture methodology-architecture--pipeline"><span>资产分层</span><div><b>项目事实</b><i>变更 / 原因 / 证据</i><strong>→ 成长判断</strong></div><div><b>复用资产</b><i>规则 / 边界 / 步骤</i><strong>→ 验收门禁</strong></div></div>
+                <div class="methodology-method"><div><span>证据边界</span><p>规则已跨项目复用；长期效率与缺陷变化尚无统一基线。</p></div><div><span>适用场景</span><p>个人 AI 开发、团队协作、FDE 交付与知识治理。</p></div></div>
+              </div>
+              <button class="methodology-card-open" type="button" data-methodology-open="method-8">案例 →</button>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>Display OS</span>
+    </footer>
+    <script src="./runtime.min.js?v=559c445e5f44"></script>
+    <script src="./app.min.js?v=559c445e5f44"></script>
+  </body>
+</html>

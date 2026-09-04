@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-04T10:09:15.644Z",
+  "projectCount": 6,
+  "projectIds": [
+    "project-1",
+    "project-2",
+    "project-3",
+    "project-4",
+    "project-5",
+    "project-6"
+  ],
+  "projectTitles": [
+    "Reddit RAG Training Console",
+    "跨境商品统一调度平台",
+    "Amazon 评论洞察平台",
+    "跨境选品智能体平台",
+    "PDD 店铺商品采集平台",
+    "LEX建模｜AI + SolidWorks 工程自动化平台"
+  ]
+}

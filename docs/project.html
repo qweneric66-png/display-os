@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="project-detail-document">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作品详情 - Display OS</title>
+    <link rel="stylesheet" href="styles.css?v=559c445e5f44" />
+  </head>
+  <body class="project-detail-page">
+    <main class="project-detail-shell">
+      <div class="project-detail-topbar">
+        <a class="back-link" href="index.html#showcase">返回作品展示</a>
+        <div class="project-detail-actions" aria-label="作品操作">
+          <span id="portfolioSaveStatus" class="project-save-status" aria-live="polite"></span>
+          <button class="ghost-button compact" id="editPortfolio" type="button">编辑作品</button>
+          <button class="primary-button compact" id="savePortfolio" type="button" hidden>保存作品</button>
+          <button class="ghost-button compact" id="cancelPortfolioEdit" type="button" hidden>取消编辑</button>
+        </div>
+      </div>
+
+      <section class="project-detail-hero" id="projectHero">
+        <div class="project-detail-cover" id="projectCover">项目展示</div>
+        <div class="project-detail-copy">
+          <div class="project-detail-kicker"><span class="tag" id="projectTag">Portfolio</span><span class="portfolio-state" id="portfolioState">已生成</span></div>
+          <h1 id="projectTitle">作品详情</h1>
+          <p class="project-detail-subtitle" id="projectSubtitle"></p>
+        </div>
+      </section>
+
+      <section class="portfolio-editor" id="portfolioEditor" hidden>
+        <div class="portfolio-editor-heading">
+          <div><span class="eyebrow">作品内容管理</span><h2>编辑高优先级表达</h2></div>
+          <p>修改会保存到作品展示记录，不会删除原始项目资料。每行一条内容。</p>
+        </div>
+        <div class="portfolio-editor-grid">
+          <label>项目标题<input id="editorTitle" type="text" /></label>
+          <label>项目副标题<input id="editorSubtitle" type="text" /></label>
+          <label>一句话总结<textarea id="editorSummary" rows="3"></textarea></label>
+          <label>我的职责<textarea data-editor-field="responsibilities" rows="6"></textarea></label>
+          <label>关键产品判断<textarea data-editor-field="keyDecisions" rows="6"></textarea></label>
+          <label>项目成果<textarea data-editor-field="results" rows="6"></textarea></label>
+          <label>AI 的作用<textarea data-editor-field="ai" rows="5"></textarea></label>
+          <label>人工确认边界<textarea data-editor-field="human" rows="5"></textarea></label>
+          <label>待验证与成熟度<textarea data-editor-field="pending" rows="5"></textarea></label>
+        </div>
+      </section>
+
+      <section class="portfolio-detail-card" aria-label="项目作品集">
+        <div class="portfolio-layout">
+          <nav class="portfolio-section-nav" id="portfolioSectionNav" role="tablist" aria-label="作品集章节"></nav>
+          <div class="portfolio-section-content" id="portfolioSections"></div>
+        </div>
+      </section>
+
+      <section class="project-detail-grid single">
+        <details class="project-detail-card project-detail-evidence">
+          <summary>项目资料与过程证据</summary>
+          <div id="projectSections"></div>
+        </details>
+      </section>
+    </main>
+
+    <script src="./runtime.min.js?v=559c445e5f44"></script>
+
+
+    <script>
+const workDbName = "display-os-work-store";
+      const workDbStore = "works";
+      const imageDbName = "display-os-image-store";
+      const imageDbStore = "projectImages";
+      let currentWork = null;
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, (char) => {
+          const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+          return map[char];
+        });
+      }
+
+      function list(value, fallback = ["待补充"]) {
+        const values = (Array.isArray(value) ? value : [value]).map((item) => String(item || "").replace(/\s+/g, " ").trim()).filter(Boolean);
+        return [...new Set(values.length ? values : fallback)];
+      }
+
+      function lines(value) {
+        return String(value || "").split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+      }
+
+      function openWorkDb() {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(workDbName, 1);
+          request.onupgradeneeded = () => {
+            if (!request.result.objectStoreNames.contains(workDbStore)) {
+              request.result.createObjectStore(workDbStore, { keyPath: "id" });
+            }
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      function resolveWithin(promise, timeoutMs = 1200) {
+        return Promise.race([
+          promise.catch(() => null),
+          new Promise((resolve) => window.setTimeout(() => resolve(null), timeoutMs))
+        ]);
+      }
+
+      async function getWork(id) {
+        const db = await openWorkDb();
+        return new Promise((resolve, reject) => {
+          const request = db.transaction(workDbStore, "readonly").objectStore(workDbStore).get(id);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      async function putWork(work) {
+        const db = await openWorkDb();
+        return new Promise((resolve, reject) => {
+          const request = db.transaction(workDbStore, "readwrite").objectStore(workDbStore).put(work);
+          request.onsuccess = () => resolve(work);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      async function getServerWork(id) {
+        try {
+          const response = await fetch(`/api/showcase-projects/${encodeURIComponent(id)}`, { cache: "no-store" });
+          if (!response.ok) return null;
+          const data = await response.json();
+          const project = data.project;
+          if (!project) return null;
+          return {
+            ...project,
+            value: project.value || "项目档案恢复",
+            oneLine: project.oneLine || project.summary || "已从现有项目档案恢复完整介绍。",
+            brief: project.brief || project.summary || "",
+            promo: project.promo || [],
+            promoStructure: project.promoStructure || null,
+            diagrams: project.diagrams || [],
+            images: project.images || { input: [], panels: {} },
+            portfolio: project.portfolio || buildFallbackPortfolio(project)
+          };
+        } catch {
+          return null;
+        }
+      }
+
+      function buildFallbackPortfolio(work) {
+        const title = work.title || "未命名项目";
+        const summary = work.summary || work.oneLine || "待补充";
+        const keywords = list(work.keywords, ["项目能力"]);
+        const detailText = (work.detail?.sections || []).flatMap((section) => (section.blocks || []).map((block) => block.body || "")).filter(Boolean);
+        const basis = detailText[0] || summary;
+        return {
+          portfolioId: `portfolio-${String(work.id || title).replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`,
+          projectId: String(work.id || ""), status: "generated", visibility: work.visibility === "hidden" ? "hidden" : "visible", manualEdited: false,
+          createdAt: work.createdAt || new Date().toISOString(), updatedAt: work.updatedAt || new Date().toISOString(),
+          hero: { title, subtitle: work.oneLine || summary, category: work.tag || "项目展示", tags: keywords, summary, cover: work.cover || "" },
+          background: { targetUsers: ["目标用户待从项目资料确认"], scenario: summary, oldFlow: basis },
+          problems: [basis], objectives: [summary],
+          solution: { overview: summary, steps: list(work.promo, ["资料整理", "流程执行", "结果交付"]), inputs: ["项目资料"], judgment: ["关键节点需人工确认"], humanGate: ["异常和结果需要人工复核"], outputs: ["结构化项目展示"] },
+          capabilities: keywords.map((name) => ({ name, problem: basis, approach: summary, value: "项目能力沉淀" })),
+          aiRole: { ai: ["AI 角色待从项目资料确认"], rules: ["以证据和边界约束自动化表达"], automation: keywords, human: ["关键判断和最终验收由人负责"] },
+          workflow: list(work.promo, ["资料整理", "方案表达", "结果交付"]),
+          keyDecisions: [{ title: "关键产品判断", decision: summary, reason: basis, tradeoff: "以可控性换取可信度", evidence: [] }],
+          results: [{ label: "当前成果", value: summary, status: "待现场验收", evidence: [] }, { label: "待量化成果", value: "准确率、时长和使用效果待验证", status: "待验证", evidence: [] }],
+          responsibilities: ["定义项目问题、用户和交付目标。", "把能力组织成可解释的作品展示。", "区分已有证据与待验证成果。"],
+          challenges: [{ challenge: "项目资料完整性和验证范围", judgment: "不把未验证能力写成确定性结论", solution: "保留证据边界和后续验收项。" }],
+          maturity: { implemented: keywords, verified: ["已有项目档案可供查看"], pending: ["真实运行效果待验证"], risks: ["项目资料不足时需要补充事实"] },
+          value: ["将项目经验转为可复查、可沟通的作品资产"], evidence: []
+        };
+      }
+
+      function getProjectImageStorageKey(work) {
+        const title = work.imageProjectTitle || work.title || "untitled";
+        const path = work.projectPath || "no-path";
+        return `display-os-images:${path}::${title}`;
+      }
+
+      function openImageDb() {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(imageDbName, 1);
+          request.onupgradeneeded = () => request.result.createObjectStore(imageDbStore);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      async function getProjectImagesFromStore(work) {
+        if (work.images?.panels || work.images?.input) return work.images;
+        try {
+          const db = await openImageDb();
+          return await new Promise((resolve, reject) => {
+            const request = db.transaction(imageDbStore, "readonly").objectStore(imageDbStore).get(getProjectImageStorageKey(work));
+            request.onsuccess = () => resolve(request.result || { input: [], panels: {} });
+            request.onerror = () => reject(request.error);
+          });
+        } catch {
+          return { input: [], panels: {} };
+        }
+      }
+
+      function getImagesForScope(imagesByScope, scope) {
+        return imagesByScope?.panels?.[scope] || [];
+      }
+
+      function renderImages(images = []) {
+        if (!images.length) return "";
+        return `<div class="project-detail-images">${images.map((image) => `<figure><img src="${image.src}" alt="${escapeHtml(image.name || "项目图片")}" /><figcaption>${escapeHtml(image.name || "")}</figcaption></figure>`).join("")}</div>`;
+      }
+
+      function renderList(items, className = "") {
+        return `<ul class="portfolio-list ${className}">${list(items).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+      }
+
+      function renderEvidence(items = []) {
+        if (!items.length) return "";
+        return `<details class="portfolio-evidence"><summary>查看支撑证据</summary><ul>${items.map((item) => `<li><strong>${escapeHtml(item.label || "证据")}</strong><span>${escapeHtml(item.supports || item.value || "待补充")}</span><small>${escapeHtml(item.status || "待核验")} · ${escapeHtml(item.details || "原始技术信息已收起")}</small></li>`).join("")}</ul></details>`;
+      }
+
+      function portfolioSection(index, title, body, className = "") {
+        const sectionId = `portfolio-section-${index}`;
+        const priorityClass = className.includes("portfolio-priority-section") ? " is-priority" : "";
+        return `<section class="portfolio-section portfolio-section-panel${priorityClass} ${className}" id="${sectionId}" role="tabpanel" tabindex="0" data-portfolio-section="${index}" data-section-title="${escapeHtml(title)}"><div class="portfolio-section-heading"><span>${String(index).padStart(2, "0")}</span><h2>${escapeHtml(title)}</h2></div>${body}</section>`;
+      }
+
+      function activatePortfolioSection(sectionId, { reveal = false } = {}) {
+        const nav = document.querySelector("#portfolioSectionNav");
+        const content = document.querySelector("#portfolioSections");
+        if (!nav || !content) return;
+        const panels = [...content.querySelectorAll("[data-portfolio-section]")];
+        const buttons = [...nav.querySelectorAll("[data-section-target]")];
+        const activePanel = panels.find((panel) => panel.id === sectionId) || panels[0];
+        if (!activePanel) return;
+        panels.forEach((panel) => {
+          const isActive = panel === activePanel;
+          panel.hidden = !isActive;
+          panel.classList.toggle("is-active", isActive);
+        });
+        buttons.forEach((button) => {
+          const isActive = button.dataset.sectionTarget === activePanel.id;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-selected", String(isActive));
+        });
+        if (reveal) {
+          content.scrollTo({ top: activePanel.offsetTop, behavior: "smooth" });
+        }
+      }
+
+      function renderPortfolioSectionNavigation() {
+        const nav = document.querySelector("#portfolioSectionNav");
+        const content = document.querySelector("#portfolioSections");
+        if (!nav || !content) return;
+        const panels = [...content.querySelectorAll("[data-portfolio-section]")];
+        nav.innerHTML = panels.map((panel) => {
+          const index = panel.dataset.portfolioSection;
+          const title = panel.dataset.sectionTitle || "作品章节";
+          const priorityLabel = panel.classList.contains("is-priority") ? "重点" : "";
+          return `<button class="portfolio-section-tab${priorityLabel ? " is-priority" : ""}" type="button" role="tab" aria-controls="${panel.id}" aria-selected="false" data-section-target="${panel.id}"><span>${String(index).padStart(2, "0")}</span><strong>${escapeHtml(title)}</strong>${priorityLabel ? `<em>${priorityLabel}</em>` : ""}</button>`;
+        }).join("");
+        nav.querySelectorAll("[data-section-target]").forEach((button) => {
+          button.addEventListener("click", () => activatePortfolioSection(button.dataset.sectionTarget, { reveal: true }));
+        });
+        activatePortfolioSection(panels[0]?.id);
+      }
+
+      function renderPortfolioSections(portfolio) {
+        const displaySections = Array.isArray(currentWork?.detail?.sections) ? currentWork.detail.sections : [];
+        if (displaySections.length === 6) {
+          return displaySections.map((section, index) => {
+            const title = String(section?.title || `作品章节 ${index + 1}`).replace(/^[一二三四五六]、/, "");
+            const priority = index === 2 || index === 4 ? "portfolio-priority-section" : "";
+            return portfolioSection(index + 1, title, renderBlocks(section?.blocks || []), priority);
+          }).join("");
+        }
+        const p = portfolio || buildFallbackPortfolio(currentWork || {});
+        const background = p.background || {};
+        const solution = p.solution || {};
+        const aiRole = p.aiRole || {};
+        const maturity = p.maturity || {};
+        const capabilities = Array.isArray(p.capabilities) ? p.capabilities : [];
+        const decisions = Array.isArray(p.keyDecisions) ? p.keyDecisions : [];
+        const results = Array.isArray(p.results) ? p.results : [];
+        const challenges = Array.isArray(p.challenges) ? p.challenges : [];
+        const decisionHtml = decisions.map((item) =>
+          "<article class=\"portfolio-decision\"><h3>" + escapeHtml(item.title || "关键判断") + "</h3><p>" +
+          escapeHtml(item.decision || "待补充") + "</p><dl><div><dt>为什么</dt><dd>" + escapeHtml(item.reason || "待补充") +
+          "</dd></div><div><dt>取舍</dt><dd>" + escapeHtml(item.tradeoff || "待补充") + "</dd></div></dl>" +
+          (item.evidence?.length ? "<small>依据：" + escapeHtml(item.evidence.join("；")) + "</small>" : "") + "</article>"
+        ).join("");
+        const resultHtml = results.map((item) =>
+          "<article class=\"portfolio-result\"><span class=\"portfolio-result-status\">" + escapeHtml(item.status || "待验证") +
+          "</span><h3>" + escapeHtml(item.label || "项目成果") + "</h3><p>" + escapeHtml(item.value || "待补充") + "</p>" +
+          (item.evidence?.length ? "<small>依据：" + escapeHtml(item.evidence.join("；")) + "</small>" : "") + "</article>"
+        ).join("");
+        const capabilityHtml = capabilities.map((item) =>
+          "<article class=\"portfolio-capability\"><h3>" + escapeHtml(item.name || "核心能力") + "</h3><p><strong>解决：</strong>" +
+          escapeHtml(item.problem || "待补充") + "</p><p><strong>做法：</strong>" + escapeHtml(item.approach || "待补充") +
+          "</p><p><strong>价值：</strong>" + escapeHtml(item.value || "待补充") + "</p></article>"
+        ).join("");
+        const challengeHtml = challenges.map((item) =>
+          "<article class=\"portfolio-challenge\"><h3>" + escapeHtml(item.challenge || "项目难点") + "</h3><p><strong>判断：</strong>" +
+          escapeHtml(item.judgment || "待补充") + "</p><p><strong>处理：</strong>" + escapeHtml(item.solution || "待补充") + "</p></article>"
+        ).join("");
+        const solutionHtml = "<p class=\"portfolio-lead\">" + escapeHtml(solution.overview || "待补充") + "</p>" +
+          "<div class=\"portfolio-columns\"><div><h3>输入</h3>" + renderList(solution.inputs) + "</div>" +
+          "<div><h3>关键判断</h3>" + renderList(solution.judgment) + "</div>" +
+          "<div><h3>输出</h3>" + renderList(solution.outputs) + "</div></div>";
+        const workflowHtml = "<ol class=\"portfolio-workflow\">" + list(p.workflow).map((item, index) =>
+          "<li><span>" + String(index + 1).padStart(2, "0") + "</span><p>" + escapeHtml(item) + "</p></li>"
+        ).join("") + "</ol><p class=\"portfolio-gate-note\">人工确认边界：" + escapeHtml(list(solution.humanGate).join("；")) + "</p>";
+        const heroHtml = '<p class="portfolio-lead">' + escapeHtml(p.hero?.summary || "待补充") + '</p><div class="portfolio-tag-list">' +
+          list(p.hero?.tags).map((item) => '<span>' + escapeHtml(item) + '</span>').join("") + '</div>';
+        const backgroundHtml = '<div class="portfolio-columns"><div><h3>面向谁</h3>' + renderList(background.targetUsers) +
+          '</div><div><h3>使用场景</h3><p>' + escapeHtml(background.scenario || "待补充") +
+          '</p></div><div><h3>原流程缺陷</h3><p>' + escapeHtml(background.oldFlow || "待补充") + '</p></div></div>';
+        const aiHtml = '<div class="portfolio-columns portfolio-ai-columns"><div><h3>AI 做什么</h3>' + renderList(aiRole.ai) +
+          '</div><div><h3>规则与自动化</h3>' + renderList([...(aiRole.rules || []), ...(aiRole.automation || [])]) +
+          '</div><div><h3>人负责什么</h3>' + renderList(aiRole.human) + '</div></div>';
+        const maturityHtml = '<div class="portfolio-maturity-grid"><div><h3>已形成</h3>' + renderList(maturity.implemented) +
+          '</div><div><h3>已有依据</h3>' + renderList(maturity.verified) + '</div><div><h3>待验证</h3>' + renderList(maturity.pending) +
+          '</div><div><h3>风险边界</h3>' + renderList(maturity.risks) + '</div></div>';
+        /* return [
+          portfolioSection(1, "项目定位", `<p class="portfolio-lead">${escapeHtml(p.hero?.summary || "待补充")}</p><div class="portfolio-tag-list">${list(p.hero?.tags).map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>`, "portfolio-hero-section"),
+          portfolioSection(2, "项目背景", `<div class="portfolio-columns"><div><h3>面向谁</h3>${renderList(background.targetUsers)}</div><div><h3>使用场景</h3><p>${escapeHtml(background.scenario || "待补充")}</p></div><div><h3>原流程缺陷</h3><p>${escapeHtml(background.oldFlow || "待补充")}</p></div></div>"),
+          portfolioSection(3, "核心问题", renderList(p.problems)),
+          portfolioSection(4, "产品目标", renderList(p.objectives)),
+          portfolioSection(5, "解决方案", solutionHtml),
+          portfolioSection(6, "核心能力", '<div class="portfolio-card-grid">' + capabilityHtml + '</div>'),
+          portfolioSection(7, "AI 与人机协作", aiHtml, "portfolio-priority-section"),
+          portfolioSection(8, "核心工作流", workflowHtml),
+          portfolioSection(9, "关键产品判断", '<div class="portfolio-decision-grid">' + decisionHtml + '</div>', "portfolio-priority-section"),
+          portfolioSection(10, "项目成果", '<div class="portfolio-result-grid">' + resultHtml + '</div>' + renderEvidence(p.evidence || []), "portfolio-priority-section"),
+          portfolioSection(11, "我的职责 / AI 产品经理贡献", renderList(p.responsibilities), "portfolio-priority-section"),
+          portfolioSection(12, "项目难点", '<div class="portfolio-challenge-grid">' + challengeHtml + '</div>'),
+          portfolioSection(13, "当前成熟度与边界", maturityHtml),
+          portfolioSection(14, "项目价值", renderList(p.value))
+        ].join(""); */
+        return [
+          portfolioSection(1, "项目定位", heroHtml, "portfolio-hero-section"),
+          portfolioSection(2, "项目背景", backgroundHtml),
+          portfolioSection(3, "核心问题", renderList(p.problems)),
+          portfolioSection(4, "产品目标", renderList(p.objectives)),
+          portfolioSection(5, "解决方案", solutionHtml),
+          portfolioSection(6, "核心能力", '<div class="portfolio-card-grid">' + capabilityHtml + '</div>'),
+          portfolioSection(7, "AI 与人机协作", aiHtml, "portfolio-priority-section"),
+          portfolioSection(8, "核心工作流", workflowHtml),
+          portfolioSection(9, "关键产品判断", '<div class="portfolio-decision-grid">' + decisionHtml + '</div>', "portfolio-priority-section"),
+          portfolioSection(10, "项目成果", '<div class="portfolio-result-grid">' + resultHtml + '</div>' + renderEvidence(p.evidence || []), "portfolio-priority-section"),
+          portfolioSection(11, "我的职责 / AI 产品经理贡献", renderList(p.responsibilities), "portfolio-priority-section"),
+          portfolioSection(12, "项目难点", '<div class="portfolio-challenge-grid">' + challengeHtml + '</div>'),
+          portfolioSection(13, "当前成熟度与边界", maturityHtml),
+          portfolioSection(14, "项目价值", renderList(p.value))
+        ].join("");
+      }
+
+      function renderBlocks(blocks = []) {
+        return blocks.map((block) => `<div class="project-detail-block">${block.subtitle ? `<h3>${escapeHtml(block.subtitle)}</h3>` : ""}${block.body ? `<p>${escapeHtml(block.body)}</p>` : ""}${Array.isArray(block.list) ? `<ul>${block.list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}</div>`).join("");
+      }
+
+      function renderPromotion(promotion, fallback = []) {
+        if (!promotion || typeof promotion !== "object") return fallback.length ? `<section><h3>宣传要点</h3>${renderList(fallback)}</section>` : "";
+        const advantages = Array.isArray(promotion.coreAdvantages) ? promotion.coreAdvantages : [];
+        const scenarios = Array.isArray(promotion.scenarios) ? promotion.scenarios : [];
+        const differentiation = Array.isArray(promotion.differentiation) ? promotion.differentiation : [];
+        return `<section><h3>宣传材料</h3>${promotion.oneLine ? `<div class="project-detail-block"><h4>一句话卖点</h4><p>${escapeHtml(promotion.oneLine)}</p></div>` : ""}${advantages.length ? `<div class="project-detail-block"><h4>核心优势</h4><ul>${advantages.map((item) => `<li><strong>${escapeHtml(item.title || "核心优势")}</strong><p>${escapeHtml(item.statement || "")}</p></li>`).join("")}</ul></div>` : ""}${scenarios.length ? `<div class="project-detail-block"><h4>使用场景</h4>${renderList(scenarios)}</div>` : ""}${differentiation.length ? `<div class="project-detail-block"><h4>差异化与复用价值</h4>${renderList(differentiation)}</div>` : ""}${promotion.shortCopy ? `<div class="project-detail-block"><h4>短版文案</h4><p>${escapeHtml(promotion.shortCopy)}</p></div>` : ""}${promotion.longCopy ? `<div class="project-detail-block"><h4>长版文案</h4><p>${escapeHtml(promotion.longCopy)}</p></div>` : ""}</section>`;
+      }
+
+      function setEditorValue(selector, value) {
+        const node = document.querySelector(selector);
+        if (node) node.value = Array.isArray(value) ? value.join("\n") : String(value || "");
+      }
+
+      function startEdit() {
+        const p = currentWork.portfolio || buildFallbackPortfolio(currentWork);
+        document.querySelector("#portfolioEditor").hidden = false;
+        document.querySelector("#editPortfolio").hidden = true;
+        document.querySelector("#savePortfolio").hidden = false;
+        document.querySelector("#cancelPortfolioEdit").hidden = false;
+        document.querySelector("#editorTitle").value = currentWork.title || p.hero?.title || "";
+        document.querySelector("#editorSubtitle").value = p.hero?.subtitle || currentWork.oneLine || "";
+        document.querySelector("#editorSummary").value = currentWork.summary || p.hero?.summary || "";
+        setEditorValue('[data-editor-field="responsibilities"]', p.responsibilities);
+        setEditorValue('[data-editor-field="keyDecisions"]', (p.keyDecisions || []).map((item) => item.decision || item.title));
+        setEditorValue('[data-editor-field="results"]', (p.results || []).map((item) => item.value || item.label));
+        setEditorValue('[data-editor-field="ai"]', p.aiRole?.ai);
+        setEditorValue('[data-editor-field="human"]', p.aiRole?.human);
+        setEditorValue('[data-editor-field="pending"]', p.maturity?.pending);
+        document.querySelector("#portfolioEditor").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function cancelEdit() {
+        document.querySelector("#portfolioEditor").hidden = true;
+        document.querySelector("#editPortfolio").hidden = false;
+        document.querySelector("#savePortfolio").hidden = true;
+        document.querySelector("#cancelPortfolioEdit").hidden = true;
+      }
+
+      async function saveEdit() {
+        const p = currentWork.portfolio || buildFallbackPortfolio(currentWork);
+        const responsibilities = lines(document.querySelector('[data-editor-field="responsibilities"]').value);
+        const decisions = lines(document.querySelector('[data-editor-field="keyDecisions"]').value).map((decision) => ({ title: "关键产品判断", decision, reason: "手工补充", tradeoff: "待补充", evidence: [] }));
+        const results = lines(document.querySelector('[data-editor-field="results"]').value).map((value) => ({ label: "项目成果", value, status: "手工补充", evidence: [] }));
+        const ai = lines(document.querySelector('[data-editor-field="ai"]').value);
+        const human = lines(document.querySelector('[data-editor-field="human"]').value);
+        const pending = lines(document.querySelector('[data-editor-field="pending"]').value);
+        const title = document.querySelector("#editorTitle").value.trim() || currentWork.title;
+        const subtitle = document.querySelector("#editorSubtitle").value.trim() || p.hero?.subtitle || "";
+        const summary = document.querySelector("#editorSummary").value.trim() || currentWork.summary;
+        const updatedPortfolio = {
+          ...p,
+          hero: { ...(p.hero || {}), title, subtitle, summary },
+          responsibilities: responsibilities.length ? responsibilities : p.responsibilities,
+          keyDecisions: decisions.length ? decisions : p.keyDecisions,
+          results: results.length ? results : p.results,
+          aiRole: { ...(p.aiRole || {}), ai: ai.length ? ai : p.aiRole?.ai, human: human.length ? human : p.aiRole?.human },
+          maturity: { ...(p.maturity || {}), pending: pending.length ? pending : p.maturity?.pending },
+          manualEdited: true,
+          status: "generated",
+          updatedAt: new Date().toISOString()
+        };
+        const updated = { ...currentWork, title, oneLine: subtitle, summary, portfolio: updatedPortfolio, updatedAt: updatedPortfolio.updatedAt };
+        await putWork(updated);
+        let remoteSaved = false;
+        try {
+          const response = await fetch(`/api/showcase-projects/${encodeURIComponent(updated.id)}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ showcase: { id: updated.id, title, tag: updated.tag, oneLine: subtitle, summary, keywords: updated.keywords, cover: updated.cover, portfolio: updatedPortfolio, published: true, publishedAt: updated.publishedAt || new Date().toISOString() } })
+          });
+          remoteSaved = response.ok;
+        } catch {
+          remoteSaved = false;
+        }
+        currentWork = updated;
+        document.querySelector("#portfolioSections").innerHTML = renderPortfolioSections(updatedPortfolio);
+        renderPortfolioSectionNavigation();
+        document.querySelector("#projectTitle").textContent = title;
+        document.querySelector("#projectSubtitle").textContent = subtitle;
+        document.querySelector("#portfolioSaveStatus").textContent = remoteSaved ? "已保存" : "已保存到本机";
+        cancelEdit();
+      }
+
+      async function renderProject() {
+        const id = new URLSearchParams(location.search).get("id");
+        const remoteWork = id ? await resolveWithin(getServerWork(id), 15000) : null;
+        const localWork = id ? await resolveWithin(getWork(id)) : null;
+        currentWork = remoteWork
+          ? { ...localWork, ...remoteWork, images: remoteWork.images || localWork?.images || { input: [], panels: {} } }
+          : localWork;
+        if (remoteWork) {
+          void putWork(currentWork).catch((error) => {
+            console.warn("服务端作品已加载，但本地缓存刷新失败", error);
+          });
+        }
+        if (!currentWork) {
+          document.querySelector("#projectTitle").textContent = "作品不存在";
+          return;
+        }
+        currentWork.portfolio = currentWork.portfolio || buildFallbackPortfolio(currentWork);
+        const imagesByScope = await getProjectImagesFromStore(currentWork);
+        const usedScopes = new Set();
+        document.title = `${currentWork.title} - Display OS`;
+        document.querySelector("#projectTag").textContent = currentWork.tag || currentWork.portfolio.hero?.category || "Portfolio";
+        document.querySelector("#projectTitle").textContent = currentWork.title || currentWork.portfolio.hero?.title || "作品详情";
+        document.querySelector("#projectSubtitle").textContent = currentWork.portfolio.hero?.subtitle || currentWork.oneLine || "";
+        document.querySelector("#portfolioState").textContent = currentWork.portfolio.visibility === "hidden" ? "已隐藏" : currentWork.portfolio.status === "generated" ? "已生成" : "待完善";
+        document.querySelector("#projectCover").innerHTML = currentWork.cover ? `<img src="${currentWork.cover}" alt="${escapeHtml(currentWork.title)}" />` : "项目展示";
+        document.querySelector("#portfolioSections").innerHTML = renderPortfolioSections(currentWork.portfolio);
+        renderPortfolioSectionNavigation();
+
+        const heroImages = getImagesForScope(imagesByScope, "detail-hero");
+        if (heroImages.length) usedScopes.add("detail-hero");
+        const sections = currentWork.detail?.sections || [];
+        const detailHtml = sections.map((section, sectionIndex) => {
+          const scope = `detail-${sectionIndex}`;
+          const images = getImagesForScope(imagesByScope, scope);
+          if (images.length) usedScopes.add(scope);
+          return `<section><h3>${escapeHtml(section.title)}</h3>${sectionIndex === 0 ? renderImages(heroImages) : ""}${renderBlocks(section.blocks)}${renderImages(images)}</section>`;
+        }).join("");
+        const diagramHtml = (currentWork.diagrams || []).map((diagram, diagramIndex) => {
+          const scope = `diagram-${diagramIndex}`;
+          const images = getImagesForScope(imagesByScope, scope);
+          if (!images.length) return "";
+          usedScopes.add(scope);
+          return `<section><h3>${escapeHtml(diagram.title || `流程图 ${diagramIndex + 1}`)}</h3><p>${escapeHtml(diagram.description || "")}</p>${renderImages(images)}</section>`;
+        }).filter(Boolean).join("");
+        const unmatchedImages = [...(imagesByScope.input || []), ...Object.entries(imagesByScope.panels || {}).filter(([scope]) => !usedScopes.has(scope)).flatMap(([, images]) => images || [])];
+        const unmatchedHtml = unmatchedImages.length ? `<section><h3>补充截图</h3>${renderImages(unmatchedImages)}</section>` : "";
+        const promotionHtml = renderPromotion(currentWork.promoStructure, currentWork.promo || []);
+        document.querySelector("#projectSections").innerHTML = `${promotionHtml}${detailHtml}${diagramHtml ? `<section><h3>流程图与架构图</h3>${diagramHtml}</section>` : ""}${unmatchedHtml}`;
+      }
+
+      document.querySelector("#editPortfolio").addEventListener("click", startEdit);
+      document.querySelector("#savePortfolio").addEventListener("click", saveEdit);
+      document.querySelector("#cancelPortfolioEdit").addEventListener("click", cancelEdit);
+      renderProject();
+    </script>
+  </body>
+</html>
